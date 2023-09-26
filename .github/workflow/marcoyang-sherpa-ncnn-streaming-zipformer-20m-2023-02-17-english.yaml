@@ -1,0 +1,36 @@
+name: marcoyang-sherpa-ncnn-streaming-zipformer-20m-2023-02-17-english
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  ncnn-streaming-zipformer-20m-2023-02-17-english:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+          rm -rf sherpa-ncnn-streaming-zipformer-20M-2023-02-17/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-ncnn-streaming-zipformer-20M-2023-02-17.zip
+          path: ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17
