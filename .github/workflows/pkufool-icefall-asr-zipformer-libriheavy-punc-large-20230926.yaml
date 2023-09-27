@@ -1,0 +1,37 @@
+name: pkufool-icefall-asr-zipformer-libriheavy-punc-large-20230926
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  pkufool-icefall-asr-zipformer-libriheavy-punc-large-20230926:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git clone git clone https://www.modelscope.cn/pkufool/icefall-asr-zipformer-libriheavy-punc-large-20230926.git
+          rm -rf icefall-asr-zipformer-libriheavy-punc-large-20230926/.git
+          rm -rf icefall-asr-zipformer-libriheavy-punc-large-20230926/exp/*.pt
+
+          sudo apt-get install -y tree
+
+          tree ./icefall-asr-zipformer-libriheavy-punc-large-20230926
+          ls -lh ./icefall-asr-zipformer-libriheavy-punc-large-20230926
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: icefall-asr-zipformer-libriheavy-punc-large-20230926.zip
+          path: icefall-asr-zipformer-libriheavy-punc-large-20230926
