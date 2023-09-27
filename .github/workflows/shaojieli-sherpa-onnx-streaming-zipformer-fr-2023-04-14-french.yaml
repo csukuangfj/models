@@ -24,7 +24,7 @@ jobs:
         run: |
           git lfs install
           git clone https://huggingface.co/shaojieli/sherpa-onnx-streaming-zipformer-fr-2023-04-14
-          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14
+          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14/.git
 
           sudo apt-get install -y tree
 
