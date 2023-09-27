@@ -33,5 +33,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: sherpa-onnx-streaming-zipformer-fr-2023-04-14.zip
+          name: sherpa-onnx-streaming-zipformer-fr-2023-04-14
           path: sherpa-onnx-streaming-zipformer-fr-2023-04-14

@@ -33,5 +33,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: sherpa-ncnn-streaming-zipformer-20M-2023-02-17.zip
+          name: sherpa-ncnn-streaming-zipformer-20M-2023-02-17
           path: ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17

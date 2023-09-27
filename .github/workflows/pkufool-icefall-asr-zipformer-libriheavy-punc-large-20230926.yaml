@@ -33,5 +33,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: icefall-asr-zipformer-libriheavy-punc-large-20230926.zip
+          name: icefall-asr-zipformer-libriheavy-punc-large-20230926
           path: icefall-asr-zipformer-libriheavy-punc-large-20230926
