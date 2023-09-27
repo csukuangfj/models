@@ -1,0 +1,39 @@
+name: pkufool-icefall-asr-aishell-conformer-ctc
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  pkufool-icefall-asr-aishell-conformer-ctc:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git clone https://huggingface.co/pkufool/icefall_asr_aishell_conformer_ctc
+          rm -rf icefall_asr_aishell_conformer_ctc/.git
+          rm -r icefall_asr_aishell_conformer_ctc/data/lang_char/HLG.pt
+
+          sudo apt-get install -y tree
+
+          tree ./icefall_asr_aishell_conformer_ctc
+          ls -lh ./icefall_asr_aishell_conformer_ctc
+          ls -lh ./icefall_asr_aishell_conformer_ctc/exp
+          ls -lh ./icefall_asr_aishell_conformer_ctc/data/lang_char
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: icefall_asr_aishell_conformer_ctc
+          path: icefall_asr_aishell_conformer_ctc
