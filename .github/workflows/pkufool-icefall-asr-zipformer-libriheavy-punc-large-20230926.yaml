@@ -22,7 +22,7 @@ jobs:
       - name: Download model
         shell: bash
         run: |
-          git clone git clone https://www.modelscope.cn/pkufool/icefall-asr-zipformer-libriheavy-punc-large-20230926.git
+          git clone https://www.modelscope.cn/pkufool/icefall-asr-zipformer-libriheavy-punc-large-20230926.git
           rm -rf icefall-asr-zipformer-libriheavy-punc-large-20230926/.git
           rm -rf icefall-asr-zipformer-libriheavy-punc-large-20230926/exp/*.pt
 
