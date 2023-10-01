@@ -25,9 +25,9 @@ jobs:
           git lfs install
           git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
           rm -rf icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13/.git
-          rm sherpa-onnx-streaming-zipformer-fr-2023-04-14/exp/epoch-40.pt
-          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14/data/lm
-          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14/data/lang_bpe_500/*.pt
+          rm -v icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13/exp/epoch-40.pt
+          rm -rfv icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13/data/lm
+          rm -v icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13/data/lang_bpe_500/*.pt
 
           sudo apt-get install -y tree
 
