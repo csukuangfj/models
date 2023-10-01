@@ -1,0 +1,40 @@
+name: zengwei-icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  zengwei-icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
+          rm -rf icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13/.git
+          rm sherpa-onnx-streaming-zipformer-fr-2023-04-14/exp/epoch-40.pt
+          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14/data/lm
+          rm -rf sherpa-onnx-streaming-zipformer-fr-2023-04-14/data/lang_bpe_500/*.pt
+
+          sudo apt-get install -y tree
+
+          tree ./icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
+          ls -lh ./icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
+          path: icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
