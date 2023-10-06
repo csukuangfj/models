@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-ncnn-conv-emformer-transducer-2022-12-06-chinese-english
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  ncnn-csukuangfj-sherpa-ncnn-conv-emformer-transducer-2022-12-06-chinese-english:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06
+          rm -rf sherpa-ncnn-conv-emformer-transducer-2022-12-06/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-ncnn-conv-emformer-transducer-2022-12-06
+          ls -lh ./sherpa-ncnn-conv-emformer-transducer-2022-12-06
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-ncnn-conv-emformer-transducer-2022-12-06
+          path: sherpa-ncnn-conv-emformer-transducer-2022-12-06
