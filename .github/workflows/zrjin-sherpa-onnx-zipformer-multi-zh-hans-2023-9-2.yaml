@@ -1,0 +1,37 @@
+name: zrjin-sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  onnx-zrjin-sherpa-onnx-zipformer-multi-zh-hans-2023-9-2:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          rm -rf sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          ls -lh ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          path: sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
