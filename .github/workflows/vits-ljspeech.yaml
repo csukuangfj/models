@@ -1,0 +1,30 @@
+name: vits-ljspeech
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  vits-ljspeech:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          wget https://huggingface.co/yo2266911/mb-vits-models/resolve/main/pretrained_ljs.pth
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pretrained_ljs.pth
+          path: pretrained_ljs.pth
