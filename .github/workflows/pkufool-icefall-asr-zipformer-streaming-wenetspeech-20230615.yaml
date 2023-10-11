@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  onnx-pkufool-icefall-asr-zipformer-streaming-wenetspeech-20230615
+  onnx-pkufool-icefall-asr-zipformer-streaming-wenetspeech-20230615:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
