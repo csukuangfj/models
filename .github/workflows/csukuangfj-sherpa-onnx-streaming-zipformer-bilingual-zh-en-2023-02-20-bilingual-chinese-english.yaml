@@ -1,4 +1,4 @@
-name: csukuangfj-sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20-bilingual-chinese-english
+name: csukuangfj-sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20-bilingual
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  onnx-csukuangfj-sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20-bilingual-chinese-english:
+  csukuangfj--streaming-zipformer-bilingual-zh-en-2023-02-20-bilingual:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
