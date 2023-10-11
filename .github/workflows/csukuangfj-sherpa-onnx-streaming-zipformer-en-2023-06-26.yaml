@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-onnx-streaming-zipformer-en-2023-06-26
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  onnx-csukuangfj-sherpa-onnx-streaming-zipformer-en-2023-06-26:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
+          rm -rf sherpa-onnx-streaming-zipformer-en-2023-06-26/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-streaming-zipformer-en-2023-06-26
+          ls -lh ./sherpa-onnx-streaming-zipformer-en-2023-06-26
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-onnx-streaming-zipformer-en-2023-06-26
+          path: sherpa-onnx-streaming-zipformer-en-2023-06-26
