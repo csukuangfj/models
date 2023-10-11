@@ -1,0 +1,43 @@
+name: pkufool-icefall-asr-zipformer-streaming-wenetspeech-20230615
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  onnx-pkufool-icefall-asr-zipformer-streaming-wenetspeech-20230615
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          export GIT_LFS_SKIP_SMUDGE=1
+          git clone https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+          cd icefall-asr-zipformer-streaming-wenetspeech-20230615
+          git lfs pull --include "exp/*chunk-16-left-128.*onnx"
+          mv -v exp/*chunk-16-left-128.*onnx .
+          rm -rf exp logs scripts test_wavs .gitattributes .git
+          mv -v data/lang_char/tokens.txt .
+
+          cd ..
+
+          sudo apt-get install -y tree
+
+          tree ./icefall-asr-zipformer-streaming-wenetspeech-20230615
+          ls -lh ./icefall-asr-zipformer-streaming-wenetspeech-20230615
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: icefall-asr-zipformer-streaming-wenetspeech-20230615
+          path: icefall-asr-zipformer-streaming-wenetspeech-20230615
