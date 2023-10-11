@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  ncnn-csukuangfj-sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+          rm -rf sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+          ls -lh ./sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+          path: sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
