@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ncnn-csukuangfj-sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+  ncnn-csukuangfj-sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
