@@ -1,0 +1,35 @@
+name: aishell
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  aishell:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          mkdir aishell
+          cd aishell
+
+          wget https://www.openslr.org/resources/33/data_aishell.tgz
+          wget https://www.openslr.org/resources/33/resource_aishell.tgz
+          ls -lh
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ./aishell
+          path: ./aishell
