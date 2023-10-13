@@ -25,11 +25,11 @@ jobs:
           mkdir aishell
           cd aishell
 
-          wget https://www.openslr.org/resources/33/data_aishell.tgz
-          wget https://www.openslr.org/resources/33/resource_aishell.tgz
+          wget -qq https://www.openslr.org/resources/33/data_aishell.tgz
+          wget -qq https://www.openslr.org/resources/33/resource_aishell.tgz
           ls -lh
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ./aishell
-          path: ./aishell
+          name: aishell
+          path: aishell
