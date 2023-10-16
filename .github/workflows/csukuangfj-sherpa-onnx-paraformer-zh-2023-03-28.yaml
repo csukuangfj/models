@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-onnx-paraformer-zh-2023-03-28
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  onnx-csukuangfj-sherpa-onnx-paraformer-zh-2023-03-28:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28
+          rm -rf sherpa-onnx-paraformer-zh-2023-03-28/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-paraformer-zh-2023-03-28
+          ls -lh ./sherpa-onnx-paraformer-zh-2023-03-28
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sherpa-onnx-paraformer-zh-2023-03-28
+          path: sherpa-onnx-paraformer-zh-2023-03-28
