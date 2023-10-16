@@ -25,6 +25,7 @@ jobs:
           git lfs install
           git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
           rm -rf sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/.git
+          rm -fv sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/*.pt
 
           sudo apt-get install -y tree
 
