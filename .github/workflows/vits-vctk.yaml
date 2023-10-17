@@ -1,4 +1,4 @@
-name: vits-ljs
+name: vits-vctk
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  vits-ljs:
+  vits-vctk:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -23,14 +23,14 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/csukuangfj/vits-ljs
-          rm -rf vits-ljs/.git
+          git clone https://huggingface.co/csukuangfj/vits-vctk
+          rm -rf vits-vctk/.git
 
           sudo apt-get install -y tree
-          tree ./vits-ljs
-          ls -lh ./vits-ljs
+          tree ./vits-vctk
+          ls -lh ./vits-vctk
 
       - uses: actions/upload-artifact@v3
         with:
-          name: vits-ljs
-          path: vits-ljs
+          name: vits-vctk
+          path: vits-vctk
