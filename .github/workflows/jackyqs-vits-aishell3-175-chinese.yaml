@@ -1,0 +1,37 @@
+name: jackyqs-vits-aishell3-175-chinese
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  jackyqs-vits-aishell3-175-chinese:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/jackyqs/vits-aishell3-175-chinese
+          rm -rf vits-aishell3-175-chinese/.git
+
+          sudo apt-get install -y tree
+
+          tree ./vits-aishell3-175-chinese
+          ls -lh ./vits-aishell3-175-chinese
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vits-aishell3-175-chinese
+          path: vits-aishell3-175-chinese
