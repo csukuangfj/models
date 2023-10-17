@@ -25,6 +25,7 @@ jobs:
           git lfs install
           git clone https://huggingface.co/csukuangfj/vits-zh-aishell3
           rm -rf vits-zh-aishell3/.git
+          rm -v vits-zh-aishell3/*.pth
 
           sudo apt-get install -y tree
           tree ./vits-zh-aishell3

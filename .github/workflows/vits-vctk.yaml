@@ -25,6 +25,7 @@ jobs:
           git lfs install
           git clone https://huggingface.co/csukuangfj/vits-vctk
           rm -rf vits-vctk/.git
+          rm -v vits-vctk/*.pth
 
           sudo apt-get install -y tree
           tree ./vits-vctk
