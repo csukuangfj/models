@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -34,7 +34,7 @@ jobs:
           tree ./icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
           ls -lh ./icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13
           path: icefall-asr-librispeech-zipformer-transducer-ctc-2023-06-13

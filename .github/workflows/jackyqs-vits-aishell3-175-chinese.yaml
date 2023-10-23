@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./vits-aishell3-175-chinese
           ls -lh ./vits-aishell3-175-chinese
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: vits-aishell3-175-chinese
           path: vits-aishell3-175-chinese

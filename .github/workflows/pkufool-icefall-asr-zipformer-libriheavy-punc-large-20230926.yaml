@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./icefall-asr-zipformer-libriheavy-punc-large-20230926
           ls -lh ./icefall-asr-zipformer-libriheavy-punc-large-20230926
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: icefall-asr-zipformer-libriheavy-punc-large-20230926
           path: icefall-asr-zipformer-libriheavy-punc-large-20230926

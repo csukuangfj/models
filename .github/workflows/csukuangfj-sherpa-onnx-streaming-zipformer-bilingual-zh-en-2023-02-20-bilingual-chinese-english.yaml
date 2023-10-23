@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
           ls -lh ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
           path: sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20

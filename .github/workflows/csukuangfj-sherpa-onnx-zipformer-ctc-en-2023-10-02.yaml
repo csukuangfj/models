@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./sherpa-onnx-zipformer-ctc-en-2023-10-02
           ls -lh ./sherpa-onnx-zipformer-ctc-en-2023-10-02
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sherpa-onnx-zipformer-ctc-en-2023-10-02
           path: sherpa-onnx-zipformer-ctc-en-2023-10-02

@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -37,7 +37,7 @@ jobs:
           tree ./icefall-asr-zipformer-streaming-wenetspeech-20230615
           ls -lh ./icefall-asr-zipformer-streaming-wenetspeech-20230615
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: icefall-asr-zipformer-streaming-wenetspeech-20230615
           path: icefall-asr-zipformer-streaming-wenetspeech-20230615

@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./sherpa-onnx-paraformer-zh-2023-03-28
           ls -lh ./sherpa-onnx-paraformer-zh-2023-03-28
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sherpa-onnx-paraformer-zh-2023-03-28
           path: sherpa-onnx-paraformer-zh-2023-03-28

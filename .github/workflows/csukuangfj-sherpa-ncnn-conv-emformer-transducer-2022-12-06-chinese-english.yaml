@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./sherpa-ncnn-conv-emformer-transducer-2022-12-06
           ls -lh ./sherpa-ncnn-conv-emformer-transducer-2022-12-06
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sherpa-ncnn-conv-emformer-transducer-2022-12-06
           path: sherpa-ncnn-conv-emformer-transducer-2022-12-06

@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tree ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17
           ls -lh ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sherpa-ncnn-streaming-zipformer-20M-2023-02-17
           path: ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17

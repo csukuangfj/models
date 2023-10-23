@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-onnx-streaming-paraformer-bilingual-zh-en-chinese-english
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  csukuangfj-sherpa-onnx-streaming-paraformer-bilingual-zh-en-chinese-english:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-paraformer-bilingual-zh-en
+          rm -rf sherpa-onnx-streaming-paraformer-bilingual-zh-en/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
+          ls -lh ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sherpa-onnx-streaming-paraformer-bilingual-zh-en
+          path: sherpa-onnx-streaming-paraformer-bilingual-zh-en
