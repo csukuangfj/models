@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -26,10 +26,10 @@ jobs:
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-paraformer-bilingual-zh-en
           rm -rf sherpa-onnx-streaming-paraformer-bilingual-zh-en/.git
 
-          sudo apt-get install -y tree
-
-          tree ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
-          ls -lh ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
+          # sudo apt-get install -y tree
+          #
+          # tree ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
+          # ls -lh ./sherpa-onnx-streaming-paraformer-bilingual-zh-en
 
       - uses: actions/upload-artifact@v3
         with:
