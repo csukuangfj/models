@@ -1,0 +1,27 @@
+name: export-sherpa-onnx-streaming-zipformer-en-2023-02-21
+:
+  push:
+    branches:
+      - export
+  workflow_dispatch:
+
+jobs:
+  export-sherpa-onnx-streaming-zipformer-en-2023-02-21:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout icefall
+        uses: actions/checkout@v2
+        with:
+          repository: k2-fsa/icefall
+
+      - name: show sources
+        shell: bash
+        run: |
+          ls -lh
+          pwd
+
