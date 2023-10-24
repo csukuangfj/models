@@ -27,6 +27,8 @@ jobs:
       - name: Download model
         shell: bash
         run: |
+          sudo apt-get install -y tree
+
           git lfs install
           GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-gigaspeech-zipformer-2023-10-17
           cd icefall-asr-gigaspeech-zipformer-2023-10-17/exp
@@ -39,6 +41,8 @@ jobs:
           cd ../../..
 
           ls -lh
+          pwd
+          tree .
 
           echo "test float32"
           sherpa-onnx-offline \
@@ -74,7 +78,6 @@ jobs:
           rm -v icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/lexicon*.txt
           rm -v icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/bpe.model
 
-          sudo apt-get install -y tree
 
           tree ./icefall-asr-gigaspeech-zipformer-2023-10-17
           ls -lh ./icefall-asr-gigaspeech-zipformer-2023-10-17
