@@ -1,0 +1,36 @@
+name: marcoyang-icefall-aishell-rnn-lm
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  marcoyang-icefall-aishell-rnn-lm:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/marcoyang/icefall-aishell-rnn-lm
+          rm -rf icefall-aishell-rnn-lm/.git
+
+          sudo apt-get install -y tree
+          tree ./icefall-aishell-rnn-lm
+          ls -lh ./icefall-aishell-rnn-lm
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: icefall-aishell-rnn-lm
+          path: icefall-aishell-rnn-lm
