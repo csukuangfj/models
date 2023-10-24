@@ -1,0 +1,83 @@
+name: yfyeung-icefall-asr-gigaspeech-zipformer-2023-10-17
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  yfyeung-icefall-asr-gigaspeech-zipformer-2023-10-17:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install sherpa-onnx
+        shell: bash
+        run: |
+          pip install sherpa-onnx
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-gigaspeech-zipformer-2023-10-17
+          cd icefall-asr-gigaspeech-zipformer-2023-10-17/exp
+          ls -lh *.onnx
+          echo "--------------------"
+          git lfs pull --include "*.onnx"
+          ls -lh *.onnx
+          cd ../data/lang_bpe_500
+          git lfs pull --include "bpe.model"
+          cd ../../
+
+          echo "test float32"
+          sherpa-onnx-offline \
+            --tokens=./icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500tokens.txt \
+            --encoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/encoder-epoch-30-avg-9.onnx \
+            --decoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/decoder-epoch-30-avg-9.onnx \
+            --joiner=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/joiner-epoch-30-avg-9.onnx \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav.wav
+
+          echo
+          echo "test int8"
+          echo
+
+          sherpa-onnx-offline \
+            --tokens=./icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/tokens.txt \
+            --encoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/encoder-epoch-30-avg-9.int8.onnx \
+            --decoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/decoder-epoch-30-avg-9.onnx \
+            --joiner=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/joiner-epoch-30-avg-9.int8.onnx \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav.wav
+
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/.git
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/exp/log
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/exp/tensorboard
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/exp/*.sh
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/exp/*.pt
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/decoding-results
+          rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/.gitattributes
+          rm -v icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/*.pt
+          rm -v icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/lexicon*.txt
+          rm -v icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/bpe.model
+
+          sudo apt-get install -y tree
+
+          tree ./icefall-asr-gigaspeech-zipformer-2023-10-17
+          ls -lh ./icefall-asr-gigaspeech-zipformer-2023-10-17
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: icefall-asr-gigaspeech-zipformer-2023-10-17
+          path: icefall-asr-gigaspeech-zipformer-2023-10-17
