@@ -1,5 +1,6 @@
 name: export-sherpa-onnx-streaming-zipformer-en-2023-02-21
-:
+
+on:
   push:
     branches:
       - export
