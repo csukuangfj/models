@@ -35,12 +35,14 @@ jobs:
           cache-dependency-path: '**/requirements-ci.txt'
 
       - name: Install libnsdfile and libsox
+        shell: bash
         run: |
           sudo apt update -q -y
           sudo apt install -q -y libsndfile1-dev libsndfile1 ffmpeg
           sudo apt install -q -y --fix-missing sox libsox-dev libsox-fmt-all
 
       - name: Install Python dependencies
+        shell: bash
         run: |
           grep -v '^#' ./requirements-ci.txt  | xargs -n 1 -L 1 pip install
           pip uninstall -y protobuf
@@ -48,3 +50,33 @@ jobs:
 
           pip install --no-deps --force-reinstall k2==1.24.4.dev20231021+cpu.torch1.13.1 -f https://k2-fsa.github.io/k2/cpu.html
           pip install kaldifeat==1.25.1.dev20231022+cpu.torch1.13.1 -f https://csukuangfj.github.io/kaldifeat/cpu.html
+
+      - name: Download checkpoints
+        shell: bash
+        run: |
+          export PYTHONPATH=$PWD:$PYTHONPATH
+          echo $PYTHONPATH
+
+          cd egs/librispeech/ASR
+          export GIT_LFS_SKIP_SMUDGE=1
+          git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+          cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp
+          git lfs pull --include "pretrained.pt"
+          ln -s pretrained.pt epoch-99.pt
+
+          cd ../..
+
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
+          chmod +x ./sherpa-onnx-streaming-zipformer-en-2023-02-21/export-onnx-stateless7-streaming.sh
+          ./sherpa-onnx-streaming-zipformer-en-2023-02-21/export-onnx-stateless7-streaming.sh
+          ls -lh icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/*.onnx
+          cp -v icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/*.onnx sherpa-onnx-streaming-zipformer-en-2023-02-21
+          cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+          git status
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+          git add .
+          git commit -m "update model"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21 main
