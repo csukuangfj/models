@@ -40,7 +40,7 @@ jobs:
 
           echo "test float32"
           sherpa-onnx-offline \
-            --tokens=./icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500tokens.txt \
+            --tokens=./icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/tokens.txt \
             --encoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/encoder-epoch-30-avg-9.onnx \
             --decoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/decoder-epoch-30-avg-9.onnx \
             --joiner=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/joiner-epoch-30-avg-9.onnx \
