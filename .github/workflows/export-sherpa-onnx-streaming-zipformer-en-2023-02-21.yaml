@@ -82,3 +82,17 @@ jobs:
           git add .
           git commit -m "update model"
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21 main
+
+      - name: Remove unused files
+        shell: bash
+        run: |
+          cd egs/librispeech/ASR
+          rm -rf icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+          cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+          rm -rf .git
+          cd ..
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sherpa-onnx-streaming-zipformer-en-2023-02-21
+          path: ./egs/librispeech/ASR/sherpa-onnx-streaming-zipformer-en-2023-02-21
