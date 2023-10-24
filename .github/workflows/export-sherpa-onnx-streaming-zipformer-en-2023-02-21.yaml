@@ -53,6 +53,8 @@ jobs:
 
       - name: Download checkpoints
         shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           export PYTHONPATH=$PWD:$PYTHONPATH
           echo $PYTHONPATH
