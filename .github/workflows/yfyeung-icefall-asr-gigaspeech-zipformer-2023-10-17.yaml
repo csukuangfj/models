@@ -50,9 +50,9 @@ jobs:
             --encoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/encoder-epoch-30-avg-9.onnx \
             --decoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/decoder-epoch-30-avg-9.onnx \
             --joiner=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/joiner-epoch-30-avg-9.onnx \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav.wav \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav.wav \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav.wav
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav
 
           echo
           echo "test int8"
@@ -63,9 +63,9 @@ jobs:
             --encoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/encoder-epoch-30-avg-9.int8.onnx \
             --decoder=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/decoder-epoch-30-avg-9.onnx \
             --joiner=./icefall-asr-gigaspeech-zipformer-2023-10-17/exp/joiner-epoch-30-avg-9.int8.onnx \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav.wav \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav.wav \
-            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav.wav
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-gigaspeech-zipformer-2023-10-17/test_wavs/1221-135766-0002.wav
 
           rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/.git
           rm -rf icefall-asr-gigaspeech-zipformer-2023-10-17/exp/log
