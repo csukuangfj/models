@@ -38,6 +38,8 @@ jobs:
           git lfs pull --include "bpe.model"
           cd ../../
 
+          ls -lh
+
           echo "test float32"
           sherpa-onnx-offline \
             --tokens=./icefall-asr-gigaspeech-zipformer-2023-10-17/data/lang_bpe_500/tokens.txt \
