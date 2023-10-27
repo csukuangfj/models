@@ -10,53 +10,42 @@ from piper_phonemize import phonemize_espeak
 
 
 def read_lexicon():
-    in_files = [
-        "./austriazismen.txt",
-        "./autocomplete.txt",
-        "./german.dic",
-        "./helvetismen.txt",
-        "./variants.dic",
-    ]
+    in_file = "./CMU.in.IPA.txt"
+    words = set()
 
     new_words = [
         "liliana",
-        "fuer",
-        "für",
-        "stärker",
-        "staerker",
-        "mich",
-        "nicht",
     ]
     words = set()
     for w in new_words:
         words.add(w.lower())
 
     pattern = re.compile("^[a-zA-Z'-\.]+$")
-    for in_file in in_files:
-        print(in_file)
-        with open(in_file, encoding="iso-8859-1") as f:
-            for line in f:
-                try:
-                    word = line.strip().lower()
-                    if not pattern.match(word):
-                        #  print(line, "word is", word)
-                        continue
-                except:
-                    #  print(line)
+    with open(in_file) as f:
+        for line in f:
+            try:
+                line = line.strip()
+                word, _ = line.split(",")
+                word = word.strip().lower()
+                if not pattern.match(word):
+                    #  print(line, "word is", word)
                     continue
+            except:
+                #  print(line)
+                continue
 
-                # assert word not in words, word
-                words.add(word)
+            assert word not in words, word
+            words.add(word)
     return list(words)
 
 
 def generate_lexicon(name, t):
-    config = load_config(f"de_DE-{name}-{t}.onnx")
+    config = load_config(f"en_US-{name}-{t}.onnx")
     words = read_lexicon()
     num_words = len(words)
     print(num_words)
 
-    batch = 100000
+    batch = 5000
     i = 0
     word2phones = dict()
     while i < num_words:
@@ -119,7 +108,7 @@ def main():
 
     print("generate lexicon")
     generate_lexicon(name, t)
-    config = load_config(f"de_DE-{name}-{t}.onnx")
+    config = load_config(f"en_US-{name}-{t}.onnx")
     print("generate tokens")
     generate_tokens(config)
     print("add model metadata")
@@ -127,14 +116,14 @@ def main():
     meta_data = {
         "model_type": "vits",
         "comment": "piper",
-        "language": "German",
+        "language": "English",
         "add_blank": 1,
         "n_speakers": config["num_speakers"],
         "sample_rate": config["audio"]["sample_rate"],
         "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
-    add_meta_data(f"de_DE-${name}-{t}.onnx", meta_data)
+    add_meta_data(f"en_US-${name}-{t}.onnx", meta_data)
 
 
 main()
