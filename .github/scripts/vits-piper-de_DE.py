@@ -49,8 +49,8 @@ def read_lexicon():
     return list(words)
 
 
-def generate_lexicon(t):
-    config = load_config(f"de_DE-thorsten-{t}.onnx")
+def generate_lexicon(name, t):
+    config = load_config(f"de_DE-${name}-{t}.onnx")
     words = read_lexicon()
     num_words = len(words)
     print(num_words)
@@ -108,11 +108,17 @@ def main():
     if not t:
         print("Please provide the environment variable TYPE")
         return
+
+    # thorsten or thorsten_emotional
+    name = os.environ.get("NAME", None)
+    if not t:
+        print("Please provide the environment variable NAME")
+        return
     print("type", t)
 
     print("generate lexicon")
-    generate_lexicon(t)
-    config = load_config(f"de_DE-thorsten-{t}.onnx")
+    generate_lexicon(name, t)
+    config = load_config(f"de_DE-${name}-{t}.onnx")
     print("generate tokens")
     generate_tokens(config)
     print("add model metadata")
@@ -127,7 +133,7 @@ def main():
         "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
-    add_meta_data(f"de_DE-thorsten-{t}.onnx", meta_data)
+    add_meta_data(f"de_DE-${name}-{t}.onnx", meta_data)
 
 
 main()

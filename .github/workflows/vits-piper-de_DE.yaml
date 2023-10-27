@@ -1,0 +1,85 @@
+name: vits-piper-de_DE
+
+on:
+  push:
+    branches:
+      - vits-piper-de-DE
+  workflow_dispatch:
+
+jobs:
+  vits-piper-de_DE-thorsten-low:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: eva_k
+            type: x_low
+          - name: karlsson
+            type: low
+          - name: kerstin
+            type: low
+          - name: pavoque
+            type: low
+          - name: ramona
+            type: low
+          - name: thorsten
+            type: low
+          - name: thorsten
+            type: medium
+          - name: thorsten
+            type: high
+          - name: thorsten_emotional
+            type: medium
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          ./vits-piper-de_DE.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+          TYPE: ${{ matrix.type }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-piper-de_DE-$NAME-$TYPE
+          cd vits-piper-de_DE-$NAME-$TYPE
+          cp ../*onnx* .
+          cp ../german.7z .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+          cp ../MODEL_CARD .
+
+          git lfs track "lexicon.txt"
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-de_DE-$NAME-$TYPE main
+
+          cd ..
+          rm -rf vits-piper-de_DE-$NAME-$TYPE/.git
+          mv vits-piper-de_DE-$ANEM-$TYPE ../..
+          sudo apt-get install -y tree
+          tree ./vits-piper-de_DE-$NAME-$TYPE
+          ls -lh ./vits-piper-de_DE-$NAME-$TYPE
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-piper-de_DE-${{ matrix.name }}-${{ matrix.type }}
+          path: vits-piper-de_DE-${{ matrix.name }}-${{ matrix.type }}
