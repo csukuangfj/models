@@ -15,7 +15,9 @@ jobs:
       matrix:
         include:
           - name: amy
-            type: [low, medium]
+            type: low
+          - name: amy
+            type: medium
           - name: arctic
             type: low
           - name: danny
@@ -31,13 +33,21 @@ jobs:
           - name: l2arctic
             type: medium
           - name: lessac
-            type: [low, medium, high]
+            type: low
+          - name: lessac
+            type: medium
+          - name: lessac
+            type: high
           - name: libritts
             type: high
           - name: libritts_r
             type: medium
           - name: ryan
-            type: [low, medium, high]
+            type: low
+          - name: ryan
+            type: medium
+          - name: ryan
+            type: high
 
     steps:
       - uses: actions/checkout@v4
