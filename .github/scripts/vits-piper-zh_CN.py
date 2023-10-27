@@ -109,7 +109,7 @@ def main():
     meta_data = {
         "model_type": "vits",
         "comment": "piper",
-        "language": "English",
+        "language": "Chinese",
         "add_blank": 1,
         "n_speakers": config["num_speakers"],
         "sample_rate": config["audio"]["sample_rate"],
