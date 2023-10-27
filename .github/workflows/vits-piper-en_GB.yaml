@@ -3,7 +3,7 @@ name: vits-piper-en_GB
 on:
   push:
     branches:
-      - vits-piper-en-us
+      - vits-piper-en-gb
   workflow_dispatch:
 
 jobs:

@@ -21,3 +21,4 @@ echo "pwd: $PWD"
 head CMU.in.IPA.txt
 
 python3 ./vits-piper-en_US.py
+head lexicon.txt

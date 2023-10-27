@@ -25,3 +25,8 @@ def get_additional_german_words():
         "öffnen",
     ]
     return words
+
+
+def get_additional_chinese_words():
+    words = []
+    return words

@@ -7,42 +7,33 @@ from typing import Any, Dict
 
 import onnx
 from piper_phonemize import phonemize_espeak
-from additional_words import get_additional_english_words
+from additional_words import get_additional_chinese_words
 
 
 def read_lexicon():
-    in_file = "./CMU.in.IPA.txt"
+    in_file = "./words.txt"
     words = set()
 
-    new_words = get_additional_english_words()
+    new_words = get_additional_chinese_words()
 
     words = set()
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     with open(in_file) as f:
         for line in f:
-            try:
-                line = line.strip()
-                word, _ = line.split(",")
-                word = word.strip().lower()
-                if not pattern.match(word):
-                    #  print(line, "word is", word)
-                    continue
-            except:
-                #  print(line)
-                continue
+            word = line.strip()
 
             if word in words:
                 print("duplicate: ", word)
                 continue
+
             words.add(word)
     return list(words)
 
 
 def generate_lexicon(name, t):
-    config = load_config(f"en_US-{name}-{t}.onnx")
+    config = load_config(f"zh_CN-{name}-{t}.onnx")
     words = read_lexicon()
     num_words = len(words)
     print(num_words)
@@ -110,7 +101,7 @@ def main():
 
     print("generate lexicon")
     generate_lexicon(name, t)
-    config = load_config(f"en_US-{name}-{t}.onnx")
+    config = load_config(f"zh_CN-{name}-{t}.onnx")
     print("generate tokens")
     generate_tokens(config)
     print("add model metadata")
@@ -125,7 +116,7 @@ def main():
         "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
-    add_meta_data(f"en_US-{name}-{t}.onnx", meta_data)
+    add_meta_data(f"zh_CN-{name}-{t}.onnx", meta_data)
 
 
 main()

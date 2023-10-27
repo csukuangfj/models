@@ -27,3 +27,4 @@ file austriazismen.txt LiesMich.txt autocomplete.txt german.dic helvetismen.txt 
 echo "pwd: $PWD"
 
 python3 ./vits-piper-de_DE.py
+head lexicon.txt

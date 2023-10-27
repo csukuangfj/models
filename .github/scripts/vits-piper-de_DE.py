@@ -40,6 +40,7 @@ def read_lexicon():
 
                 if word in words:
                     print("duplicate: ", word)
+                    continue
                 words.add(word)
     return list(words)
 
