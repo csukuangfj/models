@@ -46,7 +46,8 @@ def generate_lexicon(name, t):
         this_batch = words[i : i + batch]
         i += batch
         for w in this_batch:
-            phonemes = phonemize_espeak(w, config["espeak"]["voice"])[0]
+            #  phonemes = phonemize_espeak(w, config["espeak"]["voice"])[0]
+            phonemes = phonemize_espeak(w, "cmn_listx")[0]
             word2phones[w] = " ".join(phonemes)
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:
