@@ -45,7 +45,8 @@ def read_lexicon():
                     #  print(line)
                     continue
 
-                # assert word not in words, word
+                if word in words:
+                    print("duplicate: ", word)
                 words.add(word)
     return list(words)
 
