@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 import onnx
 from piper_phonemize import phonemize_espeak
+from additional_words import get_additional_german_words
 
 
 def read_lexicon():
@@ -18,20 +19,12 @@ def read_lexicon():
         "./variants.dic",
     ]
 
-    new_words = [
-        "liliana",
-        "fuer",
-        "für",
-        "stärker",
-        "staerker",
-        "mich",
-        "nicht",
-    ]
+    new_words = get_additional_german_words
     words = set()
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile("^[a-zA-Z'-\.]+$")
+    pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     for in_file in in_files:
         print(in_file)
         with open(in_file, encoding="iso-8859-1") as f:

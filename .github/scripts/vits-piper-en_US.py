@@ -7,20 +7,20 @@ from typing import Any, Dict
 
 import onnx
 from piper_phonemize import phonemize_espeak
+from additional_words import get_additional_english_words
 
 
 def read_lexicon():
     in_file = "./CMU.in.IPA.txt"
     words = set()
 
-    new_words = [
-        "liliana",
-    ]
+    new_words = get_additional_english_words()
+
     words = set()
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile("^[a-zA-Z'-\.]+$")
+    pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     with open(in_file) as f:
         for line in f:
             try:
