@@ -108,10 +108,14 @@ def main():
     if not t:
         print("Please provide the environment variable TYPE")
         return
+    print("type", t)
 
+    print("generate lexicon")
     generate_lexicon(t)
     config = load_config(f"de_DE-thorsten-{t}.onnx")
+    print("generate tokens")
     generate_tokens(config)
+    print("add model metadata")
     _punctuation = ';:,.!?¡¿—…"«»“” '
     meta_data = {
         "model_type": "vits",

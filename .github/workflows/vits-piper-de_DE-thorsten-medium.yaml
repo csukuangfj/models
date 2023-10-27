@@ -26,18 +26,38 @@ jobs:
           export TYPE=medium
           ./vits-piper-de_DE-thorsten.sh
 
-      # - name: Download model
-      #   shell: bash
-      #   run: |
-      #     git lfs install
-      #     git clone https://huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-medium
-      #     rm -rf vits-piper-de_DE-thorsten-medium/.git
-      #
-      #     sudo apt-get install -y tree
-      #     tree ./vits-piper-de_DE-thorsten-medium
-      #     ls -lh ./vits-piper-de_DE-thorsten-medium
-      #
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: vits-piper-de_DE-thorsten-medium
-      #     path: vits-piper-de_DE-thorsten-medium
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-medium
+          cp *onnx* ./vits-piper-de_DE-thorsten-medium
+          cp german.7z ./vits-piper-de_DE-thorsten-medium
+          cp lexicon.txt ./vits-piper-de_DE-thorsten-medium
+          cp tokens.txt ./vits-piper-de_DE-thorsten-medium
+          cp MODEL_CARD ./vits-piper-de_DE-thorsten-medium
+          cd ./vits-piper-de_DE-thorsten-medium
+
+          git lfs track "lexicon.txt"
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-medium main
+
+          rm -rf vits-piper-de_DE-thorsten-medium/.git
+          mv vits-piper-de_DE-thorsten-medium ../..
+          sudo apt-get install -y tree
+          tree ./vits-piper-de_DE-thorsten-medium
+          ls -lh ./vits-piper-de_DE-thorsten-medium
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-piper-de_DE-thorsten-medium
+          path: vits-piper-de_DE-thorsten-medium
