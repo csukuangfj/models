@@ -81,7 +81,7 @@ jobs:
 
           cd ..
           rm -rf vits-piper-en_US-$NAME-$TYPE/.git
-          mv vits-piper-en_US-$ANEM-$TYPE ../..
+          mv vits-piper-en_US-$NAME-$TYPE ../..
           cd ../..
           sudo apt-get install -y tree
           tree ./vits-piper-en_US-$NAME-$TYPE
