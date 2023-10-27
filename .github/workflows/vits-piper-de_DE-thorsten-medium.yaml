@@ -19,18 +19,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download model
+      - name: Generate model
         shell: bash
         run: |
-          git lfs install
-          git clone https://huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-medium
-          rm -rf vits-piper-de_DE-thorsten-medium/.git
+          cd .github/scripts
+          ./scripts/vits-piper-de_DE-thorsten.sh
 
-          sudo apt-get install -y tree
-          tree ./vits-piper-de_DE-thorsten-medium
-          ls -lh ./vits-piper-de_DE-thorsten-medium
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vits-piper-de_DE-thorsten-medium
-          path: vits-piper-de_DE-thorsten-medium
+      # - name: Download model
+      #   shell: bash
+      #   run: |
+      #     git lfs install
+      #     git clone https://huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-medium
+      #     rm -rf vits-piper-de_DE-thorsten-medium/.git
+      #
+      #     sudo apt-get install -y tree
+      #     tree ./vits-piper-de_DE-thorsten-medium
+      #     ls -lh ./vits-piper-de_DE-thorsten-medium
+      #
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: vits-piper-de_DE-thorsten-medium
+      #     path: vits-piper-de_DE-thorsten-medium
