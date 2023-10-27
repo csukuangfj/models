@@ -51,6 +51,7 @@ jobs:
           git commit -m "update"
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-de_DE-thorsten-low main
 
+          cd ..
           rm -rf vits-piper-de_DE-thorsten-low/.git
           mv vits-piper-de_DE-thorsten-low ../..
           sudo apt-get install -y tree
