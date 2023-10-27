@@ -19,7 +19,7 @@ jobs:
           - name: amy
             type: medium
           - name: arctic
-            type: low
+            type: medium
           - name: danny
             type: low
           - name: hfc_male
@@ -27,7 +27,7 @@ jobs:
           - name: joe
             type: medium
           - name: kathleen
-            type: medium
+            type: low
           - name: kusal
             type: medium
           - name: l2arctic
