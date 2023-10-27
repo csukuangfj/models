@@ -51,7 +51,7 @@ def generate_lexicon(name, t):
             phonemes = phonemize_espeak(w, config["espeak"]["voice"])[0]
             phonemes = " ".join(phonemes)
             if t == "x_low":
-                phonemes = phonemes.sub(pattern, "")
+                phonemes = re.sub(pattern, "", phonemes)
             word2phones[w] = " ".join(phonemes)
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:
