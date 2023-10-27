@@ -6,7 +6,8 @@ def get_additional_english_words():
         "qataris",
         "qatar's",
         "pandubi",
-        "mithu" "bhargav",
+        "mithu",
+        "bhargav",
         "narendra",
     ]
     return words
