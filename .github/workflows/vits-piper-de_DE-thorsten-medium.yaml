@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           cd .github/scripts
-          ./scripts/vits-piper-de_DE-thorsten.sh
+          ./vits-piper-de_DE-thorsten.sh
 
       # - name: Download model
       #   shell: bash
