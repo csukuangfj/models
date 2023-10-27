@@ -123,7 +123,7 @@ def main():
         "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
-    add_meta_data(f"en_US-${name}-{t}.onnx", meta_data)
+    add_meta_data(f"en_US-{name}-{t}.onnx", meta_data)
 
 
 main()
