@@ -23,6 +23,7 @@ jobs:
         shell: bash
         run: |
           cd .github/scripts
+          export TYPE=medium
           ./vits-piper-de_DE-thorsten.sh
 
       # - name: Download model
