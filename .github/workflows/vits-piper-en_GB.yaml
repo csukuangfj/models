@@ -1,0 +1,86 @@
+name: vits-piper-en_GB
+
+on:
+  push:
+    branches:
+      - vits-piper-en-us
+  workflow_dispatch:
+
+jobs:
+  vits-piper-en_GB:
+    runs-on: ubuntu-latest
+    name: English GB ${{ matrix.name }} ${{ matrix.type }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: alan
+            type: low
+          - name: alan
+            type: medium
+          - name: alba
+            type: medium
+          - name: aru
+            type: medium
+          - name: jenny_dioco
+            type: medium
+          - name: northern_english_male
+            type: medium
+          - name: semaine
+            type: medium
+          - name: southern_english_female
+            type: low
+          - name: vctk
+            type: medium
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          ./vits-piper-en_GB.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+          TYPE: ${{ matrix.type }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-piper-en_GB-$NAME-$TYPE
+          cd vits-piper-en_GB-$NAME-$TYPE
+          cp ../*onnx* .
+          cp ../CMU-in-IPA.zip .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+          cp ../MODEL_CARD .
+
+          git lfs track "lexicon.txt"
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-en_GB-$NAME-$TYPE main
+
+          cd ..
+          rm -rf vits-piper-en_GB-$NAME-$TYPE/.git
+          mv vits-piper-en_GB-$NAME-$TYPE ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./vits-piper-en_GB-$NAME-$TYPE
+          ls -lh ./vits-piper-en_GB-$NAME-$TYPE
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-piper-en_GB-${{ matrix.name }}-${{ matrix.type }}
+          path: vits-piper-en_GB-${{ matrix.name }}-${{ matrix.type }}
