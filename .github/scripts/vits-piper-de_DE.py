@@ -118,7 +118,7 @@ def main():
 
     print("generate lexicon")
     generate_lexicon(name, t)
-    config = load_config(f"de_DE-${name}-{t}.onnx")
+    config = load_config(f"de_DE-{name}-{t}.onnx")
     print("generate tokens")
     generate_tokens(config)
     print("add model metadata")
