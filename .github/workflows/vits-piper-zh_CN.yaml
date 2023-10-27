@@ -9,7 +9,7 @@ on:
 jobs:
   vits-piper-zh_CN:
     runs-on: ubuntu-latest
-    name: Chinese Mandrin ${{ matrix.name }} ${{ matrix.type }}
+    name: ${{ matrix.name }} ${{ matrix.type }}
     strategy:
       fail-fast: false
       matrix:

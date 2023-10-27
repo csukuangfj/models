@@ -9,7 +9,7 @@ on:
 jobs:
   vits-piper-en_GB:
     runs-on: ubuntu-latest
-    name: English GB ${{ matrix.name }} ${{ matrix.type }}
+    name: ${{ matrix.name }} ${{ matrix.type }}
     strategy:
       fail-fast: false
       matrix:
