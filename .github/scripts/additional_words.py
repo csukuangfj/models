@@ -9,6 +9,11 @@ def get_additional_english_words():
         "mithu",
         "bhargav",
         "narendra",
+        "greenware",
+        "shorten",
+        "slacking",
+        "jeremy's",
+        "villager's",
     ]
     return words
 
