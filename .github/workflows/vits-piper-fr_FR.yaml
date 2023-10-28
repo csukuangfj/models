@@ -50,16 +50,16 @@ jobs:
           cd .github/scripts
 
           ls -lh
+
           git clone https://huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE
           cd vits-piper-fr_FR-$NAME-$TYPE
-          git rm lexicon.txt
-          git commit -m "remove lexicon.txt"
-          git lfs track "lexicon.txt"
 
           cp ../*onnx* .
           cp ../lexicon.txt .
           cp ../tokens.txt .
           cp ../MODEL_CARD .
+
+          git lfs track "lexicon.txt"
 
           git status
           git add .
