@@ -24,6 +24,10 @@ ls -lh
 head austriazismen.txt LiesMich.txt autocomplete.txt german.dic helvetismen.txt variants.dic
 file austriazismen.txt LiesMich.txt autocomplete.txt german.dic helvetismen.txt variants.dic
 
+wget -qq https://github.com/webpwnized/byepass/raw/master/dictionaries/all-german-words.txt
+echo "all-german-words.txt"
+head all-german-words.txt
+
 echo "pwd: $PWD"
 
 python3 ./vits-piper-de_DE.py

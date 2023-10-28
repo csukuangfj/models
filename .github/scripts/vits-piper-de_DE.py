@@ -17,6 +17,7 @@ def read_lexicon():
         "./german.dic",
         "./helvetismen.txt",
         "./variants.dic",
+        "./all-german-words.txt"
     ]
 
     new_words = get_additional_german_words
@@ -26,8 +27,13 @@ def read_lexicon():
 
     pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     for in_file in in_files:
-        print(in_file)
-        with open(in_file, encoding="iso-8859-1") as f:
+        if in_file == "./all-german-words.txt":
+            encoding = "utf-8"
+        else:
+            encoding = "iso-8859-1"
+        print(in_file, encoding)
+
+        with open(in_file, encoding=encoding) as f:
             for line in f:
                 try:
                     word = line.strip().lower()
