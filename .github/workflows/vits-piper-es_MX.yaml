@@ -1,4 +1,4 @@
-name: vits-piper-es_ES
+name: vits-piper-es_MX
 
 on:
   push:
@@ -7,22 +7,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  vits-piper-es_ES:
+  vits-piper-es_MX:
     runs-on: ubuntu-latest
     name: ${{ matrix.name }} ${{ matrix.type }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: carlfm
-            type: x_low
-          - name: davefx
-            type: medium
-          - name: mls_10246
-            type: low
-          - name: mls_9972
-            type: low
-          - name: sharvard
+          - name: ald
             type: medium
 
     steps:
@@ -36,7 +28,7 @@ jobs:
           cd .github/scripts
           export NAME=${{ matrix.name }}
           export TYPE=${{ matrix.type }}
-          ./vits-piper-es_ES.sh
+          ./vits-piper-es_MX.sh
 
       - name: upload model to huggingface
         shell: bash
@@ -47,8 +39,8 @@ jobs:
         run: |
           cd .github/scripts
           ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-piper-es_ES-$NAME-$TYPE
-          cd vits-piper-es_ES-$NAME-$TYPE
+          git clone https://huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE
+          cd vits-piper-es_MX-$NAME-$TYPE
           cp ../*onnx* .
           cp ../lexicon.txt .
           cp ../tokens.txt .
@@ -62,17 +54,17 @@ jobs:
           git status
           git add .
           git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-es_ES-$NAME-$TYPE main
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE main
 
           cd ..
-          rm -rf vits-piper-es_ES-$NAME-$TYPE/.git
-          mv vits-piper-es_ES-$NAME-$TYPE ../..
+          rm -rf vits-piper-es_MX-$NAME-$TYPE/.git
+          mv vits-piper-es_MX-$NAME-$TYPE ../..
           cd ../..
           sudo apt-get install -y tree
-          tree ./vits-piper-es_ES-$NAME-$TYPE
-          ls -lh ./vits-piper-es_ES-$NAME-$TYPE
+          tree ./vits-piper-es_MX-$NAME-$TYPE
+          ls -lh ./vits-piper-es_MX-$NAME-$TYPE
 
       - uses: actions/upload-artifact@v3
         with:
-          name: vits-piper-es_ES-${{ matrix.name }}-${{ matrix.type }}
-          path: vits-piper-es_ES-${{ matrix.name }}-${{ matrix.type }}
+          name: vits-piper-es_MX-${{ matrix.name }}-${{ matrix.type }}
+          path: vits-piper-es_MX-${{ matrix.name }}-${{ matrix.type }}
