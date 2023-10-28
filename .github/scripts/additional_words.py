@@ -31,6 +31,10 @@ def get_additional_german_words():
     ]
     return words
 
+def get_additional_spanish_words():
+    words = []
+    return words
+
 
 def get_additional_chinese_words():
     words = []
