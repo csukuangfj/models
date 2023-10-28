@@ -53,5 +53,9 @@ def get_additional_chinese_words():
     return words
 
 def get_additional_french_words():
-    words = []
+    words = [
+            "À",
+            "coeur",
+            "peril",
+            ]
     return words

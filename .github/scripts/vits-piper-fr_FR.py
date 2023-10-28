@@ -13,6 +13,11 @@ from additional_words import get_additional_french_words
 def read_lexicon():
     in_files = [
             "./french.txt",
+            "./gutenberg.txt",
+            "./ods4.txt",
+            "./ods5.txt",
+            "./ods6.txt",
+            "./pli07.txt",
             ]
     words = set()
 
