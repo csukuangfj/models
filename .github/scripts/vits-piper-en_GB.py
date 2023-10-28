@@ -44,6 +44,7 @@ def read_lexicon():
 def generate_lexicon(name, t):
     config = load_config(f"en_GB-{name}-{t}.onnx")
     words = read_lexicon()
+    words.sort()
     num_words = len(words)
     print(num_words)
 
