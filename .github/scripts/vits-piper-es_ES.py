@@ -11,7 +11,7 @@ from additional_words import get_additional_spanish_words
 
 
 def read_lexicon():
-    in_file = "./all-spanish-words.txt"
+    in_files = ["./all-spanish-words.txt", "./wordlist-spanish.txt"]
     words = set()
 
     new_words = get_additional_spanish_words()
@@ -21,21 +21,22 @@ def read_lexicon():
         words.add(w.lower())
 
     pattern = re.compile(r"^[a-zA-Z'-\.]+$")
-    with open(in_file) as f:
-        for line in f:
-            try:
-                word = line.strip().lower()
-                if not pattern.match(word):
-                    #  print(line, "word is", word)
+    for in_file in in_files:
+        with open(in_file) as f:
+            for line in f:
+                try:
+                    word = line.strip().lower()
+                    if not pattern.match(word):
+                        #  print(line, "word is", word)
+                        continue
+                except:
+                    #  print(line)
                     continue
-            except:
-                #  print(line)
-                continue
 
-            if word in words:
-                print("duplicate: ", word)
-                continue
-            words.add(word)
+                if word in words:
+                    #  print("duplicate: ", word)
+                    continue
+                words.add(word)
     return list(words)
 
 

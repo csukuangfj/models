@@ -17,8 +17,10 @@ pip install piper-phonemize onnx onnxruntime==1.16.0
 wget -qq https://people.umass.edu/nconstan/CMU-IPA/CMU-in-IPA.zip
 unzip CMU-in-IPA.zip
 
+wget -qq https://github.com/webpwnized/byepass/raw/master/dictionaries/all-english-words.txt
+
 echo "pwd: $PWD"
-head CMU.in.IPA.txt
+head CMU.in.IPA.txt all-english-words.txt
 
 python3 ./vits-piper-en_US.py
 head lexicon.txt
