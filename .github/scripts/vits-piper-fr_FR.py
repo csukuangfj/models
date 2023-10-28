@@ -30,7 +30,7 @@ def read_lexicon():
         with open(in_file, encoding=encoding) as f:
             for line in f:
                 try:
-                    word = line.strip().lower()
+                    word = line.strip().split()[0].lower()
                     if not pattern.match(word):
                         #  print(line, "word is", word)
                         continue
