@@ -42,6 +42,7 @@ def get_additional_spanish_words():
             "más",
             "nuestra",
             "otros",
+            "pájaro",
             "tú",
             ]
     return words
