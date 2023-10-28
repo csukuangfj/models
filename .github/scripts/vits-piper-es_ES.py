@@ -11,7 +11,11 @@ from additional_words import get_additional_spanish_words
 
 
 def read_lexicon():
-    in_files = ["./all-spanish-words.txt", "./wordlist-spanish.txt"]
+    in_files = [
+            "./all-spanish-words.txt",
+            "./wordlist-spanish.txt",
+            "./spanish_words.txt",
+            ]
     words = set()
 
     new_words = get_additional_spanish_words()
@@ -22,7 +26,13 @@ def read_lexicon():
 
     pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     for in_file in in_files:
-        with open(in_file) as f:
+        if in_file == "./spanish_words.txt":
+            encoding = "iso-8859-1"
+        else:
+            encoding = "utf-8"
+        print(in_file, encoding)
+
+        with open(in_file, encoding=encoding) as f:
             for line in f:
                 try:
                     word = line.strip().lower()
