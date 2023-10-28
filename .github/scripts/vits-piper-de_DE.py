@@ -20,7 +20,7 @@ def read_lexicon():
         "./all-german-words.txt"
     ]
 
-    new_words = get_additional_german_words
+    new_words = get_additional_german_words()
     words = set()
     for w in new_words:
         words.add(w.lower())
