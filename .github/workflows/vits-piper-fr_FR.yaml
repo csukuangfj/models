@@ -44,17 +44,22 @@ jobs:
           NAME: ${{ matrix.name }}
           TYPE: ${{ matrix.type }}
         run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
           cd .github/scripts
+
           ls -lh
           git clone https://huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE
           cd vits-piper-fr_FR-$NAME-$TYPE
+          git rm lexicon.txt
+          git commit -m "remove lexicon.txt"
+          git lfs track "lexicon.txt"
+
           cp ../*onnx* .
           cp ../lexicon.txt .
           cp ../tokens.txt .
           cp ../MODEL_CARD .
-
-          git config --global user.email "csukuangfj@gmail.com"
-          git config --global user.name "Fangjun Kuang"
 
           git status
           git add .
