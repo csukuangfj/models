@@ -26,7 +26,7 @@ def read_lexicon():
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile(r"^[a-zA-Z'-\.]+$")
+    pattern = re.compile(r"^[a-zA-Z'áéíóúüñÁÉÍÓÚÜÑ]+$")
     for in_file in in_files:
         if in_file == "./spanish_words.txt":
             encoding = "iso-8859-1"

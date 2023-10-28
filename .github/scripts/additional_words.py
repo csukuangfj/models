@@ -51,3 +51,7 @@ def get_additional_spanish_words():
 def get_additional_chinese_words():
     words = []
     return words
+
+def get_additional_french_words():
+    words = []
+    return words

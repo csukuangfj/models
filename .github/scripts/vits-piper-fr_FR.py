@@ -7,30 +7,24 @@ from typing import Any, Dict
 
 import onnx
 from piper_phonemize import phonemize_espeak
-from additional_words import get_additional_german_words
+from additional_words import get_additional_french_words
 
 
 def read_lexicon():
     in_files = [
-        "./austriazismen.txt",
-        "./autocomplete.txt",
-        "./german.dic",
-        "./helvetismen.txt",
-        "./variants.dic",
-        "./all-german-words.txt"
-    ]
+            "./french.txt",
+            ]
+    words = set()
 
-    new_words = get_additional_german_words()
+    new_words = get_additional_french_words()
+
     words = set()
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile(r"^[a-zA-Z'-\.äöüÄÖÜß]+$")
+    pattern = re.compile(r"^[a-zA-Z'éàèùçâêîôûëïüÉÀÈÙÇÂÊÎÔÛËÏÜ]+$")
     for in_file in in_files:
-        if in_file == "./all-german-words.txt":
-            encoding = "utf-8"
-        else:
-            encoding = "iso-8859-1"
+        encoding = "utf-8"
         print(in_file, encoding)
 
         with open(in_file, encoding=encoding) as f:
@@ -45,20 +39,20 @@ def read_lexicon():
                     continue
 
                 if word in words:
-                    print("duplicate: ", word)
+                    #  print("duplicate: ", word)
                     continue
                 words.add(word)
     return list(words)
 
 
 def generate_lexicon(name, t):
-    config = load_config(f"de_DE-{name}-{t}.onnx")
+    config = load_config(f"fr_FR-{name}-{t}.onnx")
     words = read_lexicon()
     words.sort()
     num_words = len(words)
     print(num_words)
 
-    batch = 100000
+    batch = 5000
     i = 0
     word2phones = dict()
     while i < num_words:
@@ -121,7 +115,7 @@ def main():
 
     print("generate lexicon")
     generate_lexicon(name, t)
-    config = load_config(f"de_DE-{name}-{t}.onnx")
+    config = load_config(f"fr_FR-{name}-{t}.onnx")
     print("generate tokens")
     generate_tokens(config)
     print("add model metadata")
@@ -129,14 +123,14 @@ def main():
     meta_data = {
         "model_type": "vits",
         "comment": "piper",
-        "language": "German",
+        "language": "Spanish",
         "add_blank": 1,
         "n_speakers": config["num_speakers"],
         "sample_rate": config["audio"]["sample_rate"],
         "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
-    add_meta_data(f"de_DE-{name}-{t}.onnx", meta_data)
+    add_meta_data(f"fr_FR-{name}-{t}.onnx", meta_data)
 
 
 main()

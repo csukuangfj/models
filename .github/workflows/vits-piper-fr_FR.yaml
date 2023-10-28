@@ -1,0 +1,75 @@
+name: vits-piper-fr_FR
+
+on:
+  push:
+    branches:
+      - vits-piper-zh-cn
+  workflow_dispatch:
+
+jobs:
+  vits-piper-fr_FR:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }} ${{ matrix.type }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: gilles
+            type: low
+          - name: mls_1840
+            type: low
+          - name: siwis
+            type: low
+          - name: siwis
+            type: medium
+          - name: upmc
+            type: medium
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          ./vits-piper-fr_FR.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+          TYPE: ${{ matrix.type }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE
+          cd vits-piper-fr_FR-$NAME-$TYPE
+          cp ../*onnx* .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+          cp ../MODEL_CARD .
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE main
+
+          cd ..
+          rm -rf vits-piper-fr_FR-$NAME-$TYPE/.git
+          mv vits-piper-fr_FR-$NAME-$TYPE ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./vits-piper-fr_FR-$NAME-$TYPE
+          ls -lh ./vits-piper-fr_FR-$NAME-$TYPE
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-piper-fr_FR-${{ matrix.name }}-${{ matrix.type }}
+          path: vits-piper-fr_FR-${{ matrix.name }}-${{ matrix.type }}
