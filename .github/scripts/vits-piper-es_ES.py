@@ -14,7 +14,9 @@ def read_lexicon():
     in_files = [
             "./all-spanish-words.txt",
             "./wordlist-spanish.txt",
-            "./spanish_words.txt",
+            "./spanish_words.txt", # is-8859-1
+            "./spanish.txt",
+            "./Spanish.dic",
             ]
     words = set()
 
