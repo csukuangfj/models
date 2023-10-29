@@ -1,0 +1,39 @@
+name: download-file
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL"
+        required: true
+
+jobs:
+  download_file:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          url=${{ github.event.inputs.url }}
+          echo "url is $url"
+          wget -qq $url
+          name=$(basename $url)
+          ls -lh
+          mkdir files
+          mv -v $name ./files
+
+          ls -lh files
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: files
+          path: files
