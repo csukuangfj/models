@@ -22,29 +22,32 @@ def get_additional_german_words():
     words = [
         "fuer",
         "für",
+        "ich",
         "liliana",
         "mich",
         "nicht",
         "staerker",
         "stärker",
+        "Äpfel",
         "öffnen",
     ]
     return words
 
+
 def get_additional_spanish_words():
     words = [
-            "amó",
-            "dueños",
-            "enamórate",
-            "está",
-            "lugares",
-            "mañana",
-            "más",
-            "nuestra",
-            "otros",
-            "pájaro",
-            "tú",
-            ]
+        "amó",
+        "dueños",
+        "enamórate",
+        "está",
+        "lugares",
+        "mañana",
+        "más",
+        "nuestra",
+        "otros",
+        "pájaro",
+        "tú",
+    ]
     return words
 
 
@@ -52,10 +55,11 @@ def get_additional_chinese_words():
     words = []
     return words
 
+
 def get_additional_french_words():
     words = [
-            "À",
-            "coeur",
-            "peril",
-            ]
+        "À",
+        "coeur",
+        "peril",
+    ]
     return words
