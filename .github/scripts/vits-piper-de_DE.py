@@ -17,7 +17,7 @@ def read_lexicon():
         "./german.dic",
         "./helvetismen.txt",
         "./variants.dic",
-        "./all-german-words.txt"
+        "./all-german-words.txt",
     ]
 
     new_words = get_additional_german_words()
@@ -25,7 +25,7 @@ def read_lexicon():
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile(r"^[a-zA-Z'-\.äöüÄÖÜß]+$")
+    pattern = re.compile(r"^[a-zA-Z'äöüÄÖÜß]+$")
     for in_file in in_files:
         if in_file == "./all-german-words.txt":
             encoding = "utf-8"
