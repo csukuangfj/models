@@ -23,15 +23,15 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-en-2023-03-18-english
-          rm -rf sherpa-onnx-conformer-en-2023-03-18-english/.git
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-en-2023-03-18
+          rm -rf sherpa-onnx-conformer-en-2023-03-18/.git
 
           sudo apt-get install -y tree
 
-          tree ./sherpa-onnx-conformer-en-2023-03-18-english
-          ls -lh ./sherpa-onnx-conformer-en-2023-03-18-english
+          tree ./sherpa-onnx-conformer-en-2023-03-18
+          ls -lh ./sherpa-onnx-conformer-en-2023-03-18
 
       - uses: actions/upload-artifact@v3
         with:
-          name: sherpa-onnx-conformer-en-2023-03-18-english
-          path: sherpa-onnx-conformer-en-2023-03-18-english
+          name: sherpa-onnx-conformer-en-2023-03-18
+          path: sherpa-onnx-conformer-en-2023-03-18
