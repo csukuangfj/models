@@ -1,0 +1,37 @@
+name: csukuangfj-sherpa-onnx-conformer-en-2023-03-18-english
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  csukuangfj-sherpa-onnx-conformer-en-2023-03-18-english:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-en-2023-03-18-english
+          rm -rf sherpa-onnx-conformer-en-2023-03-18-english/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-conformer-en-2023-03-18-english
+          ls -lh ./sherpa-onnx-conformer-en-2023-03-18-english
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sherpa-onnx-conformer-en-2023-03-18-english
+          path: sherpa-onnx-conformer-en-2023-03-18-english
