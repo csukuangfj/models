@@ -19,6 +19,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Convert model
+        shell: bash
+        run: |
+          cd .github/scripts
+          ./vits-zh-aishell3.sh
+
       - name: Download model
         shell: bash
         run: |
