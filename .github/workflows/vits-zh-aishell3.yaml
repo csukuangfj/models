@@ -25,6 +25,29 @@ jobs:
           cd .github/scripts
           ./vits-zh-aishell3.sh
 
+      - name: Upload model
+        shell: bash
+        run: |
+          cd .github/scripts/vits_chinese
+
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/vits-zh-aishell3 huggingface
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          cp aishell3/*.onnx ./huggingface/
+          cp aishell3/lexicon.txt ./huggingface/
+          cp aishell3/tokens.txt ./huggingface/
+
+          cd huggingface
+          git add .
+          git commit -m "update model"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main
+          cd ..
+          rm -rf huggingface
+
+
       - name: Download model
         shell: bash
         run: |

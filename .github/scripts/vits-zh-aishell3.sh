@@ -8,7 +8,7 @@ git clone https://github.com/csukuangfj/vits_chinese
 cd vits_chinese
 
 pushd aishell3
-wget https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/G_AISHELL.pth
+wget -qq https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/G_AISHELL.pth
 
 cd ../monotonic_align
 python3 setup.py build
