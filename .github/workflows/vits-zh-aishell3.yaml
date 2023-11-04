@@ -27,6 +27,8 @@ jobs:
 
       - name: Upload model
         shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           cd .github/scripts/vits_chinese
 
