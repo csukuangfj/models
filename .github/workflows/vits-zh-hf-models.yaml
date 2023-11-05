@@ -15,6 +15,13 @@ jobs:
       matrix:
         include:
           - name: doom
+          - name: echo
+          - name: zenyatta
+          - name: abyssinvoker
+          - name: keqing
+          - name: eula
+          - name: bronya
+          - name: theresa
 
     steps:
       - uses: actions/checkout@v4
