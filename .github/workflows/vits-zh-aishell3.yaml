@@ -43,6 +43,9 @@ jobs:
           cp aishell3/tokens.txt ./huggingface/
 
           cd huggingface
+          wc -l lexicon.txt
+          tail lexicon.txt
+          git status
           git add .
           git commit -m "update model"
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main
