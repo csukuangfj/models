@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 python3 -m pip install -qq torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html numpy
-python3 -m pip install onnxruntime onnx soundfile
+python3 -m pip install onnxruntime onnx soundfile pypinyin
 python3 -m pip install scipy cython unidecode phonemizer
 
 git clone https://github.com/csukuangfj/vits_chinese
