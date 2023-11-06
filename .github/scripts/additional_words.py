@@ -2,14 +2,18 @@ def get_additional_english_words():
     words = [
         "bhargav",
         "ceo",
+        "chatrooms",
         "cpu",
+        "etienne's",
         "ganjaj",
         "greenware",
         "jeremy's",
         "kaldi",
         "mithu",
         "narendra",
+        "oblivion's",
         "pandubi",
+        "prickle",
         "qatar's",
         "qataris",
         "reheat",
@@ -17,6 +21,8 @@ def get_additional_english_words():
         "sandra's",
         "shorten",
         "slacking",
+        "slewing",
+        "slumber's",
         "villager's",
     ]
     return words
