@@ -48,10 +48,9 @@ jobs:
           git status
           git add .
           git commit -m "update model"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main || true
           cd ..
           rm -rf huggingface
-
 
       - name: Download model
         shell: bash
