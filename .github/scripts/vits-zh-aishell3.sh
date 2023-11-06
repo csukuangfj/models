@@ -23,6 +23,8 @@ sed -i.bak s/.monotonic_align.core/.core/g ./__init__.py
 git diff
 cd ..
 
+mv -v ../polyphones_zh.py .
+
 python3 ./generate_lexicon_aishell3.py
 python3 ./export_onnx_aishell3.py
 
