@@ -41,7 +41,7 @@ def generate_lexicon(hps):
 
     word2phone = []
     for w in words:
-        phones = get_phones(w, hps.data.text_cleaners)
+        phones = get_phones(w, hps)
         for p in phones:
             if p not in symbol_to_id:
                 print(f"{p} not in symbol_to_id, skip {w}")
@@ -78,6 +78,7 @@ def main():
     config_path = f"G_{name}_latest.json"
 
     hps = utils.get_hparams_from_file(config_path)
+    print(type(hps), hps)
     generate_tokens(hps.symbols)
     generate_lexicon(hps)
 
