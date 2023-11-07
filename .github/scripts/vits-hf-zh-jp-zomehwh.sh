@@ -28,15 +28,11 @@ wget -q https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/resolve/ma
 wget -q https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/resolve/main/model/config.json
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
 
-wget -qq https://people.umass.edu/nconstan/CMU-IPA/CMU-in-IPA.zip
-unzip CMU-in-IPA.zip
-
-wget -qq https://github.com/webpwnized/byepass/raw/master/dictionaries/all-english-words.txt
+wget -qq https://github.com/hingston/japanese/blob/master/15000-japanese-words.txt
 
 echo "pwd: $PWD"
-head CMU.in.IPA.txt all-english-words.txt
 
-./vits-hf-zh-jp-en-zomehwh.py
+./vits-hf-zh-jp-zomehwh.py
 
 ls -lh
 

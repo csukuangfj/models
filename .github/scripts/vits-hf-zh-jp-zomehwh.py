@@ -13,38 +13,24 @@ import utils
 from models import SynthesizerTrn
 from text import _clean_text
 
-from additional_words import get_additional_english_words
+from additional_words import get_additional_japanese_words
 from polyphones_zh import word_list_zh
 
 
-def read_lexicon_english():
-    in_files = ["./CMU.in.IPA.txt", "all-english-words.txt"]
+def read_lexicon_japanese():
+    in_files = ["./15000-japanese-words.txt"]
     words = set()
 
-    new_words = get_additional_english_words()
+    new_words = get_additional_japanese_words()
 
     words = set()
     for w in new_words:
         words.add(w.lower())
 
-    pattern = re.compile(r"^[a-zA-Z'-\.]+$")
     for in_file in in_files:
         with open(in_file) as f:
             for line in f:
-                try:
-                    line = line.strip()
-                    word = line.split(",")[0]
-                    word = word.strip().lower()
-                    if not pattern.match(word):
-                        #  print(line, "word is", word)
-                        continue
-                except:
-                    #  print(line)
-                    continue
-
-                if word in words:
-                    # print("duplicate: ", word)
-                    continue
+                word = line.strip()
                 words.add(word)
     return list(words)
 
@@ -55,7 +41,8 @@ def get_phones_chinese(w, hps) -> List[str]:
     return list(phones)[:-1]
 
 
-def get_phones_english(w, hps) -> List[str]:
+def get_phones_japanese(w, hps) -> List[str]:
+    w = f"[JA]{w}[JA]"
     phones = _clean_text(w, hps.data.text_cleaners)
     return list(phones)[:-1]
 
@@ -112,11 +99,10 @@ def generate_lexicon(hps):
         word2phone.append([a, phones])
     seen = set()
 
-    # Now for English
-    words = read_lexicon_english()
+    words = read_lexicon_japanese()
     words.sort()
     for w in words:
-        _phones = get_phones_english(w, hps)
+        _phones = get_phones_japanese(w, hps)
         phones = []
         for p in _phones:
             if p not in symbol_to_id:
@@ -208,7 +194,7 @@ def main():
 
     opset_version = 13
 
-    filename = "vits-hf-zh-jp-en-zomehwh.onnx"
+    filename = "vits-hf-zh-jp-zomehwh.onnx"
 
     torch.onnx.export(
         model,
@@ -232,7 +218,7 @@ def main():
     )
     meta_data = {
         "model_type": "vits",
-        "comment": "vits-hf-zh-jp-en-zomehwh",
+        "comment": "vits-hf-zh-jp-zomehwh",
         "language": "Chinese",
         "add_blank": int(hps.data.add_blank),
         "n_speakers": int(hps.data.n_speakers),

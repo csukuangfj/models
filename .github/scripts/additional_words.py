@@ -66,6 +66,11 @@ def get_additional_chinese_words():
     return words
 
 
+def get_additional_japanese_words():
+    words = []
+    return words
+
+
 def get_additional_french_words():
     words = [
         "À",

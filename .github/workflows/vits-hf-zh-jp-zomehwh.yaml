@@ -1,4 +1,4 @@
-name: vits-hf-zh-jp-en-zomehwh
+name: vits-hf-zh-jp-zomehwh
 
 on:
   push:
@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  vits-hf-zh-jp-en-zomehwh:
+  vits-hf-zh-jp-zomehwh:
     runs-on: ubuntu-latest
-    name: zomehwh zh-jp-en
+    name: zomehwh zh-jp
     strategy:
       fail-fast: false
 
@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           cd .github/scripts
-          ../scripts/vits-hf-zh-jp-en-zomehwh.sh
+          ../scripts/vits-hf-zh-jp-zomehwh.sh
 
       - name: upload model to huggingface
         shell: bash
@@ -38,8 +38,8 @@ jobs:
         run: |
           cd .github/scripts
           ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-hf-zh-jp-en-zomehwh
-          cd vits-hf-zh-jp-en-zomehwh
+          git clone https://huggingface.co/csukuangfj/vits-hf-zh-jp-zomehwh
+          cd vits-hf-zh-jp-zomehwh
           cp ../*.onnx .
           cp ../*.json .
           cp ../lexicon.txt .
@@ -62,17 +62,17 @@ jobs:
           ls -lh
 
           git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-hf-zh-jp-en-zomehwh main
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-hf-zh-jp-zomehwh main
 
           cd ..
-          rm -rf vits-hf-zh-jp-en-zomehwh/.git
-          mv vits-hf-zh-jp-en-zomehwh ../..
+          rm -rf vits-hf-zh-jp-zomehwh/.git
+          mv vits-hf-zh-jp-zomehwh ../..
           cd ../..
           sudo apt-get install -y tree
-          tree ./vits-hf-zh-jp-en-zomehwh
-          ls -lh ./vits-hf-zh-jp-en-zomehwh
+          tree ./vits-hf-zh-jp-zomehwh
+          ls -lh ./vits-hf-zh-jp-zomehwh
 
       - uses: actions/upload-artifact@v3
         with:
-          name: vits-hf-zh-jp-en-zomehwh
-          path: vits-hf-zh-jp-en-zomehwh
+          name: vits-hf-zh-jp-zomehwh
+          path: vits-hf-zh-jp-zomehwh
