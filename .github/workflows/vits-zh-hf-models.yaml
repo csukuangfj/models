@@ -53,8 +53,8 @@ jobs:
 
           tail lexicon.txt
 
-          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
           rm -fv rule*
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
 
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"

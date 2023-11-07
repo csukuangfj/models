@@ -1,20 +1,18 @@
-name: vits-zh-hf-fanchen-models
+name: vits-hf-zh-jp-en-zomehwh
 
 on:
   push:
     branches:
       - download
+      - small-fixes
   workflow_dispatch:
 
 jobs:
-  vits-zh-hf-fanchen-models:
+  vits-hf-zh-jp-en-zomehwh:
     runs-on: ubuntu-latest
-    name: ${{ matrix.name }}
+    name: zomehwh zh-jp-en
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - name: wnj
 
     steps:
       - uses: actions/checkout@v4
@@ -26,12 +24,11 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Convert model ${{ matrix.name }}
+      - name: Convert model
         shell: bash
         run: |
           cd .github/scripts
-          export NAME=${{ matrix.name }}
-          ../scripts/vits-zh-hf-fanchen-models.sh
+          ../scripts/vits-hf-zh-jp-en-zomehwh.sh
 
       - name: upload model to huggingface
         shell: bash
@@ -41,8 +38,8 @@ jobs:
         run: |
           cd .github/scripts
           ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME
-          cd vits-zh-hf-fanchen-$NAME
+          git clone https://huggingface.co/csukuangfj/vits-hf-zh-jp-en-zomehwh
+          cd vits-hf-zh-jp-en-zomehwh
           cp ../*.onnx .
           cp ../*.json .
           cp ../lexicon.txt .
@@ -63,17 +60,17 @@ jobs:
           ls -lh
 
           git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME main
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-hf-zh-jp-en-zomehwh main
 
           cd ..
-          rm -rf vits-zh-hf-fanchen-$NAME/.git
-          mv vits-zh-hf-fanchen-$NAME ../..
+          rm -rf vits-hf-zh-jp-en-zomehwh/.git
+          mv vits-hf-zh-jp-en-zomehwh ../..
           cd ../..
           sudo apt-get install -y tree
-          tree ./vits-zh-hf-fanchen-$NAME
-          ls -lh ./vits-zh-hf-fanchen-$NAME
+          tree ./vits-hf-zh-jp-en-zomehwh
+          ls -lh ./vits-hf-zh-jp-en-zomehwh
 
       - uses: actions/upload-artifact@v3
         with:
-          name: vits-zh-hf-fanchen-${{ matrix.name }}
-          path: vits-zh-hf-fanchen-${{ matrix.name }}
+          name: vits-hf-zh-jp-en-zomehwh
+          path: vits-hf-zh-jp-en-zomehwh
