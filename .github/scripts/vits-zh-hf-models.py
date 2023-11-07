@@ -140,7 +140,7 @@ def main():
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:
         for w, phones in word2phone:
-            print(f"{w} {phones}\n", file=f)
+            f.write(f"{w} {phones}\n")
 
     with open("vits-models/pretrained_models/info.json", "r", encoding="utf-8") as f:
         models_info = json.load(f)

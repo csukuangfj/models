@@ -89,7 +89,7 @@ def generate_lexicon(hps):
                 continue
             phones.append(p)
 
-        word2phone.append([w, " ".join(phones).strip()])
+        word2phone.append([w, " ".join(phones)])
 
     seen = set()
     for a, b in word_list_zh:
@@ -108,7 +108,7 @@ def generate_lexicon(hps):
 
             phones_list.extend(phones)
 
-        phones = " ".join(phones_list).strip()
+        phones = " ".join(phones_list)
         word2phone.append([a, phones])
     seen = set()
 
@@ -123,11 +123,11 @@ def generate_lexicon(hps):
                 continue
             phones.append(p)
 
-        word2phone.append([w, " ".join(phones).strip()])
+        word2phone.append([w, " ".join(phones)])
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:
         for w, phones in word2phone:
-            print(f"{w} {phones}\n", file=f)
+            f.write(f"{w} {phones}\n")
     print("Generated lexicon.txt")
 
 
