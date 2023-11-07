@@ -42,10 +42,15 @@ def generate_lexicon(hps):
     word2phone = []
     for w in words:
         phones = get_phones(w, hps)
+        oov = False
         for p in phones:
             if p not in symbol_to_id:
                 print(f"{p} not in symbol_to_id, skip {w}")
-                continue
+                oov = True
+                break
+        if oov:
+            print(f"skip {w}")
+            continue
 
         word2phone.append([w, " ".join(phones)])
 
@@ -55,10 +60,21 @@ def generate_lexicon(hps):
             print(f"skip {a}")
             continue
         seen.add(a)
+        oov = False
         phones_list = []
         for i in b:
-            phones = get_phones(i, hps.data.text_cleaners)
+            phones = get_phones(i, hps)
+            for p in phones:
+                if p not in symbol_to_id:
+                    print(f"{p} not in symbol_to_id, skip {w}")
+                    oov = True
+                    break
+
             phones_list.extend(phones)
+        if oov:
+            print(f"Skip {a}")
+            continue
+
         phones = " ".join(phones_list)
         word2phone.append([a, phones])
 
