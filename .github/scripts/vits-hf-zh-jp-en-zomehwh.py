@@ -4,15 +4,17 @@ import sys
 
 sys.path.insert(0, "VITS-fast-fine-tuning")
 
-import os
-from typing import Any, Dict
+import re
+from typing import Any, Dict, List
 
 import onnx
 import torch
 import utils
 from models import SynthesizerTrn
-from polyphones_zh import word_list_zh
+from text import _clean_text
+
 from additional_words import get_additional_english_words
+from polyphones_zh import word_list_zh
 
 
 def read_lexicon_english():
@@ -102,7 +104,7 @@ def generate_lexicon(hps):
         oov = False
         phones_list = []
         for i in b:
-            phones = get_phones(i, hps)
+            phones = get_phones_chinese(i, hps)
             for p in phones:
                 if p not in symbol_to_id:
                     print(f"{p} not in symbol_to_id, skip {w}")
@@ -242,7 +244,7 @@ def main():
     )
     meta_data = {
         "model_type": "vits",
-        "comment": f"vits-hf-zh-jp-en-zomehwh",
+        "comment": "vits-hf-zh-jp-en-zomehwh",
         "language": "Chinese",
         "add_blank": int(hps.data.add_blank),
         "n_speakers": int(hps.data.n_speakers),
