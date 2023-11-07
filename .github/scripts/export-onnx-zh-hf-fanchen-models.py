@@ -68,7 +68,7 @@ def main():
 
     model_path = f"G_{name}_latest.pth"
     config_path = f"G_{name}_latest.json"
-    if not Path(Path(model_path).is_file()):
+    if not Path(model_path).is_file():
         model_path = f"G_{name}.pth"
         config_path = f"G_{name}.json"
 
