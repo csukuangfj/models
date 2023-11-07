@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - download
+      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -21,6 +22,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
       - name: Convert model ${{ matrix.name }}
         shell: bash
         run: |
@@ -30,6 +36,7 @@ jobs:
 
       - name: upload model to huggingface
         shell: bash
+        if: false
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           NAME: ${{ matrix.name }}
@@ -67,6 +74,7 @@ jobs:
           ls -lh ./vits-zh-hf-fanchen-$NAME
 
       - uses: actions/upload-artifact@v3
+        if: false
         with:
           name: vits-zh-hf-fanchen-${{ matrix.name }}
           path: vits-zh-hf-fanchen-${{ matrix.name }}
