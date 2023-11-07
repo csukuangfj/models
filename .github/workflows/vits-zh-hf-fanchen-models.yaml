@@ -15,6 +15,7 @@ jobs:
       matrix:
         include:
           - name: wnj
+          - name: C
 
     steps:
       - uses: actions/checkout@v4

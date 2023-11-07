@@ -52,7 +52,7 @@ def generate_lexicon(hps):
             print(f"skip {w}")
             continue
 
-        word2phone.append([w, " ".join(phones)])
+        word2phone.append([w, " ".join(phones).strip()])
 
     seen = set()
     for a, b in word_list_zh:
@@ -75,7 +75,7 @@ def generate_lexicon(hps):
             print(f"Skip {a}")
             continue
 
-        phones = " ".join(phones_list)
+        phones = " ".join(phones_list).strip()
         word2phone.append([a, phones])
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:

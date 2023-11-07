@@ -26,9 +26,15 @@ git diff
 
 popd
 
-wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
-wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
+if [[ $NAME == "C" ]]; then
+  wget https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.json
+  wget https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.pth
+else
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
+fi
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
+
 ls -lh
 
 ./generate-lexicon-zh-hf-fanchen-models.py
