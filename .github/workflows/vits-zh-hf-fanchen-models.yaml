@@ -36,7 +36,6 @@ jobs:
 
       - name: upload model to huggingface
         shell: bash
-        if: false
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           NAME: ${{ matrix.name }}
@@ -75,7 +74,6 @@ jobs:
           ls -lh ./vits-zh-hf-fanchen-$NAME
 
       - uses: actions/upload-artifact@v3
-        if: false
         with:
           name: vits-zh-hf-fanchen-${{ matrix.name }}
           path: vits-zh-hf-fanchen-${{ matrix.name }}
