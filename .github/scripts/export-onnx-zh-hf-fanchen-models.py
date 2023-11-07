@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, "VITS-fast-fine-tuning")
 
 import os
+from pathlib import Path
 from typing import Any, Dict
 
 import onnx
