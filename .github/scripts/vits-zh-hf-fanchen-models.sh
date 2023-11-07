@@ -35,3 +35,12 @@ ls -lh
 ./export-onnx-zh-hf-fanchen-models.py
 
 ls -lh
+
+wc -l lexicon.txt
+head -n100 lexicon.txt
+echo "--------------------"
+tail -n100 lexicon.txt
+
+echo "--------------------"
+
+head -n100 tokens.txt
