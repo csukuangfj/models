@@ -57,9 +57,6 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
     onnx.save(model, filename)
 
 
-device = "cpu"
-
-
 @torch.no_grad()
 def main():
     name = os.environ.get("NAME", None)
