@@ -82,16 +82,12 @@ def generate_lexicon(hps):
 
     word2phone = []
     for w in words:
-        phones = get_phones_chinese(w, hps)
-        oov = False
-        for p in phones:
+        _phones = get_phones_chinese(w, hps)
+        phones = []
+        for p in _phones:
             if p not in symbol_to_id:
-                print(f"{p} not in symbol_to_id, skip {w}")
-                oov = True
-                break
-        if oov:
-            print(f"skip {w}")
-            continue
+                continue
+            phones.append(p)
 
         word2phone.append([w, " ".join(phones)])
 
@@ -101,20 +97,16 @@ def generate_lexicon(hps):
             print(f"skip {a}")
             continue
         seen.add(a)
-        oov = False
         phones_list = []
         for i in b:
-            phones = get_phones_chinese(i, hps)
-            for p in phones:
+            _phones = get_phones_chinese(i, hps)
+            phones = []
+            for p in _phones:
                 if p not in symbol_to_id:
-                    print(f"{p} not in symbol_to_id, skip {w}")
-                    oov = True
-                    break
+                    continue
+                phones.append(p)
 
             phones_list.extend(phones)
-        if oov:
-            print(f"Skip {a}")
-            continue
 
         phones = " ".join(phones_list)
         word2phone.append([a, phones])
@@ -124,16 +116,12 @@ def generate_lexicon(hps):
     words = read_lexicon_english()
     words.sort()
     for w in words:
-        phones = get_phones_english(w, hps)
-        oov = False
-        for p in phones:
+        _phones = get_phones_english(w, hps)
+        phones = []
+        for p in _phones:
             if p not in symbol_to_id:
-                print(f"{p} not in symbol_to_id, skip {w}")
-                oov = True
-                break
-        if oov:
-            print(f"skip {w}")
-            continue
+                continue
+            phones.append(p)
 
         word2phone.append([w, " ".join(phones)])
 
