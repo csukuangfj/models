@@ -55,6 +55,8 @@ jobs:
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
+          git lfs track lexicon.txt
+
           git status
           git add .
           ls -lh
