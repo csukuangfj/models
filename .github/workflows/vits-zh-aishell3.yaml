@@ -38,14 +38,25 @@ jobs:
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
-          cp aishell3/*.onnx ./huggingface/
-          cp aishell3/lexicon.txt ./huggingface/
-          cp aishell3/tokens.txt ./huggingface/
+          md5sum huggingface/lexicon.txt
+          wc -l huggingface/lexicon.txt
+
+          cp -v aishell3/*.onnx ./huggingface/
+          cp -v aishell3/lexicon.txt ./huggingface/
+          cp -v aishell3/tokens.txt ./huggingface/
 
           cd huggingface
-          wc -l lexicon.txt
+
+          md5sum ./lexicon.txt
+          wc -l ./lexicon.txt
+
+          head lexicon.txt
+          echo "---"
           tail lexicon.txt
+
           git status
+          ls -lh
+
           git add .
           git commit -m "update model"
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main
