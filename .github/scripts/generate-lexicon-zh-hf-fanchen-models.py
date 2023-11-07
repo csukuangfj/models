@@ -91,7 +91,10 @@ def main():
         return
 
     print("name", name)
+
     config_path = f"G_{name}_latest.json"
+    if not Path(config_path).is_file():
+        config_path = f"G_{name}.json"
 
     hps = utils.get_hparams_from_file(config_path)
     print(type(hps), hps)
