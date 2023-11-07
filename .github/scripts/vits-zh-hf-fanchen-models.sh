@@ -27,8 +27,8 @@ git diff
 popd
 
 if [[ $NAME == "C" ]]; then
-  wget https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.json
-  wget https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.pth
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.pth
 else
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
