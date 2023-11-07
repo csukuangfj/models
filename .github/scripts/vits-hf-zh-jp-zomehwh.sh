@@ -28,7 +28,7 @@ wget -q https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/resolve/ma
 wget -q https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/resolve/main/model/config.json
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
 
-wget -qq https://github.com/hingston/japanese/blob/master/15000-japanese-words.txt
+wget -qq https://raw.githubusercontent.com/hingston/japanese/master/15000-japanese-words.txt
 
 echo "pwd: $PWD"
 
