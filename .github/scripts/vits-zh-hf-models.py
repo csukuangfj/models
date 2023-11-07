@@ -76,7 +76,7 @@ def get_text(text, hps, is_symbol):
 def get_phones(word, text_cleaners) -> List[str]:
     text = f"[ZH]{word}[ZH]"
     phones: str = _clean_text(text, text_cleaners)
-    return list(phones)
+    return list(phones)[:-1]
 
 
 @torch.no_grad()

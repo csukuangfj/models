@@ -16,7 +16,7 @@ from polyphones_zh import word_list_zh
 def get_phones(w, hps) -> List[str]:
     w = f"[ZH]{w}[ZH]"
     phones = _clean_text(w, hps.data.text_cleaners)
-    return list(phones)
+    return list(phones)[:-1]
 
 
 def generate_tokens(symbols):
