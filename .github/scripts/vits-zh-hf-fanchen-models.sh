@@ -6,7 +6,7 @@ echo "name: $NAME"
 
 pip install unidecode onnx onnxruntime pyopenjtalk jamo \
   Cython scipy \
-  jieba \
+  jieba inflect \
   ko_pron pypinyin cn2an indic_transliteration eng_to_ipa num_thai \
   torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
