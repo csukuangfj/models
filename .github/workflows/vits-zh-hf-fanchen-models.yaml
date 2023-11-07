@@ -1,0 +1,72 @@
+name: vits-zh-hf-fanchen-models
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  vits-zh-hf-fanchen-models:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: wnj
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Convert model ${{ matrix.name }}
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          ../scripts/vits-zh-hf-fanchen-models.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME
+          cd vits-zh-hf-fanchen-$NAME
+          cp ../*.onnx .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+
+          wc -l lexicon.txt
+
+          tail lexicon.txt
+
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          ls -lh
+
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME main
+
+          cd ..
+          rm -rf vits-zh-hf-fanchen-$NAME/.git
+          mv vits-zh-hf-fanchen-$NAME ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./vits-zh-hf-fanchen-$NAME
+          ls -lh ./vits-zh-hf-fanchen-$NAME
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-zh-hf-fanchen-${{ matrix.name }}
+          path: vits-zh-hf-fanchen-${{ matrix.name }}
