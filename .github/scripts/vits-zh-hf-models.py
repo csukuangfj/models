@@ -14,7 +14,7 @@ import torch
 import utils
 from models import SynthesizerTrn
 from polyphones_zh import word_list_zh
-from text import _clean_text, _symbol_to_id, text_to_sequence
+from text import _clean_text, text_to_sequence
 from text.symbols import _punctuation
 
 
@@ -86,8 +86,11 @@ def main():
         print("Please provide the environment variable NAME")
         return
 
+    hps_ms = utils.get_hparams_from_file(r"vits-models/config/config.json")
+    symbol_to_id = {s: i for i, s in enumerate(hps_ms.symbols)}
+
     with open("tokens.txt", "w", encoding="utf-8") as f:
-        for s, i in _symbol_to_id.items():
+        for s, i in symbol_to_id.items():
             f.write(f"{s} {i}\n")
     print("Generated tokens.txt")
 
@@ -98,8 +101,6 @@ def main():
             words.add(w)
     words = list(words)
     words.sort()
-
-    hps_ms = utils.get_hparams_from_file(r"vits-models/config/config.json")
 
     word2phone = []
     for w in words:

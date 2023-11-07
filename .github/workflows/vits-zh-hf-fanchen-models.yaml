@@ -46,6 +46,7 @@ jobs:
           git clone https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME
           cd vits-zh-hf-fanchen-$NAME
           cp ../*.onnx .
+          cp ../*.json .
           cp ../lexicon.txt .
           cp ../tokens.txt .
 
