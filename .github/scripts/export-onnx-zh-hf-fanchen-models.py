@@ -66,8 +66,12 @@ def main():
 
     print("name", name)
 
-    model_path = f"G_{name}_latest.pth"
-    config_path = f"G_{name}_latest.json"
+    if name == "C":
+        model_path = "G_C.pth"
+        config_path = "G_C.json"
+    else:
+        model_path = f"G_{name}_latest.pth"
+        config_path = f"G_{name}_latest.json"
 
     hps = utils.get_hparams_from_file(config_path)
     net_g = SynthesizerTrn(
