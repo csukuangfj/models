@@ -34,3 +34,6 @@ echo "----------"
 ls -lh
 
 git status
+
+wc -l aishell3/lexicon.txt
+md5sum aishell3/lexicon.txt
