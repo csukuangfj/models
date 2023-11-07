@@ -57,7 +57,7 @@ def get_phones_chinese(w, hps) -> List[str]:
 
 def get_phones_english(w, hps) -> List[str]:
     phones = _clean_text(w, hps.data.text_cleaners)
-    return list(phones)
+    return list(phones)[:-1]
 
 
 def generate_tokens(symbols):
