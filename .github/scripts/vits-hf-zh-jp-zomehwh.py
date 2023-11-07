@@ -38,12 +38,16 @@ def read_lexicon_japanese():
 def get_phones_chinese(w, hps) -> List[str]:
     w = f"[ZH]{w}[ZH]"
     phones = _clean_text(w, hps.data.text_cleaners)
+    if len(phones.strip()) == 0:
+        return []
     return list(phones)[:-1]
 
 
 def get_phones_japanese(w, hps) -> List[str]:
     w = f"[JA]{w}[JA]"
     phones = _clean_text(w, hps.data.text_cleaners)
+    if len(phones.strip()) == 0:
+        return []
     return list(phones)[:-1]
 
 
@@ -70,6 +74,9 @@ def generate_lexicon(hps):
     word2phone = []
     for w in words:
         _phones = get_phones_chinese(w, hps)
+        if len(_phones) == 0:
+            print(f"Skip {w}")
+            continue
         phones = []
         for p in _phones:
             if p not in symbol_to_id:
@@ -87,6 +94,11 @@ def generate_lexicon(hps):
         phones_list = []
         for i in b:
             _phones = get_phones_chinese(i, hps)
+
+            if len(_phones) == 0:
+                print(f"Skip {i}")
+                continue
+
             phones = []
             for p in _phones:
                 if p not in symbol_to_id:
@@ -103,8 +115,10 @@ def generate_lexicon(hps):
     words.sort()
     for w in words:
         _phones = get_phones_japanese(w, hps)
-        if len(_phones.strip()) == 0:
+        if len(_phones) == 0:
+            print(f"Skip {w}")
             continue
+
         phones = []
         for p in _phones:
             if p not in symbol_to_id:
