@@ -59,6 +59,8 @@ jobs:
 
           git status
           git add --renormalize .
+          git add .
+
           ls -lh
 
           git commit -m "update"
