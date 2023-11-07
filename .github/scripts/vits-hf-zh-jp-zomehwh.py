@@ -103,6 +103,8 @@ def generate_lexicon(hps):
     words.sort()
     for w in words:
         _phones = get_phones_japanese(w, hps)
+        if len(_phones.strip()) == 0:
+            continue
         phones = []
         for p in _phones:
             if p not in symbol_to_id:
