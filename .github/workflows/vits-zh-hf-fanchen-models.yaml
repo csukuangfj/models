@@ -1,4 +1,4 @@
-name: vits-zh-hf-models
+name: vits-zh-hf-fanchen-models
 
 on:
   push:
@@ -7,33 +7,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  vits-zh-hf-models:
+  vits-zh-hf-fanchen-models:
     runs-on: ubuntu-latest
     name: ${{ matrix.name }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: doom
-          - name: echo
-          - name: zenyatta
-          - name: abyssinvoker
-          - name: keqing
-          - name: eula
-          - name: bronya
-          - name: theresa
+          - name: wnj
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
       - name: Convert model ${{ matrix.name }}
         shell: bash
         run: |
           cd .github/scripts
           export NAME=${{ matrix.name }}
-          ./vits-zh-hf-models.sh
+          ../scripts/vits-zh-hf-fanchen-models.sh
 
       - name: upload model to huggingface
         shell: bash
@@ -43,9 +41,10 @@ jobs:
         run: |
           cd .github/scripts
           ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-zh-hf-$NAME
-          cd vits-zh-hf-$NAME
+          git clone https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME
+          cd vits-zh-hf-fanchen-$NAME
           cp ../*.onnx .
+          cp ../*.json .
           cp ../lexicon.txt .
           cp ../tokens.txt .
 
@@ -64,17 +63,17 @@ jobs:
           ls -lh
 
           git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-hf-$NAME main
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-hf-fanchen-$NAME main
 
           cd ..
-          rm -rf vits-zh-hf-$NAME/.git
-          mv vits-zh-hf-$NAME ../..
+          rm -rf vits-zh-hf-fanchen-$NAME/.git
+          mv vits-zh-hf-fanchen-$NAME ../..
           cd ../..
           sudo apt-get install -y tree
-          tree ./vits-zh-hf-$NAME
-          ls -lh ./vits-zh-hf-$NAME
+          tree ./vits-zh-hf-fanchen-$NAME
+          ls -lh ./vits-zh-hf-fanchen-$NAME
 
       - uses: actions/upload-artifact@v3
         with:
-          name: vits-zh-hf-${{ matrix.name }}
-          path: vits-zh-hf-${{ matrix.name }}
+          name: vits-zh-hf-fanchen-${{ matrix.name }}
+          path: vits-zh-hf-fanchen-${{ matrix.name }}

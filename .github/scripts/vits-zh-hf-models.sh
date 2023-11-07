@@ -11,9 +11,20 @@ git lfs pull --include ${NAME}.pth
 ls -lh
 popd
 
-pip install -q unidecode pyopenjtalk-prebuilt jamo pypinyin cn2an onnx
+pip install unidecode pyopenjtalk-prebuilt jamo pypinyin librosa cn2an onnx jieba torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/polyphones_zh.py
 
 python3 ./vits-zh-hf-models.py
+
+ls -lh
+
+wc -l lexicon.txt
+head -n100 lexicon.txt
+echo "--------------------"
+tail -n100 lexicon.txt
+
+echo "--------------------"
+
+head -n100 tokens.txt

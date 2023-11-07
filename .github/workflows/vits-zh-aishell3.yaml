@@ -52,8 +52,8 @@ jobs:
           cd ..
           rm -rf huggingface
 
-
       - name: Download model
+        if: always()
         shell: bash
         run: |
           git lfs install
@@ -66,6 +66,7 @@ jobs:
           ls -lh ./vits-zh-aishell3
 
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: vits-zh-aishell3
           path: vits-zh-aishell3
