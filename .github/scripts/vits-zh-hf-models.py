@@ -6,16 +6,17 @@ import sys
 sys.path.insert(0, "./vits-models")
 
 import json
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import commons
 import onnx
 import torch
 import utils
 from models import SynthesizerTrn
-from polyphones_zh import word_list_zh
 from text import _clean_text, text_to_sequence
 from text.symbols import _punctuation
+
+from polyphones_zh import word_list_zh
 
 
 class OnnxModel(torch.nn.Module):
@@ -72,11 +73,10 @@ def get_text(text, hps, is_symbol):
     return text_norm, clean_text
 
 
-def get_phones(word, text_cleaners):
+def get_phones(word, text_cleaners) -> List[str]:
     text = f"[ZH]{word}[ZH]"
     phones: str = _clean_text(text, text_cleaners)
-    phones = list(phones)
-    return " ".join(phones)
+    return list(phones)
 
 
 @torch.no_grad()
@@ -105,7 +105,16 @@ def main():
     word2phone = []
     for w in words:
         phones = get_phones(w, hps_ms.data.text_cleaners)
-        word2phone.append([w, phones])
+        oov = False
+        for p in phones:
+            if p not in symbol_to_id:
+                oov = True
+                break
+        if oov:
+            print(f"Skip {w}")
+            continue
+
+        word2phone.append([w, " ".join(phones)])
 
     seen = set()
     for a, b in word_list_zh:
@@ -114,9 +123,18 @@ def main():
             continue
         seen.add(a)
         phones_list = []
+        oov = False
         for i in b:
             phones = get_phones(i, hps_ms.data.text_cleaners)
-            phones_list.append(phones)
+            for p in phones:
+                if p not in symbol_to_id:
+                    oov = True
+                    break
+
+            phones_list.extend(phones)
+        if oov:
+            print(f"Skip {a}")
+            continue
         phones = " ".join(phones_list)
         word2phone.append([a, phones])
 
