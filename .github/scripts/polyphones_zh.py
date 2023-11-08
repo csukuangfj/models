@@ -2,6 +2,7 @@
 # https://www.sohu.com/a/319237445_661259
 # http://xh.5156edu.com/
 word_list_zh = [
+    ("kaldi", "卡尔迪"),
     # a
     ("阿胶", "呃胶"),
     ("挨打", "皑打"),
