@@ -1,0 +1,76 @@
+name: vits-cantonese-hf-xiaomaiiwn
+
+on:
+  push:
+    branches:
+      - download
+      - small-fixes
+  workflow_dispatch:
+
+jobs:
+  vits-cantonese-hf-xiaomaiiwn:
+    runs-on: ubuntu-latest
+    name: Cantonese
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Convert model ${{ matrix.name }}
+        shell: bash
+        run: |
+          cd .github/scripts
+          ../scripts/vits-cantonese-hf-xiaomaiiwn.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-cantonese-hf-xiaomaiiwn
+          cd vits-cantonese-hf-xiaomaiiwn
+          cp ../*.onnx .
+          cp ../*.json .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+
+          wc -l lexicon.txt
+
+          tail lexicon.txt
+
+          rm -fv rule*
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          ls -lh
+
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-cantonese-hf-xiaomaiiwn main
+
+          cd ..
+          rm -rf vits-cantonese-hf-xiaomaiiwn/.git
+          mv vits-cantonese-hf-xiaomaiiwn ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./vits-cantonese-hf-xiaomaiiwn
+          ls -lh ./vits-cantonese-hf-xiaomaiiwn
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-cantonese-hf-xiaomaiiwn
+          path: vits-cantonese-hf-xiaomaiiwn
