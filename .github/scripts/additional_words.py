@@ -12,6 +12,7 @@ def get_additional_english_words():
         "mithu",
         "narendra",
         "oblivion's",
+        "rain's",
         "pandubi",
         "prickle",
         "qatar's",
