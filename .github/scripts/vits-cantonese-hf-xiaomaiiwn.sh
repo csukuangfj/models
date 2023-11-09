@@ -34,7 +34,6 @@ wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell
 
 ls -lh
 
-./generate-lexicon-zh-hf-fanchen-models.py
 ./vits-cantonese-hf-xiaomaiiwn.py
 
 ls -lh
