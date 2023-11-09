@@ -8,6 +8,7 @@ pip install unidecode onnx onnxruntime pyopenjtalk jamo \
   Cython scipy \
   jieba inflect \
   ko_pron pypinyin cn2an indic_transliteration eng_to_ipa num_thai \
+  opencc \
   torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
 git clone https://github.com/csukuangfj/vits-cantonese
