@@ -24,8 +24,8 @@ elif [[ $name == "vctk-vits" ]]; then
 elif [[ $name == "jenny-jenny" ]]; then
   wget -q https://coqui.gateway.scarf.sh/v0.14.0_models/tts_models--en--jenny--jenny.zip
   unzip tts_models--en--jenny--jenny.zip
-  mv -v tts_models--en--jenny--jenny/config.json ./
-  mv -v tts_models--en--jenny--jenny/model.pth ./
+  cp -v tts_models--en--jenny--jenny/config.json ./
+  cp -v tts_models--en--jenny--jenny/model.pth ./
 fi
 
 pip install -q TTS onnx onnxruntime
