@@ -19,8 +19,8 @@ elif [[ $name == "vctk-vits" ]]; then
   mv -v tts_models--en--vctk--vits/config.json ./
   cp -v tts_models--en--vctk--vits/speaker_ids.json ./
   mv -v tts_models--en--vctk--vits/model_file.pth ./
-  mkdir -p /home/julian/.local/share/tts/tts_models--en--vctk--vits
-  cp -v speaker_ids.json /home/julian/.local/share/tts/tts_models--en--vctk--vits
+  sudo mkdir -p /home/julian/.local/share/tts/tts_models--en--vctk--vits
+  sudo cp -v speaker_ids.json /home/julian/.local/share/tts/tts_models--en--vctk--vits
 elif [[ $name == "jenny-jenny" ]]; then
   wget -q https://coqui.gateway.scarf.sh/v0.14.0_models/tts_models--en--jenny--jenny.zip
   unzip tts_models--en--jenny--jenny.zip
