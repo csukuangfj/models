@@ -29,6 +29,9 @@ popd
 if [[ $NAME == "C" ]]; then
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.pth
+elif [[ $NAME == "ZhiHuiLaoZhe" ]] then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.pth
 else
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth

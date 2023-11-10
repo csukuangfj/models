@@ -92,10 +92,14 @@ def main():
         return
 
     print("name", name)
+    if name == "C":
+        config_path = "G_C.json"
+    elif name == "ZhiHuiLaoZhe":
+        config_path = "G_lkz_lao_new_new1_latest.json"
+    else:
+        config_path = f"G_{name}_latest.json"
 
-    config_path = f"G_{name}_latest.json"
-    if not Path(config_path).is_file():
-        config_path = f"G_{name}.json"
+    print(config_path)
 
     hps = utils.get_hparams_from_file(config_path)
     print(type(hps), hps)

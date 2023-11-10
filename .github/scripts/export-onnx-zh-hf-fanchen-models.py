@@ -67,11 +67,15 @@ def main():
 
     print("name", name)
 
-    model_path = f"G_{name}_latest.pth"
-    config_path = f"G_{name}_latest.json"
-    if not Path(model_path).is_file():
-        model_path = f"G_{name}.pth"
-        config_path = f"G_{name}.json"
+    if name == "C":
+        model_path = "G_C.pth"
+        config_path = "G_C.json"
+    elif name == "ZhiHuiLaoZhe":
+        model_path = "G_lkz_lao_new_new1_latest.pth"
+        config_path = "G_lkz_lao_new_new1_latest.json"
+    else:
+        model_path = f"G_{name}_latest.pth"
+        config_path = f"G_{name}_latest.json"
 
     print(name, model_path, config_path)
     hps = utils.get_hparams_from_file(config_path)

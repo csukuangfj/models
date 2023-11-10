@@ -16,6 +16,7 @@ jobs:
         include:
           - name: wnj
           - name: C
+          - name: ZhiHuiLaoZhe
 
     steps:
       - uses: actions/checkout@v4
