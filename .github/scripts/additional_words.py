@@ -5,6 +5,7 @@ def get_additional_english_words():
         "chatrooms",
         "cpu",
         "etienne's",
+        "fakeville",
         "ganjaj",
         "greenware",
         "jeremy's",

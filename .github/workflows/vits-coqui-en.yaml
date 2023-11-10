@@ -1,0 +1,81 @@
+name: vits-coqui-en
+
+on:
+  push:
+    branches:
+      - download
+      - small-fixes
+  workflow_dispatch:
+
+jobs:
+  vits-coqui-en:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ljspeech-vits
+          - name: ljspeech-vits-neon
+          - name: vctk-vits
+          - name: jenny-jenny
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          ./vits-coqui-en.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          name=${{ matrix.name }}
+          if [[ $name == "ljspeech-vits" ]]; then
+            repo=vits-coqui-en-ljspeech
+          elif [[ $name == "ljspeech-vits-neon" ]]; then
+            repo=vits-coqui-en-ljspeech-neon
+          elif [[ $name == "vctk-vits" ]]; then
+            repo=vits-coqui-en-vctk
+          elif [[ $name == "jenny-jenny" ]]; then
+            repo=vits-coqui-en-jenny
+          fi
+          git clone https://huggingface.co/csukuangfj/$repo
+          cd $repo
+          cp ../*.onnx .
+          cp ../*.json .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+
+          git lfs track "lexicon.txt"
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$repo main
+
+          cd ..
+          rm -rf $repo/.git
+          mv $repo ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./$repo
+          ls -lh ./$repo
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-coqui-${{ matrix.name }}
+          path: vits-coqui-en-*
