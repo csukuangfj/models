@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - download
-      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -18,7 +17,7 @@ jobs:
           - name: ljspeech-vits
           - name: ljspeech-vits-neon
           - name: vctk-vits
-          - name: jenny-jenny
+          # - name: jenny-jenny
 
     steps:
       - uses: actions/checkout@v4
