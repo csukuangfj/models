@@ -25,7 +25,7 @@ elif [[ $name == "jenny-jenny" ]]; then
   wget -q https://coqui.gateway.scarf.sh/v0.14.0_models/tts_models--en--jenny--jenny.zip
   unzip tts_models--en--jenny--jenny.zip
   cp -v tts_models--en--jenny--jenny/config.json ./
-  cp -v tts_models--en--jenny--jenny/model.pth ./
+  cp -v tts_models--en--jenny--jenny/model.pth ./model_file.pth
 fi
 
 pip install -q TTS onnx onnxruntime
