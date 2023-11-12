@@ -198,7 +198,7 @@ def main():
         "add_blank": int(hps_ms.data.add_blank),
         "n_speakers": int(hps_ms.data.n_speakers),
         "sample_rate": hps_ms.data.sampling_rate,
-        "punctuation": _punctuation,
+        "punctuation": " ".join(list(_punctuation)),
     }
     print("meta_data", meta_data)
     add_meta_data(filename=filename, meta_data=meta_data)

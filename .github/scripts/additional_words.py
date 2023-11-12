@@ -1,5 +1,9 @@
 def get_additional_english_words():
     words = [
+        "vivec",
+        "almalexia's",
+        "morrowind",
+        "cyrodilic",
         "bhargav",
         "ceo",
         "chatrooms",
@@ -27,7 +31,7 @@ def get_additional_english_words():
         "slumber's",
         "villager's",
     ]
-    return words
+    return list(set(words))
 
 
 def get_additional_german_words():
