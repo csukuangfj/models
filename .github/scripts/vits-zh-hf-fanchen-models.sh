@@ -32,6 +32,9 @@ if [[ $NAME == "C" ]]; then
 elif [[ $NAME == "ZhiHuiLaoZhe" ]]; then
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.pth
+elif [[ $NAME == "ZhiHuiLaoZhe_new" ]]; then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe_new/G_lkz_unity_onnx_new1_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe_new/G_lkz_unity_onnx_new1_latest.pth
 else
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth

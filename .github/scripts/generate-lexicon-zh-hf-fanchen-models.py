@@ -96,6 +96,8 @@ def main():
         config_path = "G_C.json"
     elif name == "ZhiHuiLaoZhe":
         config_path = "G_lkz_lao_new_new1_latest.json"
+    elif name == "ZhiHuiLaoZhe_new":
+        config_path = "G_lkz_unity_onnx_new1_latest.json"
     else:
         config_path = f"G_{name}_latest.json"
 

@@ -17,6 +17,7 @@ jobs:
           - name: wnj
           - name: C
           - name: ZhiHuiLaoZhe
+          - name: ZhiHuiLaoZhe_new
 
     steps:
       - uses: actions/checkout@v4
