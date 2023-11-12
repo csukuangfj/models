@@ -79,8 +79,9 @@ def get_additional_japanese_words():
 
 def get_additional_french_words():
     words = [
+        "mapelle",
         "À",
         "coeur",
         "peril",
     ]
-    return words
+    return list(set(words))
