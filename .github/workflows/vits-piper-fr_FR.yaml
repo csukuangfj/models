@@ -24,6 +24,12 @@ jobs:
             type: medium
           - name: upmc
             type: medium
+          - name: tjiho
+            type: model1
+          - name: tjiho
+            type: model2
+          - name: tjiho
+            type: model3
     steps:
       - uses: actions/checkout@v4
         with:
