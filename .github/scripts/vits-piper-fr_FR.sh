@@ -21,10 +21,10 @@ if [[ $name == "tjiho" ]]; then
     mv -v tom2.onnx fr_FR-$name-$type.onnx
     mv -v tom2.onnx.json fr_FR-$name-$type.onnx.json
   elif [[ $type == "model3" ]]; then
-    wget -qq "https://raw.githubusercontent.com/tjiho/French-tts-model-piper/main/model%203/tom3.onnx.json"
-    wget -qq "https://raw.githubusercontent.com/tjiho/French-tts-model-piper/main/model%203/tom3.onnx"
-    mv -v tom3.onnx fr_FR-$name-$type.onnx
-    mv -v tom3.onnx.json fr_FR-$name-$type.onnx.json
+    wget -qq "https://raw.githubusercontent.com/tjiho/French-tts-model-piper/main/model%203/next.onnx.json"
+    wget -qq "https://raw.githubusercontent.com/tjiho/French-tts-model-piper/main/model%203/next.onnx"
+    mv -v next.onnx fr_FR-$name-$type.onnx
+    mv -v next.onnx.json fr_FR-$name-$type.onnx.json
   else
     echo "unknown type: $type for name: $name"
     exit 1
