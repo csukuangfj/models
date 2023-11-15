@@ -1,0 +1,38 @@
+name: csukuangfj-sherpa-onnx-zh-wenet-aishell2
+
+on:
+  push:
+    branches:
+      - download
+      - small-fixes
+  workflow_dispatch:
+
+jobs:
+  onnx-zh-wenet-aishell2:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/shaojieli/sherpa-onnx-zh-wenet-aishell2
+          rm -rf sherpa-onnx-zh-wenet-aishell2/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-zh-wenet-aishell2
+          ls -lh ./sherpa-onnx-zh-wenet-aishell2
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sherpa-onnx-zh-wenet-aishell2
+          path: sherpa-onnx-zh-wenet-aishell2
