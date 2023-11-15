@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/shaojieli/sherpa-onnx-en-wenet-gigaspeech
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-en-wenet-gigaspeech
           rm -rf sherpa-onnx-en-wenet-gigaspeech/.git
 
           sudo apt-get install -y tree

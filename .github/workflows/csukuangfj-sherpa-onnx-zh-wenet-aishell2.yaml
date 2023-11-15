@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/shaojieli/sherpa-onnx-zh-wenet-aishell2
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-zh-wenet-aishell2
           rm -rf sherpa-onnx-zh-wenet-aishell2/.git
 
           sudo apt-get install -y tree
