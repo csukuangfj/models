@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - download
+      - small-fixes
+
   workflow_dispatch:
 
 jobs:
@@ -24,6 +26,31 @@ jobs:
         run: |
           cd .github/scripts
           ./vits-zh-aishell3.sh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          cd .github/scripts/vits_chinese
+          mkdir vits-zh-aishell3
+          cd vits-zh-aishell3
+          cp ../aishell3/*.onnx .
+          cp ../aishell3/tokens.txt .
+          cp ../aishell3/lexicon.txt .
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+          ls -lh
+          cd ..
+          tar cvjf vits-zh-aishell3.tar.bz2 ./vits-zh-aishell3
+          mv -v ./vits-zh-aishell3.tar.bz2 ../../..
+
+      - name: Release vits-zh-aishell3
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-zh-aishell3.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
 
       - name: Upload model
         shell: bash
@@ -62,22 +89,3 @@ jobs:
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-zh-aishell3 main
           cd ..
           rm -rf huggingface
-
-      - name: Download model
-        if: always()
-        shell: bash
-        run: |
-          git lfs install
-          git clone https://huggingface.co/csukuangfj/vits-zh-aishell3
-          rm -rf vits-zh-aishell3/.git
-          rm -v vits-zh-aishell3/*.pth
-
-          sudo apt-get install -y tree
-          tree ./vits-zh-aishell3
-          ls -lh ./vits-zh-aishell3
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: vits-zh-aishell3
-          path: vits-zh-aishell3

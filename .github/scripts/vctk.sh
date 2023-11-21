@@ -4,7 +4,7 @@ set -ex
 
 sudo apt-get install -q festival espeak-ng mbrola
 
-python3 -m pip install -qq torch==${{ matrix.torch }}+cpu -f https://download.pytorch.org/whl/torch_stable.html numpy
+python3 -m pip install -qq torch==1.13.0+cpu -f https://download.pytorch.org/whl/torch_stable.html numpy
 python3 -m pip install -qq onnxruntime onnx soundfile
 python3 -m pip install -qq scipy cython unidecode phonemizer
 

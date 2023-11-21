@@ -2,6 +2,7 @@
 # Copyright    2023  Xiaomi Corp.        (authors: Fangjun Kuang)
 
 import argparse
+import re
 import sys
 from pathlib import Path
 from typing import Any, Dict
@@ -162,10 +163,10 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
 
 
 def generate_tokens():
-    with open("tokens-vctk.txt", "w", encoding="utf-8") as f:
+    with open("tokens.txt", "w", encoding="utf-8") as f:
         for i, s in enumerate(symbols):
             f.write(f"{s} {i}\n")
-    print("Generated tokens-vctk.txt")
+    print("Generated tokens.txt")
 
 
 @torch.no_grad()

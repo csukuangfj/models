@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - download
-      - small-fixes
+
   workflow_dispatch:
 
 jobs:
@@ -24,6 +24,13 @@ jobs:
         shell: bash
         run: |
           cd .github/scripts
+          ./vctk.sh
+          ls -lh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          cd .github/scripts
           mkdir vits-vctk
           cd vits-vctk
           cp ../*.onnx .
@@ -37,17 +44,12 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true
-          file: *.tar.bz2
+          file: vits-vctk.tar.bz2
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
           tag: tts-models
 
-      - name: Collect files
-        shell: bash
-        run: |
-          cd .github/scripts
-          ./vits.sh
 
       - name: upload model to huggingface
         shell: bash
@@ -63,6 +65,8 @@ jobs:
           cp ../*.onnx .
           cp ../tokens.txt .
           cp ../lexicon.txt .
+          git lfs track "lexicon.txt"
+          ls -lh
 
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
@@ -72,8 +76,6 @@ jobs:
           git commit -m "update"
           git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-vctk main
           cd ..
-
-
 
       - name: Download model
         if: false
@@ -88,8 +90,3 @@ jobs:
           tree ./vits-vctk
           ls -lh ./vits-vctk
 
-      - uses: actions/upload-artifact@v3
-        if: false
-        with:
-          name: vits-vctk
-          path: vits-vctk

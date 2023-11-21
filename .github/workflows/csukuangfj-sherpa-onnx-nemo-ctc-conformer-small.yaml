@@ -1,4 +1,4 @@
-name: csukuangfj-sherpa-onnx-paraformer-zh-2023-03-28
+name: csukuangfj-sherpa-onnx-nemo-ctc-en-conformer-small
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  csukuangfj-sherpa-onnx-paraformer-zh-2023-03-28:
+  csukuangfj-sherpa-onnx-nemo-ctc-en-conformer-small:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -24,15 +24,15 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28
-          rm -rf sherpa-onnx-paraformer-zh-2023-03-28/.git
-          tar cjvf sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2 sherpa-onnx-paraformer-zh-2023-03-28
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-small
+          rm -rf sherpa-onnx-nemo-ctc-en-conformer-small/.git
+          tar cjfv sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2 ./sherpa-onnx-nemo-ctc-en-conformer-small
 
-      - name: Release sherpa-onnx-paraformer-zh-2023-03-28
+      - name: Release sherpa-onnx-nemo-ctc-en-conformer-small
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true
-          file: sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+          file: sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
