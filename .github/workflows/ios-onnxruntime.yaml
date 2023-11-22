@@ -27,13 +27,16 @@ jobs:
           export GIT_LFS_SKIP_SMUDGE=1
           git clone https://huggingface.co/csukuangfj/ios-onnxruntime
           cd ios-onnxruntime
-          cd 1.16.2
-          git lfs pull --include "*.a"
-          cd ..
+
+          git lfs pull --include 1.16.2/onnxruntime.xcframework/ios-arm64/onnxruntime.a
+          git lfs pull --include 1.16.2/onnxruntime.xcframework/ios-arm64_x86_64-simulator/onnxruntime.a
+          git lfs pull --include 1.16.2/onnxruntime.xcframework/macos-arm64_x86_64/onnxruntime.a
+
           rm -rf 1.14*
           rm -rf 1.15*
           rm -rf 1.16.0
           rm -rf 1.16.1
+
           cd ..
           tar cjvf ./ios-onnxruntime-1.16.2.tar.bz2 ./ios-onnxruntime
 
