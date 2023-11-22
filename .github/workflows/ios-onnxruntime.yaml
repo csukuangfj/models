@@ -1,0 +1,44 @@
+name: ios-onnxruntime
+
+on:
+  push:
+    branches:
+      - ios
+      - small-fixes
+
+  workflow_dispatch:
+
+jobs:
+  ios-onnxruntime:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          export GIT_LFS_SKIP_SMUDGE=1
+          git clone https://huggingface.co/csukuangfj/ios-onnxruntime
+          cd ios-onnxruntime
+          cd 1.16.2
+          git lfs pull --include "*.a"
+          cd ..
+          rm -rf 1.14*
+          rm -rf 1.15*
+          rm -rf 1.16.0
+          rm -rf 1.16.1
+          cd ..
+          tar cjvf ./ios-onnxruntime-1.16.2.tar.bz2 ./ios-onnxruntime
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: 1.16.2
+          path: ios-onnxruntime-1.16.2.tar.bz2
+
