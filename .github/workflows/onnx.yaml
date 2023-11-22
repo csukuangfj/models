@@ -1,0 +1,46 @@
+name: onnx
+
+on:
+  push:
+    branches:
+      - download
+
+  workflow_dispatch:
+
+jobs:
+  onnx:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          d=sherpa-ncnn-conv-emformer-transducer-2022-12-04
+          # git clone https://huggingface.co/shaojieli/$d
+          git clone https://huggingface.co/csukuangfj/$d
+          rm -rf $d/.git
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: sherpa-ncnn-conv-emformer-transducer-2022-12-04.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: asr-models

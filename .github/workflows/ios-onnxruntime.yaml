@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - ios
-      - small-fixes
 
   workflow_dispatch:
 
@@ -36,9 +35,11 @@ jobs:
           rm -rf 1.15*
           rm -rf 1.16.0
           rm -rf 1.16.1
+          rm -rf .git
 
           cd ..
           tar cjvf ./ios-onnxruntime-1.16.2.tar.bz2 ./ios-onnxruntime
+          ls -lh
 
       - uses: actions/upload-artifact@v3
         with:

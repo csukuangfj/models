@@ -76,6 +76,9 @@ def main():
     elif name == "ZhiHuiLaoZhe_new":
         model_path = "G_lkz_unity_onnx_new1_latest.pth"
         config_path = "G_lkz_unity_onnx_new1_latest.json"
+    elif name == "unity":
+        model_path = "G_wnj_latest.pth"
+        config_path = "G_wnj_latest.json"
     else:
         model_path = f"G_{name}_latest.pth"
         config_path = f"G_{name}_latest.json"

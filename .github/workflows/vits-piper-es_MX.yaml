@@ -30,6 +30,33 @@ jobs:
           export TYPE=${{ matrix.type }}
           ./vits-piper-es_MX.sh
 
+      - name: Collect files
+        shell: bash
+        run: |
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          dst=vits-piper-es_MX-$NAME-$TYPE
+          mkdir $dst
+
+          cp -v .github/scripts/tokens.txt  $dst
+          cp -v .github/scripts/*.onnx*  $dst
+          cp -v .github/scripts/MODEL_CARD  $dst
+          cp -v .github/scripts/vits-piper-es_MX.sh $dst
+          cp -v .github/scripts/vits-piper-es_MX.py $dst
+          mv .github/scripts/espeak-ng-data $dst/
+          tar cjfv ${dst}.tar.bz2 $dst
+          ls -lh $dst
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-piper-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
       - name: upload model to huggingface
         shell: bash
         env:
@@ -37,34 +64,21 @@ jobs:
           NAME: ${{ matrix.name }}
           TYPE: ${{ matrix.type }}
         run: |
-          cd .github/scripts
-          ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE
-          cd vits-piper-es_MX-$NAME-$TYPE
-          cp ../*onnx* .
-          cp ../lexicon.txt .
-          cp ../tokens.txt .
-          cp ../MODEL_CARD .
-
-          git lfs track "lexicon.txt"
-
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
+          git clone https://huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE huggingface
+          rm -rf huggingface/*
+
+          src=vits-piper-es_MX-$NAME-$TYPE
+          cp -a $src/* huggingface/
+
+          cd huggingface
+          ls -lh
+          git lfs track "cmn_dict"
+          git lfs track "ru_dict"
+
           git status
           git add .
-          git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE main
-
-          cd ..
-          rm -rf vits-piper-es_MX-$NAME-$TYPE/.git
-          mv vits-piper-es_MX-$NAME-$TYPE ../..
-          cd ../..
-          sudo apt-get install -y tree
-          tree ./vits-piper-es_MX-$NAME-$TYPE
-          ls -lh ./vits-piper-es_MX-$NAME-$TYPE
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vits-piper-es_MX-${{ matrix.name }}-${{ matrix.type }}
-          path: vits-piper-es_MX-${{ matrix.name }}-${{ matrix.type }}
+          git commit -m "update" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-es_MX-$NAME-$TYPE main || true

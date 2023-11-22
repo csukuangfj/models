@@ -31,7 +31,14 @@ jobs:
           tree ./sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
           ls -lh ./sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
 
-      - uses: actions/upload-artifact@v3
+          tar cjvf sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2 sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+
+      - name: Release sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
-          path: sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+          file_glob: true
+          file: sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-ncnn
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: models
