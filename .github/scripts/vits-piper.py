@@ -63,6 +63,7 @@ lang_map = {
     "sw_CD": "Swahili",
     "tr_TR": "Turkish",
     "vi_VN": "Vietnamese",
+    "zh_CN": "Chinese",
 }
 
 

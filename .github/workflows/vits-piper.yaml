@@ -143,6 +143,9 @@ jobs:
           - lang: vi_VN
             name: vivos
             type: x_low
+          - lang: zh_CN
+            name: huayan
+            type: medium
 
     steps:
       - uses: actions/checkout@v4
@@ -173,6 +176,12 @@ jobs:
           cp -v .github/scripts/vits-piper.sh  $dst
           cp -v .github/scripts/vits-piper.py  $dst
           mv .github/scripts/espeak-ng-data $dst/
+
+          if [[ $LANG == pt_PT && $NAME == "tugao" ]]; then
+            mv $dst/pt_PT-tugão-medium.onnx $dst/pt_PT-tugao-medium.onnx
+            mv $dst/pt_PT-tugão-medium.onnx.json $dst/pt_PT-tugao-medium.onnx.json
+          fi
+
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
 
@@ -196,6 +205,7 @@ jobs:
         run: |
           ls -lh
           git clone https://huggingface.co/csukuangfj/vits-piper-$LANG-$NAME-$TYPE huggingface
+          rm -rf huggingface/*
 
           src=vits-piper-$LANG-$NAME-$TYPE
 
