@@ -88,7 +88,7 @@ def main():
         return
     print("type", t)
 
-    config = load_config(f"${lang}-{name}-{t}.onnx")
+    config = load_config(f"{lang}-{name}-{t}.onnx")
 
     print("generate tokens")
     generate_tokens(config)

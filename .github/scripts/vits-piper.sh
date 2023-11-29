@@ -4,6 +4,11 @@ lang=$LANG
 echo "lang: $LANG"
 
 name=$NAME
+if [[ $name == 'tugao' && $lang == "pt_PT" ]]; then
+  name=tugão
+  export NAME=tugão
+fi
+
 echo "name: $name"
 
 type=$TYPE

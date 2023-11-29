@@ -9,7 +9,7 @@ on:
 jobs:
   vits-piper:
     runs-on: ubuntu-latest
-    name: ${{ matrix.name }} ${{ matrix.type }}
+    name: ${{ matrix.lang }} ${{ matrix.name }} ${{ matrix.type }}
     strategy:
       fail-fast: false
       matrix:
@@ -170,8 +170,8 @@ jobs:
           cp -v .github/scripts/tokens.txt  $dst
           cp -v .github/scripts/*.onnx*  $dst
           cp -v .github/scripts/MODEL_CARD  $dst
-          cp -v .github/scripts/vits-piper-$LANG.sh  $dst
-          cp -v .github/scripts/vits-piper-$LANG.py  $dst
+          cp -v .github/scripts/vits-piper.sh  $dst
+          cp -v .github/scripts/vits-piper.py  $dst
           mv .github/scripts/espeak-ng-data $dst/
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
