@@ -1,0 +1,214 @@
+name: vits-piper
+
+on:
+  push:
+    branches:
+      - small-fixes
+  workflow_dispatch:
+
+jobs:
+  vits-piper:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }} ${{ matrix.type }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lang: da_DK
+            name: talesyntese
+            type: medium
+          - lang: el_GR
+            name: rapunzelina
+            type: low
+          - lang: fi_FI
+            name: harri
+            type: low
+          - lang: fi_FI
+            name: harri
+            type: medium
+          - lang: hu_HU
+            name: anna
+            type: medium
+          - lang: hu_HU
+            name: berta
+            type: medium
+          - lang: hu_HU
+            name: imre
+            type: medium
+          - lang: is_IS
+            name: bui
+            type: medium
+          - lang: is_IS
+            name: salka
+            type: medium
+          - lang: is_IS
+            name: steinn
+            type: medium
+          - lang: is_IS
+            name: ugla
+            type: medium
+          - lang: it_IT
+            name: riccardo
+            type: x_low
+          - lang: ka_GE
+            name: natia
+            type: medium
+          - lang: kk_KZ
+            name: iseke
+            type: x_low
+          - lang: kk_KZ
+            name: issai
+            type: high # 6
+          - lang: kk_KZ
+            name: raya
+            type: x_low
+          - lang: lb_LU
+            name: marylux
+            type: medium
+          - lang: ne_NP
+            name: google
+            type: medium # 18
+          - lang: ne_NP
+            name: google
+            type: x_low # 18
+          - lang: nl_BE
+            name: nathalie
+            type: medium
+          - lang: nl_BE
+            name: nathalie
+            type: x_low
+          - lang: nl_BE
+            name: rdh
+            type: medium
+          - lang: nl_BE
+            name: rdh
+            type: x_low
+          - lang: nl_NL
+            name: mls_5809
+            type: low
+          - lang: nl_NL
+            name: mls_7432
+            type: low
+          - lang: no_NO
+            name: talesyntese
+            type: medium
+          - lang: pl_PL
+            name: darkman
+            type: medium
+          - lang: pl_PL
+            name: gosia
+            type: medium
+          - lang: pl_PL
+            name: mc_speech
+            type: medium
+          - lang: pl_PL
+            name: mls_6892
+            type: low
+          - lang: pt_BR
+            name: edresson
+            type: low
+          - lang: pt_BR
+            name: faber
+            type: medium
+          - lang: pt_PT
+            name: tugao # tugão
+            type: medium
+          - lang: ro_RO
+            name: mihai
+            type: medium
+          - lang: sk_SK
+            name: lili
+            type: medium
+          - lang: sr_RS
+            name: serbski_institut
+            type: medium
+          - lang: sv_SE
+            name: nst
+            type: medium
+          - lang: sw_CD
+            name: lanfrica
+            type: medium
+          - lang: tr_TR
+            name: dfki
+            type: medium
+          - lang: tr_TR
+            name: fahrettin
+            type: medium
+          - lang: vi_VN
+            name: 25hours_single
+            type: low
+          - lang: vi_VN
+            name: vais1000
+            type: medium
+          - lang: vi_VN
+            name: vivos
+            type: x_low
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export LANG=${{ matrix.lang }}
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          ./vits-piper.sh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          export LANG=${{ matrix.lang }}
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          dst=vits-piper-$LANG-$NAME-$TYPE
+          mkdir $dst
+
+          cp -v .github/scripts/tokens.txt  $dst
+          cp -v .github/scripts/*.onnx*  $dst
+          cp -v .github/scripts/MODEL_CARD  $dst
+          cp -v .github/scripts/vits-piper-$LANG.sh  $dst
+          cp -v .github/scripts/vits-piper-$LANG.py  $dst
+          mv .github/scripts/espeak-ng-data $dst/
+          tar cjfv ${dst}.tar.bz2 $dst
+          ls -lh $dst
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-piper-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          LANG: ${{ matrix.lang }}
+          NAME: ${{ matrix.name }}
+          TYPE: ${{ matrix.type }}
+        run: |
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-piper-$LANG-$NAME-$TYPE huggingface
+
+          src=vits-piper-$LANG-$NAME-$TYPE
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          cp -a $src/* huggingface/
+          cd huggingface
+          ls -lh
+          git lfs track "cmn_dict"
+          git lfs track "ru_dict"
+
+          git status
+          git add .
+          git commit -m "update" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-$LANG-$NAME-$TYPE main || true
