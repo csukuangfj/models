@@ -17,7 +17,7 @@ set -ex
 # export NAME=medium
 
 # if lang is en_US, then code is en
-code=${lang:12:5}
+code=${lang:0:2}
 
 wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx
 wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx.json
