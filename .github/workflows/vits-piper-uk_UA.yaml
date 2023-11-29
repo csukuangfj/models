@@ -16,6 +16,8 @@ jobs:
         include:
           - name: lada
             type: x_low
+          - name: ukrainian_tts
+            type: medium
 
     steps:
       - uses: actions/checkout@v4
