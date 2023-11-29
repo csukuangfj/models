@@ -1,22 +1,26 @@
-name: vits-piper-uk_UA
+name: vits-piper-ru_RU
 
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
-  vits-piper-uk_UA:
+  vits-piper-ru_RU:
     runs-on: ubuntu-latest
     name: ${{ matrix.name }} ${{ matrix.type }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: lada
-            type: x_low
-          - name: ukrainian_tts
+          - name: denis
+            type: medium
+          - name: dmitri
+            type: medium
+          - name: irina
+            type: medium
+          - name: ruslan
             type: medium
 
     steps:
@@ -30,21 +34,21 @@ jobs:
           cd .github/scripts
           export NAME=${{ matrix.name }}
           export TYPE=${{ matrix.type }}
-          ./vits-piper-uk_UA.sh
+          ./vits-piper-ru_RU.sh
 
       - name: Collect files
         shell: bash
         run: |
           export NAME=${{ matrix.name }}
           export TYPE=${{ matrix.type }}
-          dst=vits-piper-uk_UA-$NAME-$TYPE
+          dst=vits-piper-ru_RU-$NAME-$TYPE
           mkdir $dst
 
           cp -v .github/scripts/tokens.txt  $dst
           cp -v .github/scripts/*.onnx*  $dst
           cp -v .github/scripts/MODEL_CARD  $dst
-          cp -v .github/scripts/vits-piper-uk_UA.sh  $dst
-          cp -v .github/scripts/vits-piper-uk_UA.py  $dst
+          cp -v .github/scripts/vits-piper-ru_RU.sh  $dst
+          cp -v .github/scripts/vits-piper-ru_RU.py  $dst
           mv .github/scripts/espeak-ng-data $dst/
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
@@ -67,9 +71,9 @@ jobs:
           TYPE: ${{ matrix.type }}
         run: |
           ls -lh
-          git clone https://huggingface.co/csukuangfj/vits-piper-uk_UA-$NAME-$TYPE huggingface
+          git clone https://huggingface.co/csukuangfj/vits-piper-ru_RU-$NAME-$TYPE huggingface
 
-          src=vits-piper-uk_UA-$NAME-$TYPE
+          src=vits-piper-ru_RU-$NAME-$TYPE
 
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
@@ -83,4 +87,4 @@ jobs:
           git status
           git add .
           git commit -m "update" || true
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-uk_UA-$NAME-$TYPE main || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-ru_RU-$NAME-$TYPE main || true
