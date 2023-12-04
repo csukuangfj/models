@@ -1,0 +1,51 @@
+name: upload-wheel
+
+on:
+  push:
+    branches:
+      - small-fixes
+
+  workflow_dispatch:
+
+jobs:
+  upload-wheel:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download wheels
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        shell: bash
+        run: |
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-wheels huggingface
+
+          cd huggingface
+          wget -qq https://files.pythonhosted.org/packages/65/b7/30b37811a4644c8e9638ddd3907cd31ad27716e5f961bc59224eed5891e0/sherpa_onnx-1.8.14-cp38-cp38-win_amd64.whl
+
+          wget -qq https://files.pythonhosted.org/packages/1b/8e/85132569bde4218641b5178a066548716ceed44ca2012f8fca252e25414f/sherpa_onnx-1.8.14-cp38-cp38-win32.whl
+
+          wget -qq https://files.pythonhosted.org/packages/b8/6c/a288cec5ad1b45985c871157a8b41e58805b092d8f4bddf2c31b6f1ae231/sherpa_onnx-1.8.14-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+
+          wget -qq https://files.pythonhosted.org/packages/76/0f/7a2f35538d8c33a5e1c750b41a0c9d55ffb78502dcd3243a37b868c2241e/sherpa_onnx-1.8.14-cp38-cp38-macosx_11_0_arm64.whl
+
+          wget -qq https://files.pythonhosted.org/packages/c1/0f/365978c73ee6be40f61f1ed8cd24c4ecf0cd204a86eac51d932badc8b663/sherpa_onnx-1.8.14-cp38-cp38-macosx_10_14_x86_64.whl
+
+          wget -qq https://files.pythonhosted.org/packages/91/99/ad0e351f6bd0dd576f9965ba8f2d2cc1920a9618a772142f8f3bf0b2225b/sherpa_onnx-1.8.14-cp38-cp38-linux_armv7l.whl
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git add .
+          git commit -m "add 1.8.14"
+
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-onnx-wheels main
+
+
