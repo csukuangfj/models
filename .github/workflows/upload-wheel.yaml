@@ -3,7 +3,7 @@ name: upload-wheel
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
 
   workflow_dispatch:
 

@@ -28,24 +28,11 @@ elif [[ $name == "jenny-jenny" ]]; then
   cp -v tts_models--en--jenny--jenny/model.pth ./model_file.pth
 fi
 
+wget -qq https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/espeak-ng-data.tar.bz2
+tar xf espeak-ng-data.tar.bz2
+rm espeak-ng-data.tar.bz2
+
 pip install -q TTS onnx onnxruntime
 sudo apt-get install -q -y espeak-ng espeak
 
-wget -qq https://people.umass.edu/nconstan/CMU-IPA/CMU-in-IPA.zip
-unzip CMU-in-IPA.zip
-
-wget -qq https://github.com/webpwnized/byepass/raw/master/dictionaries/all-english-words.txt
-
-echo "pwd: $PWD"
-head CMU.in.IPA.txt all-english-words.txt
-
 python3 ./vits-coqui-en.py
-
-head lexicon.txt
-echo "----"
-tail lexicon.txt
-echo
-
-wc -l lexicon.txt
-
-ls -lh
