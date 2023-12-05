@@ -36,3 +36,4 @@ pip install -q TTS onnx onnxruntime
 sudo apt-get install -q -y espeak-ng espeak
 
 python3 ./vits-coqui-en.py
+ls -lh *.onnx

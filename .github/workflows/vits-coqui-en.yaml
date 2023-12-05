@@ -68,6 +68,9 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           NAME: ${{ matrix.name }}
         run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
           ls -lh
           src=${{ matrix.repo }}
           echo "src: $src"
