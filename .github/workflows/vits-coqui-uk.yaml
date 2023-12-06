@@ -1,27 +1,21 @@
-name: vits-coqui-en
+name: vits-coqui-uk
 
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
-  vits-coqui-en:
+  vits-coqui-uk:
     runs-on: ubuntu-latest
     name: ${{ matrix.name }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: ljspeech-vits
-            repo: vits-coqui-en-ljspeech
-          - name: ljspeech-vits-neon
-            repo: vits-coqui-en-ljspeech-neon
-          - name: vctk-vits
-            repo: vits-coqui-en-vctk
-          # - name: jenny-jenny
-          #   repo: vits-coqui-en-jenny
+          - name: uk-mai
+            repo: vits-coqui-uk-mai
 
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +27,7 @@ jobs:
         run: |
           cd .github/scripts
           export NAME=${{ matrix.name }}
-          ./vits-coqui-en.sh
+          ./vits-coqui-uk.sh
 
       - name: Collect files
         shell: bash
@@ -43,12 +37,11 @@ jobs:
           dst=$REPO
           mkdir $dst
 
-          cp -v .github/scripts/tokens.txt  $dst
-          cp -v .github/scripts/*.onnx  $dst
-          cp -v .github/scripts/config.json  $dst
-          cp -v .github/scripts/vits-coqui-en.sh  $dst
-          cp -v .github/scripts/vits-coqui-en.py  $dst
-          mv .github/scripts/espeak-ng-data $dst/
+          cp -v .github/scripts/tokens.txt $dst
+          cp -v .github/scripts/*.onnx $dst
+          cp -v .github/scripts/*.json $dst
+          cp -v .github/scripts/vits-coqui-uk.sh $dst
+          cp -v .github/scripts/vits-coqui-uk.py $dst
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
 
@@ -76,7 +69,7 @@ jobs:
           echo "src: $src"
 
           git clone https://huggingface.co/csukuangfj/$src huggingface
-          rm huggingface/*
+          rm -rf huggingface/*
 
           cp -a $src/* huggingface/
           cd huggingface
