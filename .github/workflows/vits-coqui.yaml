@@ -1,4 +1,4 @@
-name: vits-coqui-uk
+name: vits-coqui
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  vits-coqui-uk:
+  vits-coqui:
     runs-on: ubuntu-latest
     name: ${{ matrix.name }}
     strategy:
@@ -15,7 +15,29 @@ jobs:
       matrix:
         include:
           - name: uk-mai
-            repo: vits-coqui-uk-mai
+          - name: bg-cv
+          - name: cs-cv
+          - name: da-cv
+          - name: et-cv
+          - name: ga-cv
+          - name: es-css10
+          - name: fr-css10
+          - name: nl-css10
+          - name: de-css10
+          # - name: hu-css10 # does not sound good
+          - name: fi-css10
+          - name: hr-cv
+          - name: lt-cv
+          - name: lv-cv
+          - name: mt-cv
+          - name: pl-mai_female
+          - name: pt-cv
+          - name: ro-cv
+          - name: sk-cv
+          - name: sl-cv
+          - name: sv-cv
+          # - name: bn-custom_male  # It uses bn phonemizer
+          - name: bn-custom_female
 
     steps:
       - uses: actions/checkout@v4
@@ -27,21 +49,20 @@ jobs:
         run: |
           cd .github/scripts
           export NAME=${{ matrix.name }}
-          ./vits-coqui-uk.sh
+          ./vits-coqui.sh
 
       - name: Collect files
         shell: bash
         run: |
           export NAME=${{ matrix.name }}
-          export REPO=${{ matrix.repo }}
-          dst=$REPO
+          dst=vits-coqui-$NAME
           mkdir $dst
 
           cp -v .github/scripts/tokens.txt $dst
           cp -v .github/scripts/*.onnx $dst
           cp -v .github/scripts/*.json $dst
-          cp -v .github/scripts/vits-coqui-uk.sh $dst
-          cp -v .github/scripts/vits-coqui-uk.py $dst
+          cp -v .github/scripts/vits-coqui.sh $dst
+          cp -v .github/scripts/vits-coqui.py $dst
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
 
@@ -65,7 +86,7 @@ jobs:
           git config --global user.name "Fangjun Kuang"
 
           ls -lh
-          src=${{ matrix.repo }}
+          src=vits-coqui-${{ matrix.name }}
           echo "src: $src"
 
           git clone https://huggingface.co/csukuangfj/$src huggingface

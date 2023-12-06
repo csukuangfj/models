@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import collections
+import os
 from typing import Any, Dict
 
 import onnx
@@ -25,7 +27,52 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
     onnx.save(model, filename)
 
 
+lang_map = {
+    "bg": "Bulgarian",
+    "bn": "Bangla",
+    "cs": "Czech",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "es": "Spanish",
+    "et": "Estonian",
+    "fr": "French",
+    "ga": "Irish",
+    "fi": "Finnish",
+    "hr": "Croatian",
+    "hu": "Hungarian",
+    "is": "Icelandic",
+    "it": "Italian",
+    "ka": "Georgian",
+    "kk": "Kazakh",
+    "lb": "Luxembourgish",
+    "lt": "Lithuanian",
+    "lv": "Latvian",
+    "mt": "Maltese",
+    "ne": "Nepali",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "pl": "Polish",
+    "pt": "Portuguese",
+    "ro": "Romanian",
+    "sl": "Slovenian",
+    "sk": "Slovak",
+    "sr": "Serbian",
+    "sv": "Swedish",
+    "sw": "Swahili",
+    "tr": "Turkish",
+    "uk": "Ukrainian",
+    "vi": "Vietnamese",
+    "zh": "Chinese",
+}
+
+
 def main():
+    lang = os.environ.get("LANG", None)
+    if not lang:
+        print("Please provide the environment variable LANG")
+        return
+
     config = VitsConfig()
     config.load_json("config.json")
 
@@ -39,7 +86,7 @@ def main():
     vits.load_checkpoint(config, "model_file.pth")
     vits.export_onnx(output_path="model.onnx", verbose=False)
 
-    language = "Ukrainian"
+    language = lang_map[lang]
 
     meta_data = {
         "model_type": "vits",
@@ -59,6 +106,15 @@ def main():
     add_meta_data(filename="model.onnx", meta_data=meta_data)
 
     # Now generate tokens.txt
+    all_upper_tokens = [i.upper() for i in vits.tokenizer.characters._char_to_id.keys()]
+    duplicate = set(
+        [
+            item
+            for item, count in collections.Counter(all_upper_tokens).items()
+            if count > 1
+        ]
+    )
+
     with open("tokens.txt", "w", encoding="utf-8") as f:
         for token, idx in vits.tokenizer.characters._char_to_id.items():
             f.write(f"{token} {idx}\n")
@@ -67,6 +123,8 @@ def main():
             if (
                 token not in ("<PAD>", "<EOS>", "BOS", "<BLNK>")
                 and token.lower() != token.upper()
+                and len(token.upper()) == 1
+                and token.upper() not in duplicate
             ):
                 f.write(f"{token.upper()} {idx}\n")
 
