@@ -24,6 +24,18 @@ jobs:
         if: true
         shell: bash
         run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/vits-piper-es-glados-medium
+          d=vits-piper-es-glados-medium
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
           GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05
           d=icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05
           cd $d
@@ -60,4 +72,4 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
+          tag: tts-models
