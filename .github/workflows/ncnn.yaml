@@ -3,7 +3,7 @@ name: ncnn
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
   workflow_dispatch:
 
 jobs:
@@ -23,9 +23,10 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          d=sherpa-ncnn-conv-emformer-transducer-2022-12-04
+          d=sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
           # git clone https://huggingface.co/shaojieli/$d
-          git clone https://huggingface.co/csukuangfj/$d
+          # git clone https://huggingface.co/csukuangfj/$d
+          git clone https://huggingface.co/marcoyang/$d
           rm -rf $d/.git
 
           sudo apt-get install -y tree
@@ -38,7 +39,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true
-          file: sherpa-ncnn-conv-emformer-transducer-2022-12-04.tar.bz2
+          file: ./*.tar.bz2
           overwrite: true
           repo_name: k2-fsa/sherpa-ncnn
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}

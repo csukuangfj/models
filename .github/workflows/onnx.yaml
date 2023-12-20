@@ -3,7 +3,7 @@ name: onnx
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
 
   workflow_dispatch:
 
@@ -20,43 +20,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download model
-        if: true
-        shell: bash
-        run: |
-          git lfs install
-          git clone https://huggingface.co/csukuangfj/vits-piper-es-glados-medium
-          d=vits-piper-es-glados-medium
-          rm -rf $d/.git
-          rm -rf $d/.gitattributes
-          ls -lh ./$d
-          tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: false
         shell: bash
         run: |
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05
-          d=icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
+          d=sherpa-onnx-streaming-zipformer-en-2023-02-21
           cd $d
-          cd exp
           git lfs pull --include "*.onnx"
-          mv -v *chunk-16-left-128* ..
-          cd ..
-          rm -rf exp
           rm -rf ./.git
-          rm test_wavs/*.opus
 
           rm ./.gitattributes
-          rm -rf ./decoding_results
-
-          mv ./data/lang_bpe_2000/tokens.txt ./
-          rm -rf ./data/
 
           ls -lh
 
           cd ..
-
 
           sudo apt-get install -y tree
 
@@ -72,4 +50,4 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: tts-models
+          tag: asr-models
