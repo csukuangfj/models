@@ -3,7 +3,7 @@ name: ncnn
 on:
   push:
     branches:
-      - download
+      - small-fixes
   workflow_dispatch:
 
 jobs:
