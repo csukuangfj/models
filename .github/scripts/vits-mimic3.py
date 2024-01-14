@@ -34,6 +34,9 @@ def generate_tokens():
             if not line:
                 continue
             idx, token = line.split()
+            if len(token) > 1:
+                print(f"skip token {token}")
+                continue
             token2id[token] = int(idx)
     token2id[" "] = 0
 

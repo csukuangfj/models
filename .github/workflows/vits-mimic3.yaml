@@ -13,8 +13,33 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - lang: af_ZA
+            name: google-nwu_low
+          - lang: bn
+            name: multi_low
+          - lang: el_GR
+            name: rapunzelina_low
+          - lang: es_ES
+            name: m-ailabs_low
+          - lang: fa
+            name: haaniye_low
+          - lang: fi_FI
+            name: harri-tapani-ylilammi_low
+          - lang: gu_IN
+            name: cmu-indic_low
+          - lang: hu_HU
+            name: diana-majlinger_low
           - lang: ko_KO
             name: kss_low
+          - lang: ne_NP
+            name: ne-google_low
+          - lang: pl_PL
+            name: m-ailabs_low
+          - lang: tn_ZA
+            name: google-nwu_low
+          - lang: vi_VN
+            name: vais1000_low
+
 
     steps:
       - uses: actions/checkout@v4
