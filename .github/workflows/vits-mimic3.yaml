@@ -1,16 +1,20 @@
-name: vits-piper-fa-haaniye_low
+name: vits-mimic3
 
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
-  vits-piper-fa-haaniye_low:
+  vits-mimic3:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        include:
+          - lang: ko_KO
+            name: kss_low
 
     steps:
       - uses: actions/checkout@v4
@@ -21,19 +25,23 @@ jobs:
         shell: bash
         run: |
           cd .github/scripts
-          ./vits-piper-fa-haaniye_low.sh
+          export LANG=${{ matrix.lang }}
+          export NAME=${{ matrix.name }}
+          ./vits-mimic3.sh
 
       - name: Collect files
         shell: bash
         run: |
-          dst=vits-piper-fa-haaniye_low
+          export LANG=${{ matrix.lang }}
+          export NAME=${{ matrix.name }}
+          dst=vits-mimic3-$LANG-$NAME
           mkdir $dst
 
           cp -v .github/scripts/tokens.txt  $dst
           cp -v .github/scripts/*.onnx*  $dst
           cp -v .github/scripts/README.md  $dst
-          cp -v .github/scripts/vits-piper-fa-haaniye_low.sh $dst
-          cp -v .github/scripts/vits-piper-fa-haaniye_low.py $dst
+          cp -v .github/scripts/vits-mimic3.sh $dst
+          cp -v .github/scripts/vits-mimic3.py $dst
           mv .github/scripts/espeak-ng-data $dst/
           tar cjfv ${dst}.tar.bz2 $dst
           ls -lh $dst
@@ -42,7 +50,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true
-          file: vits-piper-*.tar.bz2
+          file: vits-mimic3-*.tar.bz2
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
@@ -53,13 +61,15 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          export LANG=${{ matrix.lang }}
+          export NAME=${{ matrix.name }}
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
-          git clone https://huggingface.co/csukuangfj/vits-piper-fa-haaniye_low huggingface
+          git clone https://huggingface.co/csukuangfj/vits-mimic3-$LANG-$NAME huggingface
           rm -rf huggingface/*
 
-          src=vits-piper-fa-haaniye_low
+          src=vits-mimic3-$LANG-$NAME
           cp -a $src/* huggingface/
 
           cd huggingface
@@ -70,4 +80,4 @@ jobs:
           git status
           git add .
           git commit -m "update" || true
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-fa-haaniye_low main || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-mimic3-$LANG-$NAME main || true
