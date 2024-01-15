@@ -18,10 +18,10 @@ jobs:
             type: x_low
           - name: davefx
             type: medium
-          - name: mls_10246
-            type: low
-          - name: mls_9972
-            type: low
+          # - name: mls_10246
+          #   type: low
+          # - name: mls_9972
+          #   type: low
           - name: sharvard
             type: medium
 

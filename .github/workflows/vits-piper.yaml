@@ -3,7 +3,7 @@ name: vits-piper
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -20,6 +20,9 @@ jobs:
           - lang: el_GR
             name: rapunzelina
             type: low
+          - lang: fa_IR
+            name: amir
+            type: medium
           - lang: fi_FI
             name: harri
             type: low
@@ -101,8 +104,8 @@ jobs:
           - lang: pl_PL
             name: mc_speech
             type: medium
-          - lang: pl_PL
-            name: mls_6892
+          # - lang: pl_PL
+          #   name: mls_6892
             type: low
           - lang: pt_BR
             name: edresson

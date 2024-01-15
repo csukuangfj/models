@@ -3,7 +3,7 @@ name: vits-mimic3
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
   workflow_dispatch:
 
 jobs:
@@ -17,8 +17,8 @@ jobs:
             name: google-nwu_low
           - lang: bn
             name: multi_low
-          - lang: el_GR
-            name: rapunzelina_low
+          # - lang: el_GR
+          #   name: rapunzelina_low
           - lang: es_ES
             name: m-ailabs_low
           - lang: fa
