@@ -5,6 +5,7 @@ import os
 from typing import Any, Dict
 
 import onnx
+from iso639 import Lang
 
 
 def add_meta_data(filename: str, meta_data: Dict[str, Any]):
@@ -39,34 +40,6 @@ def generate_tokens(config):
     print("Generated tokens.txt")
 
 
-lang_map = {
-    "da_DK": "Danish",
-    "el_GR": "Greek",
-    "fi_FI": "Finnish",
-    "hu_HU": "Hungarian",
-    "is_IS": "Icelandic",
-    "it_IT": "Italian",
-    "ka_GE": "Georgian",
-    "kk_KZ": "Kazakh",
-    "lb_LU": "Luxembourgish",
-    "ne_NP": "Nepali",
-    "nl_BE": "Dutch",
-    "nl_NL": "Dutch",
-    "no_NO": "Norwegian",
-    "pl_PL": "Polish",
-    "pt_BR": "Portuguese",
-    "pt_PT": "Portuguese",
-    "ro_RO": "Romanian",
-    "sk_SK": "Slovak",
-    "sr_RS": "Serbian",
-    "sv_SE": "Swedish",
-    "sw_CD": "Swahili",
-    "tr_TR": "Turkish",
-    "vi_VN": "Vietnamese",
-    "zh_CN": "Chinese",
-}
-
-
 # for en_US-lessac-medium.onnx
 # export LANG=en_US
 # export TYPE=lessac
@@ -76,18 +49,21 @@ def main():
     if not lang:
         print("Please provide the environment variable LANG")
         return
+    lang_iso = Lang(lang.split("_")[0])
+    print(lang, lang_iso)
 
     t = os.environ.get("TYPE", None)
     if not t:
         print("Please provide the environment variable TYPE")
         return
+    print("type", t)
 
     # thorsten or thorsten_emotional
     name = os.environ.get("NAME", None)
-    if not t:
+    if not name:
         print("Please provide the environment variable NAME")
         return
-    print("type", t)
+    print("name", name)
 
     config = load_config(f"{lang}-{name}-{t}.onnx")
 
@@ -98,7 +74,7 @@ def main():
     meta_data = {
         "model_type": "vits",
         "comment": "piper",  # must be piper for models from piper
-        "language": lang_map[lang],
+        "language": lang_iso.name,
         "voice": config["espeak"]["voice"],  # e.g., en-us
         "has_espeak": 1,
         "n_speakers": config["num_speakers"],

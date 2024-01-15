@@ -106,7 +106,7 @@ jobs:
             type: medium
           # - lang: pl_PL
           #   name: mls_6892
-            type: low
+          #   type: low
           - lang: pt_BR
             name: edresson
             type: low
@@ -121,6 +121,9 @@ jobs:
             type: medium
           - lang: sk_SK
             name: lili
+            type: medium
+          - lang: sl_SI
+            name: artur
             type: medium
           - lang: sr_RS
             name: serbski_institut

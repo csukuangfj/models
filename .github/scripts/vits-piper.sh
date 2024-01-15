@@ -14,6 +14,8 @@ echo "name: $name"
 type=$TYPE
 echo "type: $type"
 
+pip install iso639-lang
+
 set -ex
 
 # for en_US-lessac-medium.onnx
