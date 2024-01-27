@@ -29,7 +29,7 @@ code=${lang:0:2}
 if [[ $name == gyro && $lang == fa_IR && $type == medium ]]; then
   wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx
   wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx.json
-  mv fa_IR-gyro-medium.onnx fa_IR-gyro-medium.onnx
+  mv fa_IR-gyro-meduim.onnx fa_IR-gyro-medium.onnx
   mv fa_IR-gyro-meduim.onnx.json fa_IR-gyro-medium.onnx.json
 cat >MODEL_CARD <<EOF
 # Introduction
