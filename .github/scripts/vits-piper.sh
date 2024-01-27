@@ -26,9 +26,21 @@ set -ex
 # if lang is en_US, then code is en
 code=${lang:0:2}
 
-wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx
-wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx.json
-wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/MODEL_CARD
+if [[ $name == gyro && $lang == fa_IR && type == medium ]]; then
+  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx
+  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx.json
+cat >MODEL_CARD <<EOF
+# Introduction
+
+This model is converted from
+https://huggingface.co/gyroing/Persian-Piper-Model-gyro/tree/main
+EOF
+
+else
+  wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx
+  wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx.json
+  wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/MODEL_CARD
+fi
 
 wget -qq https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/espeak-ng-data.tar.bz2
 tar xf espeak-ng-data.tar.bz2
