@@ -22,6 +22,7 @@ jobs:
             type: low
           - lang: fa_IR
             name: amir
+            type: medium
           - lang: fa_IR
             name: gyro
             type: medium
