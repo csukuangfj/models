@@ -27,17 +27,9 @@ set -ex
 code=${lang:0:2}
 
 if [[ $name == gyro && $lang == fa_IR && $type == medium ]]; then
-  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx
-  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-meduim.onnx.json
-  mv fa_IR-gyro-meduim.onnx fa_IR-gyro-medium.onnx
-  mv fa_IR-gyro-meduim.onnx.json fa_IR-gyro-medium.onnx.json
-cat >MODEL_CARD <<EOF
-# Introduction
-
-This model is converted from
-https://huggingface.co/gyroing/Persian-Piper-Model-gyro/tree/main
-EOF
-
+  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-medium.onnx
+  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-medium.onnx.json
+  wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/MODEL_CARD
 else
   wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx
   wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx.json
