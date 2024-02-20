@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - download
+      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -34,6 +35,47 @@ jobs:
           cd .github/scripts
           export NAME=${{ matrix.name }}
           ./vits-zh-hf-models.sh
+
+      - name: collect results
+        shell: bash
+        run: |
+          cd .github/scripts
+
+          name=${{ matrix.name }}
+          dst=vits-zh-hf-$name
+          mkdir $dst
+          cp -v *.onnx $dst
+          cp -v lexicon.txt $dst
+          cp -v tokens.txt $dst
+          cp -v ./vits-zh-hf-models.sh $dst
+          cp -v ./vits-zh-hf-models.py $dst
+
+          cd $dst
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+          cd ..
+
+          tar cjfv ${dst}.tar.bz2 $dst
+          mv ${dst}.tar.bz2 ../..
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-zh-hf-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-piper-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
 
       - name: upload model to huggingface
         shell: bash
