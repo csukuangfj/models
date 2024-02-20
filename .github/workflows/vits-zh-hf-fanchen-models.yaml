@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - download
-      - small-fixes
+      - small-fixes-2
   workflow_dispatch:
 
 jobs:
@@ -50,7 +50,8 @@ jobs:
           cp -v lexicon.txt $dst
           cp -v tokens.txt $dst
           cp -v ./vits-zh-hf-fanchen-models.sh $dst
-          cp -v ./vits-zh-hf-fanchen-models.py $dst
+          cp -v ./generate-lexicon-zh-hf-fanchen-models.py $dst
+          cp -v ./export-onnx-zh-hf-fanchen-models.py $dst
 
           cd $dst
           wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst

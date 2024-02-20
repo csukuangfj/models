@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - download
+      - small-fixes-2
   workflow_dispatch:
 
 jobs:
@@ -28,6 +29,37 @@ jobs:
         run: |
           cd .github/scripts
           ../scripts/vits-cantonese-hf-xiaomaiiwn.sh
+
+      - name: collect results
+        shell: bash
+        run: |
+          cd .github/scripts
+
+          name=${{ matrix.name }}
+          dst=vits-cantonese-hf-xiaomaiiwn
+          mkdir $dst
+          cp -v *.onnx $dst
+          cp -v lexicon.txt $dst
+          cp -v tokens.txt $dst
+          cp -v ./vits-cantonese-hf-xiaomaiiwn.sh $dst
+          cp -v ./vits-cantonese-hf-xiaomaiiwn.py $dst
+
+          cd $dst
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+          cd ..
+
+          tar cjfv ${dst}.tar.bz2 $dst
+          mv ${dst}.tar.bz2 ../..
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-cantonese-hf-xiaomaiiwn*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
 
       - name: upload model to huggingface
         shell: bash
