@@ -24,8 +24,8 @@ jobs:
       - name: Download model
         shell: bash
         run: |
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21
-          d=sherpa-onnx-streaming-zipformer-en-2023-06-21
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en
+          d=sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en
           cd $d
           git lfs pull --include "*.onnx"
           rm -rf ./.git
