@@ -28,6 +28,7 @@ jobs:
           # git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/marcoyang/$d
           rm -rf $d/.git
+          rm -rf $d/*.pt
 
           sudo apt-get install -y tree
 
