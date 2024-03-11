@@ -25,7 +25,10 @@ jobs:
         shell: bash
         run: |
           d=sherpa-onnx-paraformer-zh-2023-09-14
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          d=sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+          git clone https://www.modelscope.cn/pkufool/${d}.git
+
           cd $d
           git lfs pull --include "*.onnx"
           rm -rf ./.git
@@ -50,4 +53,4 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
+          tag: kws-models
