@@ -1,0 +1,79 @@
+name: vits-hf-zh-jp-zomehwh
+
+on:
+  push:
+    branches:
+      - download
+  workflow_dispatch:
+
+jobs:
+  vits-hf-zh-jp-zomehwh:
+    runs-on: ubuntu-latest
+    name: zomehwh zh-jp
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Convert model
+        shell: bash
+        run: |
+          cd .github/scripts
+          ../scripts/vits-hf-zh-jp-zomehwh.sh
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-hf-zh-jp-zomehwh
+          cd vits-hf-zh-jp-zomehwh
+          cp ../*.onnx .
+          cp ../*.json .
+          cp ../lexicon.txt .
+          cp ../tokens.txt .
+
+          wc -l lexicon.txt
+
+          tail lexicon.txt
+
+          rm -fv rule*
+          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git lfs untrack lexicon.txt
+
+          git status
+          git add --renormalize .
+          git add .
+
+          ls -lh
+
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-hf-zh-jp-zomehwh main
+
+          cd ..
+          rm -rf vits-hf-zh-jp-zomehwh/.git
+          mv vits-hf-zh-jp-zomehwh ../..
+          cd ../..
+          sudo apt-get install -y tree
+          tree ./vits-hf-zh-jp-zomehwh
+          ls -lh ./vits-hf-zh-jp-zomehwh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vits-hf-zh-jp-zomehwh
+          path: vits-hf-zh-jp-zomehwh

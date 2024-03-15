@@ -24,6 +24,12 @@ jobs:
             type: medium
           - name: upmc
             type: medium
+          - name: tjiho
+            type: model1
+          - name: tjiho
+            type: model2
+          - name: tjiho
+            type: model3
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,6 +43,33 @@ jobs:
           export TYPE=${{ matrix.type }}
           ./vits-piper-fr_FR.sh
 
+      - name: Collect files
+        shell: bash
+        run: |
+          export NAME=${{ matrix.name }}
+          export TYPE=${{ matrix.type }}
+          dst=vits-piper-fr_FR-$NAME-$TYPE
+          mkdir $dst
+
+          cp -v .github/scripts/*.onnx*  $dst
+          cp -v .github/scripts/tokens.txt $dst
+          cp -v .github/scripts/MODEL_CARD  $dst
+          cp -v .github/scripts/vits-piper-fr_FR.sh  $dst
+          cp -v .github/scripts/vits-piper-fr_FR.py  $dst
+          mv .github/scripts/espeak-ng-data $dst/
+          tar cjfv ${dst}.tar.bz2 $dst
+          ls -lh $dst
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-piper-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
       - name: upload model to huggingface
         shell: bash
         env:
@@ -47,34 +80,18 @@ jobs:
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
-          cd .github/scripts
+          git clone https://huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE huggingface
+          rm -rf huggingface/*
 
+          src=vits-piper-fr_FR-$NAME-$TYPE
+          cp -a $src/* huggingface/
+
+          cd huggingface
           ls -lh
-
-          git clone https://huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE
-          cd vits-piper-fr_FR-$NAME-$TYPE
-
-          cp ../*onnx* .
-          cp ../lexicon.txt .
-          cp ../tokens.txt .
-          cp ../MODEL_CARD .
-
-          git lfs track "lexicon.txt"
+          git lfs track "cmn_dict"
+          git lfs track "ru_dict"
 
           git status
           git add .
-          git commit -m "update"
-          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE main
-
-          cd ..
-          rm -rf vits-piper-fr_FR-$NAME-$TYPE/.git
-          mv vits-piper-fr_FR-$NAME-$TYPE ../..
-          cd ../..
-          sudo apt-get install -y tree
-          tree ./vits-piper-fr_FR-$NAME-$TYPE
-          ls -lh ./vits-piper-fr_FR-$NAME-$TYPE
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vits-piper-fr_FR-${{ matrix.name }}-${{ matrix.type }}
-          path: vits-piper-fr_FR-${{ matrix.name }}-${{ matrix.type }}
+          git commit -m "update" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-piper-fr_FR-$NAME-$TYPE main || true

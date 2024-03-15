@@ -1,0 +1,90 @@
+name: vits-coqui-en
+
+on:
+  push:
+    branches:
+      - small-fixes2
+  workflow_dispatch:
+
+jobs:
+  vits-coqui-en:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ljspeech-vits
+            repo: vits-coqui-en-ljspeech
+          - name: ljspeech-vits-neon
+            repo: vits-coqui-en-ljspeech-neon
+          - name: vctk-vits
+            repo: vits-coqui-en-vctk
+          # - name: jenny-jenny
+          #   repo: vits-coqui-en-jenny
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          ./vits-coqui-en.sh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          export NAME=${{ matrix.name }}
+          export REPO=${{ matrix.repo }}
+          dst=$REPO
+          mkdir $dst
+
+          cp -v .github/scripts/tokens.txt  $dst
+          cp -v .github/scripts/*.onnx  $dst
+          cp -v .github/scripts/config.json  $dst
+          cp -v .github/scripts/vits-coqui-en.sh  $dst
+          cp -v .github/scripts/vits-coqui-en.py  $dst
+          mv .github/scripts/espeak-ng-data $dst/
+          tar cjfv ${dst}.tar.bz2 $dst
+          ls -lh $dst
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-coqui-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          ls -lh
+          src=${{ matrix.repo }}
+          echo "src: $src"
+
+          git clone https://huggingface.co/csukuangfj/$src huggingface
+          rm huggingface/*
+
+          cp -a $src/* huggingface/
+          cd huggingface
+          ls -lh
+          git lfs track "cmn_dict"
+          git lfs track "ru_dict"
+
+          git status
+          git add .
+          git commit -m "update" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src main || true

@@ -1,0 +1,39 @@
+name: csukuangfj-sherpa-onnx-nemo-ctc-en-conformer-small
+
+on:
+  push:
+    branches:
+      - download
+
+  workflow_dispatch:
+
+jobs:
+  csukuangfj-sherpa-onnx-nemo-ctc-en-conformer-small:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-small
+          rm -rf sherpa-onnx-nemo-ctc-en-conformer-small/.git
+          tar cjfv sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2 ./sherpa-onnx-nemo-ctc-en-conformer-small
+
+      - name: Release sherpa-onnx-nemo-ctc-en-conformer-small
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: asr-models

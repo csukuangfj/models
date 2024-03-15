@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, "VITS-fast-fine-tuning")
 
 import os
+from pathlib import Path
 from typing import Any, Dict
 
 import onnx
@@ -57,9 +58,6 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
     onnx.save(model, filename)
 
 
-device = "cpu"
-
-
 @torch.no_grad()
 def main():
     name = os.environ.get("NAME", None)
@@ -69,9 +67,23 @@ def main():
 
     print("name", name)
 
-    model_path = f"G_{name}_latest.pth"
-    config_path = f"G_{name}_latest.json"
+    if name == "C":
+        model_path = "G_C.pth"
+        config_path = "G_C.json"
+    elif name == "ZhiHuiLaoZhe":
+        model_path = "G_lkz_lao_new_new1_latest.pth"
+        config_path = "G_lkz_lao_new_new1_latest.json"
+    elif name == "ZhiHuiLaoZhe_new":
+        model_path = "G_lkz_unity_onnx_new1_latest.pth"
+        config_path = "G_lkz_unity_onnx_new1_latest.json"
+    elif name == "unity":
+        model_path = "G_wnj_latest.pth"
+        config_path = "G_wnj_latest.json"
+    else:
+        model_path = f"G_{name}_latest.pth"
+        config_path = f"G_{name}_latest.json"
 
+    print(name, model_path, config_path)
     hps = utils.get_hparams_from_file(config_path)
     net_g = SynthesizerTrn(
         len(hps.symbols),

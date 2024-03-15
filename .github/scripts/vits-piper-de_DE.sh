@@ -8,27 +8,17 @@ echo "type: $type"
 
 set -ex
 
+# for de_DE-thorsten-medium.onnx
+# export TYPE=thorsten
+# export NAME=medium
 wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/$name/$type/de_DE-$name-$type.onnx
 wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/$name/$type/de_DE-$name-$type.onnx.json
 wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/$name/$type/MODEL_CARD
 
+wget -qq https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/espeak-ng-data.tar.bz2
+tar xf espeak-ng-data.tar.bz2
+rm espeak-ng-data.tar.bz2
+
 pip install piper-phonemize onnx onnxruntime==1.16.0
 
-wget -qq -O german.7z "https://downloads.sourceforge.net/project/germandict/german.7z?ts=gAAAAABlOnvekATxh2d2zse53x7JN4MUscbvCW073dv6CQrbQS-ekmrejSGcey1_MeJhNss6IKtI7BgpEH9ao1CIi4v2zMLULg%3D%3D&use_mirror=deac-riga&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fgermandict%2Ffiles%2F"
-
-sudo apt-get install -y p7zip
-
-7z x ./german.7z
-ls -lh
-
-head austriazismen.txt LiesMich.txt autocomplete.txt german.dic helvetismen.txt variants.dic
-file austriazismen.txt LiesMich.txt autocomplete.txt german.dic helvetismen.txt variants.dic
-
-wget -qq https://github.com/webpwnized/byepass/raw/master/dictionaries/all-german-words.txt
-echo "all-german-words.txt"
-head all-german-words.txt
-
-echo "pwd: $PWD"
-
 python3 ./vits-piper-de_DE.py
-head lexicon.txt

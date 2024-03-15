@@ -2,77 +2,9 @@
 
 import json
 import os
-import re
 from typing import Any, Dict
 
 import onnx
-from piper_phonemize import phonemize_espeak
-from additional_words import get_additional_spanish_words
-
-
-def read_lexicon():
-    in_files = [
-            "./all-spanish-words.txt",
-            "./wordlist-spanish.txt",
-            "./spanish_words.txt", # is-8859-1
-            "./spanish.txt",
-            "./Spanish.dic",
-            ]
-    words = set()
-
-    new_words = get_additional_spanish_words()
-
-    words = set()
-    for w in new_words:
-        words.add(w.lower())
-
-    pattern = re.compile(r"^[a-zA-Z'áéíóúüñÁÉÍÓÚÜÑ]+$")
-    for in_file in in_files:
-        if in_file == "./spanish_words.txt":
-            encoding = "iso-8859-1"
-        else:
-            encoding = "utf-8"
-        print(in_file, encoding)
-
-        with open(in_file, encoding=encoding) as f:
-            for line in f:
-                try:
-                    word = line.strip().lower()
-                    if not pattern.match(word):
-                        #  print(line, "word is", word)
-                        continue
-                except:
-                    #  print(line)
-                    continue
-
-                if word in words:
-                    #  print("duplicate: ", word)
-                    continue
-                words.add(word)
-    return list(words)
-
-
-def generate_lexicon(name, t):
-    config = load_config(f"es_MX-{name}-{t}.onnx")
-    words = read_lexicon()
-    words.sort()
-    num_words = len(words)
-    print(num_words)
-
-    batch = 5000
-    i = 0
-    word2phones = dict()
-    while i < num_words:
-        print(f"{i}/{num_words}, {i/num_words*100:.3f}%")
-        this_batch = words[i : i + batch]
-        i += batch
-        for w in this_batch:
-            phonemes = phonemize_espeak(w, config["espeak"]["voice"])[0]
-            word2phones[w] = " ".join(phonemes)
-
-    with open("lexicon.txt", "w", encoding="utf-8") as f:
-        for w, p in word2phones.items():
-            f.write(f"{w} {p}\n")
 
 
 def add_meta_data(filename: str, meta_data: Dict[str, Any]):
@@ -120,21 +52,19 @@ def main():
         return
     print("type", t)
 
-    print("generate lexicon")
-    generate_lexicon(name, t)
     config = load_config(f"es_MX-{name}-{t}.onnx")
+
     print("generate tokens")
     generate_tokens(config)
-    print("add model metadata")
-    _punctuation = ';:,.!?¡¿—…"«»“” '
+
     meta_data = {
         "model_type": "vits",
         "comment": "piper",
         "language": "Spanish",
-        "add_blank": 1,
         "n_speakers": config["num_speakers"],
+        "voice": config["espeak"]["voice"],  # e.g., fr
+        "has_espeak": 1,
         "sample_rate": config["audio"]["sample_rate"],
-        "punctuation": " ".join(list(_punctuation)),
     }
     print(meta_data)
     add_meta_data(f"es_MX-{name}-{t}.onnx", meta_data)

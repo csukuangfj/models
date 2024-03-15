@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - download
+
   workflow_dispatch:
 
 jobs:
@@ -26,12 +27,14 @@ jobs:
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
           rm -rf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/.git
 
-          sudo apt-get install -y tree
+          tar cjvf ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2 sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
 
-          tree ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-          ls -lh ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-
-      - uses: actions/upload-artifact@v3
+      - name: Release sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-          path: sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+          file_glob: true
+          file: sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: asr-models

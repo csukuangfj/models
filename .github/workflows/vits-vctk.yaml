@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - download
+
   workflow_dispatch:
 
 jobs:
@@ -19,7 +20,65 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          ./vctk.sh
+          ls -lh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          cd .github/scripts
+          mkdir vits-vctk
+          cd vits-vctk
+          cp ../*.onnx .
+          cp ../tokens.txt .
+          cp ../lexicon.txt .
+          cd ..
+          tar cvjf vits-vctk.tar.bz2 ./vits-vctk
+          mv -v ./vits-vctk.tar.bz2 ../..
+
+      - name: Release vctk
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-vctk.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+          TYPE: ${{ matrix.type }}
+        run: |
+          cd .github/scripts
+          ls -lh
+          git clone https://huggingface.co/csukuangfj/vits-vctk
+          cd vits-vctk
+          cp ../*.onnx .
+          cp ../tokens.txt .
+          cp ../lexicon.txt .
+          git lfs track "lexicon.txt"
+          ls -lh
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          git status
+          git add .
+          git commit -m "update"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/vits-vctk main
+          cd ..
+
       - name: Download model
+        if: false
         shell: bash
         run: |
           git lfs install
@@ -31,7 +90,3 @@ jobs:
           tree ./vits-vctk
           ls -lh ./vits-vctk
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vits-vctk
-          path: vits-vctk

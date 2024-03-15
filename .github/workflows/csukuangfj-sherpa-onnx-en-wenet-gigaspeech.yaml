@@ -1,0 +1,38 @@
+name: csukuangfj-sherpa-onnx-en-wenet-gigaspeech
+
+on:
+  push:
+    branches:
+      - download
+
+  workflow_dispatch:
+
+jobs:
+  onnx-en-wenet-gigaspeech:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-en-wenet-gigaspeech
+          rm -rf sherpa-onnx-en-wenet-gigaspeech/.git
+
+          sudo apt-get install -y tree
+
+          tree ./sherpa-onnx-en-wenet-gigaspeech
+          ls -lh ./sherpa-onnx-en-wenet-gigaspeech
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sherpa-onnx-en-wenet-gigaspeech
+          path: sherpa-onnx-en-wenet-gigaspeech

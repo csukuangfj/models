@@ -31,8 +31,14 @@ jobs:
 
           tree ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
           ls -lh ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+          tar cjvf sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23.tar.bz2 sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
 
-      - uses: actions/upload-artifact@v3
+      - name: Release sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
-          path: sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+          file_glob: true
+          file: sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-ncnn
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: models

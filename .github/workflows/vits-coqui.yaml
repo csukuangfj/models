@@ -1,0 +1,104 @@
+name: vits-coqui
+
+on:
+  push:
+    branches:
+      - small-fixes2
+  workflow_dispatch:
+
+jobs:
+  vits-coqui:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: uk-mai
+          - name: bg-cv
+          - name: cs-cv
+          - name: da-cv
+          - name: et-cv
+          - name: ga-cv
+          - name: es-css10
+          - name: fr-css10
+          - name: nl-css10
+          - name: de-css10
+          # - name: hu-css10 # does not sound good
+          - name: fi-css10
+          - name: hr-cv
+          - name: lt-cv
+          - name: lv-cv
+          - name: mt-cv
+          - name: pl-mai_female
+          - name: pt-cv
+          - name: ro-cv
+          - name: sk-cv
+          - name: sl-cv
+          - name: sv-cv
+          # - name: bn-custom_male  # It uses bn phonemizer
+          - name: bn-custom_female
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate model
+        shell: bash
+        run: |
+          cd .github/scripts
+          export NAME=${{ matrix.name }}
+          ./vits-coqui.sh
+
+      - name: Collect files
+        shell: bash
+        run: |
+          export NAME=${{ matrix.name }}
+          dst=vits-coqui-$NAME
+          mkdir $dst
+
+          cp -v .github/scripts/tokens.txt $dst
+          cp -v .github/scripts/*.onnx $dst
+          cp -v .github/scripts/*.json $dst
+          cp -v .github/scripts/vits-coqui.sh $dst
+          cp -v .github/scripts/vits-coqui.py $dst
+          tar cjfv ${dst}.tar.bz2 $dst
+          ls -lh $dst
+
+      - name: Release to sherpa-onnx
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: vits-coqui-*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa-onnx
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
+          tag: tts-models
+
+      - name: upload model to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          NAME: ${{ matrix.name }}
+        run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          ls -lh
+          src=vits-coqui-${{ matrix.name }}
+          echo "src: $src"
+
+          git clone https://huggingface.co/csukuangfj/$src huggingface
+          rm -rf huggingface/*
+
+          cp -a $src/* huggingface/
+          cd huggingface
+          ls -lh
+          git lfs track "cmn_dict"
+          git lfs track "ru_dict"
+
+          git status
+          git add .
+          git commit -m "update" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src main || true

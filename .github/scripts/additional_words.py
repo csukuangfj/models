@@ -1,10 +1,15 @@
 def get_additional_english_words():
     words = [
+        "vivec",
+        "almalexia's",
+        "morrowind",
+        "cyrodilic",
         "bhargav",
         "ceo",
         "chatrooms",
         "cpu",
         "etienne's",
+        "fakeville",
         "ganjaj",
         "greenware",
         "jeremy's",
@@ -12,6 +17,7 @@ def get_additional_english_words():
         "mithu",
         "narendra",
         "oblivion's",
+        "rain's",
         "pandubi",
         "prickle",
         "qatar's",
@@ -25,7 +31,7 @@ def get_additional_english_words():
         "slumber's",
         "villager's",
     ]
-    return words
+    return list(set(words))
 
 
 def get_additional_german_words():
@@ -66,10 +72,16 @@ def get_additional_chinese_words():
     return words
 
 
+def get_additional_japanese_words():
+    words = []
+    return words
+
+
 def get_additional_french_words():
     words = [
+        "mapelle",
         "À",
         "coeur",
         "peril",
     ]
-    return words
+    return list(set(words))

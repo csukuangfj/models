@@ -26,9 +26,24 @@ git diff
 
 popd
 
-wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
-wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
+if [[ $NAME == "C" ]]; then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/zh/G_C.pth
+elif [[ $NAME == "ZhiHuiLaoZhe" ]]; then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe/G_lkz_lao_new_new1_latest.pth
+elif [[ $NAME == "ZhiHuiLaoZhe_new" ]]; then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe_new/G_lkz_unity_onnx_new1_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/ZhiHuiLaoZhe_new/G_lkz_unity_onnx_new1_latest.pth
+elif [[ $NAME == "unity" ]]; then
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/unity/G_wnj_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/unity/G_wnj_latest.pth
+else
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
+  wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
+fi
 wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
+
 ls -lh
 
 ./generate-lexicon-zh-hf-fanchen-models.py
