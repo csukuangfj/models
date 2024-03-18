@@ -24,29 +24,20 @@ jobs:
       - name: Download model
         shell: bash
         run: |
-          d=sherpa-onnx-paraformer-zh-2023-09-14
+          d=sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/icefall-asr-mdcc-zipformer-2024-03-11
-          d=icefall-asr-mdcc-zipformer-2024-03-11
+          GIT_LFS_SKIP_SMUDGE=1 git clone  https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
 
-          pushd $d/exp
+          pushd $d
           git lfs pull --include "*.onnx"
+          git lfs pull --include "bpe.model"
+
+          rm -rf ./.git
+
+          rm -f ./.gitattributes ./.done
           popd
-          dst=sherpa-onnx-zipformer-cantonese-2024-03-13
-          mkdir $dst
-
-          mv -v $d/exp/*.onnx $dst/
-          mv -v $d/test_wavs $dst/
-          mv -v $d/data/lang_char/tokens.txt $dst/
-          d=$dst
-
-          # rm -rf ./.git
-
-          # rm -f ./.gitattributes ./.done
 
           ls -lh
-
-          # cd ..
 
           sudo apt-get install -y tree
 
