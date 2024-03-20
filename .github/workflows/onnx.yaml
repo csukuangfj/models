@@ -28,7 +28,7 @@ jobs:
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/csukuangfj/$d
 
-          dst=sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 
+          dst=sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16
           mkdir $dst
           cp $d/data/lang_char_bpe/bpe.model $dst
           cp $d/data/lang_char_bpe/tokens.txt $dst
