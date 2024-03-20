@@ -24,22 +24,30 @@ jobs:
       - name: Download model
         shell: bash
         run: |
-          d=sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          d=k2fsa-zipformer-bilingual-zh-en-t
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
-          GIT_LFS_SKIP_SMUDGE=1 git clone  https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          git clone https://huggingface.co/csukuangfj/$d
 
-          pushd $d
-          git lfs pull --include "*.onnx"
-          git lfs pull --include "bpe.model"
+          dst=sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 
+          mkdir $dst
+          cp $d/data/lang_char_bpe/bpe.model $dst
+          cp $d/data/lang_char_bpe/tokens.txt $dst
 
-          rm -rf ./.git
+          cp $d/exp/32/*.onnx $dst/
+          mkdir -p $dst/64
+          mkdir -p $dst/96
 
-          rm -f ./.gitattributes ./.done
-          popd
+          cp $d/exp/64/*.onnx $dst/64/
+          cp $d/exp/96/*.onnx $dst/96/
 
-          ls -lh
+          cp $d/data/lang_char_bpe/bpe.model $dst/64/
+          cp $d/data/lang_char_bpe/tokens.txt $dst/64/
+
+          cp $d/data/lang_char_bpe/bpe.model $dst/96/
+          cp $d/data/lang_char_bpe/tokens.txt $dst/96/
 
           sudo apt-get install -y tree
+          d=$dst
 
           tree ./$d
           ls -lh ./$d
