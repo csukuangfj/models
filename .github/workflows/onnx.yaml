@@ -24,13 +24,12 @@ jobs:
       - name: Download model
         shell: bash
         run: |
-          d=sherpa-onnx-zipformer-en-2023-04-01
+          d=sherpa-onnx-conformer-zh-stateless2-2023-05-23
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/csukuangfj/$d
           rm -rf $d/.git
           rm -rf $d/.gitattributes
           ls -lh $d
-
 
           sudo apt-get install -y tree
 
