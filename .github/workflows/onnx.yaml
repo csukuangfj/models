@@ -20,8 +20,36 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download model
+        shell: bash
+        run: |
+          git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
+          src=icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
+
+          dst=sherpa-onnx-streaming-zipformer-ctc-small-2024-03-18
+          mkdir -p $dst
+
+          cp -v $src/exp-ctc-rnnt-small/*.onnx $dst/
+          cp -v $src/data/lang_bpe_500/bpe.model $dst/
+          cp -v $src/data/lang_bpe_500/words.txt $dst/
+          cp -v $src/data/lang_bpe_500/lexicon.txt $dst/
+          cp -v $src/data/lang_bpe_500/tokens.txt $dst/
+          cp -v $src/data/lang_bpe_500/HLG.fst $dst/
+          cp -v $src/README.md $dst/
+          cp -va $src/test_wavs $dst/
+
+          d=$dst
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+          ls -lh
+
 
       - name: Download model
+        if: false
         shell: bash
         run: |
           d=sherpa-onnx-conformer-zh-stateless2-2023-05-23
