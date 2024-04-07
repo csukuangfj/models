@@ -5,13 +5,11 @@ sys.path.insert(0, "VITS-fast-fine-tuning")
 
 
 import os
-from pathlib import Path
 from typing import List
 
 import utils
+from pypinyin import load_phrases_dict, pinyin_dict
 from text import _clean_text
-
-from pypinyin import phrases_dict, pinyin_dict
 
 
 def get_phones(w, hps) -> List[str]:
@@ -29,12 +27,22 @@ def generate_tokens(symbols):
     print(f"Generated {tokens}")
 
 
+new_phrases = {
+    "行长": [["háng"], ["zhǎng"]],
+    "还我": [["huán"], ["wǒ"]],
+}
+
+load_phrases_dict(new_phrases)
+
+
 def generate_lexicon(hps):
+    from pypinyin.constants import PHRASES_DICT
+
     symbol_to_id = {s: i for i, s in enumerate(hps.symbols)}
 
     words = list()
 
-    phrases = phrases_dict.phrases_dict
+    phrases = PHRASES_DICT
     word_dict = pinyin_dict.pinyin_dict
     for key in word_dict:
         if not (0x4E00 <= key <= 0x9FFF):
