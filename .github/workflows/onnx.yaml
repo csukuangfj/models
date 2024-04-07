@@ -3,7 +3,7 @@ name: onnx
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
 
   workflow_dispatch:
 
@@ -21,9 +21,45 @@ jobs:
           fetch-depth: 0
 
       - name: Download model
+        if: true
         shell: bash
         run: |
-          git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06
+          src=icefall-tts-aishell3-vits-low-2024-04-06
+
+          cd $src
+          cd data
+          git lfs pull --include rule.far
+          cd ../exp
+          git lfs pull --include *.onnx
+          mv vits-epoch-960.onnx model.onnx
+
+          cd ../../
+
+          dst=vits-icefall-zh-aishell3
+
+          mkdir -p $dst
+
+          cp -v $src/data/*.fst $dst/
+          cp -v $src/data/*.txt $dst/
+          cp -v $src/data/*.far $dst/
+
+          cp -v $src/exp/*.onnx $dst/
+
+          d=$dst
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+          ls -lh
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
           src=icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
 
           dst=sherpa-onnx-streaming-zipformer-ctc-small-2024-03-18
@@ -73,4 +109,4 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
+          tag: tts-models
