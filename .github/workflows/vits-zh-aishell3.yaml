@@ -3,7 +3,7 @@ name: vits-zh-aishell3
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
 
   workflow_dispatch:
 

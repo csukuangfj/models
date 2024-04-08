@@ -8,12 +8,20 @@ sys.path.insert(0, "./vits-models")
 import json
 from typing import Any, Dict, List
 
+from pypinyin import load_phrases_dict, phrases_dict, pinyin_dict
+
+new_phrases = {
+    "行长": [["háng"], ["zhǎng"]],
+    "还我": [["huán"], ["wǒ"]],
+}
+
+load_phrases_dict(new_phrases)
+
 import commons
 import onnx
 import torch
 import utils
 from models import SynthesizerTrn
-from pypinyin import phrases_dict, pinyin_dict
 from text import _clean_text, text_to_sequence
 from text.symbols import _punctuation
 
@@ -104,6 +112,9 @@ def main():
         words.append(w)
 
     for key in phrases:
+        words.append(key)
+
+    for key in new_phrases:
         words.append(key)
 
     word2phone = []
