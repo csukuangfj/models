@@ -3,7 +3,7 @@ name: hf
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
 
   workflow_dispatch:
 
