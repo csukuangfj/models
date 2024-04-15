@@ -102,12 +102,29 @@ jobs:
           tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           d=sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/csukuangfj/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          git clone https://huggingface.co/k2-fsa/$d
           rm -rf $d/.git
           rm -rf $d/.gitattributes
           ls -lh $d
@@ -126,4 +143,5 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: punctuation-models
+          tag: audio-tagging-models
+          # tag: punctuation-models
