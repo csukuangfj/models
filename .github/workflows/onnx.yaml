@@ -122,8 +122,8 @@ jobs:
         if: true
         shell: bash
         run: |
-          # d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
-          d=sherpa-onnx-zipformer-audio-tagging-2024-04-09
+          d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
+          # d=sherpa-onnx-zipformer-audio-tagging-2024-04-09
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/k2-fsa/$d
           rm -rf $d/.git
