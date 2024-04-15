@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06
