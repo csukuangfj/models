@@ -119,7 +119,7 @@ jobs:
           tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: false
+        if: true
         shell: bash
         run: |
           d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
