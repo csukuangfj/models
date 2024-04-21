@@ -169,6 +169,8 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
         Key-value pairs.
     """
     model = onnx.load(filename)
+    while len(model.metadata_props):
+        model.metadata_props.pop()
     for key, value in meta_data.items():
         meta = model.metadata_props.add()
         meta.key = key
