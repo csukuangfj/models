@@ -188,6 +188,7 @@ def main():
         "model_type": "vits",
         "comment": "hf-vits-models-doom",
         "language": "Chinese",
+        "jieba": 1,
         "add_blank": int(hps_ms.data.add_blank),
         "n_speakers": int(hps_ms.data.n_speakers),
         "sample_rate": hps_ms.data.sampling_rate,
