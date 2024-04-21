@@ -236,7 +236,7 @@ def main():
         "model_type": "vits",
         "comment": "vits-hf-zh-jp-zomehwh",
         "language": "Chinese",
-        "VITS-fast-fine-tuning": 1,
+        "jieba": 1,
         "add_blank": int(hps.data.add_blank),
         "n_speakers": int(hps.data.n_speakers),
         "sample_rate": hps.data.sampling_rate,
