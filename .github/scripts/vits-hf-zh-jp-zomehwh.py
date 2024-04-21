@@ -169,6 +169,8 @@ def add_meta_data(filename: str, meta_data: Dict[str, Any]):
         Key-value pairs.
     """
     model = onnx.load(filename)
+    while len(model.metadata_props):
+        model.metadata_props.pop()
     for key, value in meta_data.items():
         meta = model.metadata_props.add()
         meta.key = key
@@ -236,6 +238,7 @@ def main():
         "model_type": "vits",
         "comment": "vits-hf-zh-jp-zomehwh",
         "language": "Chinese",
+        "jieba": 1,
         "add_blank": int(hps.data.add_blank),
         "n_speakers": int(hps.data.n_speakers),
         "sample_rate": hps.data.sampling_rate,

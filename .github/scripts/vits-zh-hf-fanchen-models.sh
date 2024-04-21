@@ -42,7 +42,6 @@ else
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.json
   wget -q https://huggingface.co/spaces/lkz99/tts_model/resolve/main/G_${NAME}_latest.pth
 fi
-wget -q https://raw.githubusercontent.com/csukuangfj/vits_chinese/master/aishell3/words.txt
 
 ls -lh
 

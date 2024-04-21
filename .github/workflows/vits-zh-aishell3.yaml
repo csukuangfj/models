@@ -3,7 +3,7 @@ name: vits-zh-aishell3
 on:
   push:
     branches:
-      - download
+      - small-fixes2
 
   workflow_dispatch:
 
@@ -34,8 +34,14 @@ jobs:
           cd vits-zh-aishell3
           cp ../aishell3/*.onnx .
           cp ../aishell3/tokens.txt .
-          cp ../aishell3/lexicon.txt .
-          wget -q https://huggingface.co/csukuangfj/vits-zh-aishell3/resolve/main/rule.fst
+
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/lexicon.txt
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/date.fst
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/number.fst
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/phone.fst
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/rule.far
+          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/new_heteronym.fst
+
           ls -lh
           cd ..
           tar cvjf vits-zh-aishell3.tar.bz2 ./vits-zh-aishell3
@@ -64,17 +70,22 @@ jobs:
           git config --global user.email "csukuangfj@gmail.com"
           git config --global user.name "Fangjun Kuang"
 
-          md5sum huggingface/lexicon.txt
-          wc -l huggingface/lexicon.txt
+          src=vits-zh-aishell3
 
-          cp -v aishell3/*.onnx ./huggingface/
-          cp -v aishell3/lexicon.txt ./huggingface/
-          cp -v aishell3/tokens.txt ./huggingface/
+          ls -lh huggingface/
+          ls -lh $src
+
+          rm -rfv huggingface/*.fst
+          ls -lh
+
+          cp -fv $src/*.onnx ./huggingface/
+          cp -fv $src/lexicon.txt ./huggingface/
+          cp -fv $src/tokens.txt ./huggingface/
+          cp -fv $src/*.fst ./huggingface/
+          cp -fv $src/*.far ./huggingface/
 
           cd huggingface
-
-          md5sum ./lexicon.txt
-          wc -l ./lexicon.txt
+          git lfs track "*.far"
 
           head lexicon.txt
           echo "---"

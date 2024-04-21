@@ -8,6 +8,15 @@ sys.path.insert(0, "./vits-models")
 import json
 from typing import Any, Dict, List
 
+from pypinyin import load_phrases_dict, phrases_dict, pinyin_dict
+
+new_phrases = {
+    "行长": [["háng"], ["zhǎng"]],
+    "还我": [["huán"], ["wǒ"]],
+}
+
+load_phrases_dict(new_phrases)
+
 import commons
 import onnx
 import torch
@@ -15,8 +24,6 @@ import utils
 from models import SynthesizerTrn
 from text import _clean_text, text_to_sequence
 from text.symbols import _punctuation
-
-from polyphones_zh import word_list_zh
 
 
 class OnnxModel(torch.nn.Module):
@@ -94,13 +101,21 @@ def main():
             f.write(f"{s} {i}\n")
     print("Generated tokens.txt")
 
-    words = set()
-    with open("./words.txt", encoding="utf-8") as f:
-        for line in f:
-            w = line.strip()
-            words.add(w)
-    words = list(words)
-    words.sort()
+    words = list()
+
+    phrases = phrases_dict.phrases_dict
+    word_dict = pinyin_dict.pinyin_dict
+    for key in word_dict:
+        if not (0x4E00 <= key <= 0x9FFF):
+            continue
+        w = chr(key)
+        words.append(w)
+
+    for key in phrases:
+        words.append(key)
+
+    for key in new_phrases:
+        words.append(key)
 
     word2phone = []
     for w in words:
@@ -115,28 +130,6 @@ def main():
             continue
 
         word2phone.append([w, " ".join(phones)])
-
-    seen = set()
-    for a, b in word_list_zh:
-        if a in seen:
-            print(f"skip {a}")
-            continue
-        seen.add(a)
-        phones_list = []
-        oov = False
-        for i in b:
-            phones = get_phones(i, hps_ms.data.text_cleaners)
-            for p in phones:
-                if p not in symbol_to_id:
-                    oov = True
-                    break
-
-            phones_list.extend(phones)
-        if oov:
-            print(f"Skip {a}")
-            continue
-        phones = " ".join(phones_list)
-        word2phone.append([a, phones])
 
     with open("lexicon.txt", "w", encoding="utf-8") as f:
         for w, phones in word2phone:
@@ -195,6 +188,7 @@ def main():
         "model_type": "vits",
         "comment": "hf-vits-models-doom",
         "language": "Chinese",
+        "jieba": 1,
         "add_blank": int(hps_ms.data.add_blank),
         "n_speakers": int(hps_ms.data.n_speakers),
         "sample_rate": hps_ms.data.sampling_rate,

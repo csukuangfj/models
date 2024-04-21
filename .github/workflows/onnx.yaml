@@ -3,7 +3,7 @@ name: onnx
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
 
   workflow_dispatch:
 
@@ -20,33 +20,115 @@ jobs:
         with:
           fetch-depth: 0
 
-
       - name: Download model
+        if: false
         shell: bash
         run: |
-          d=sherpa-onnx-paraformer-zh-2023-09-14
-          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/icefall-asr-mdcc-zipformer-2024-03-11
-          d=icefall-asr-mdcc-zipformer-2024-03-11
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06
+          src=icefall-tts-aishell3-vits-low-2024-04-06
 
-          pushd $d/exp
-          git lfs pull --include "*.onnx"
-          popd
-          dst=sherpa-onnx-zipformer-cantonese-2024-03-13
-          mkdir $dst
+          cd $src
+          cd data
+          git lfs pull --include rule.far
+          cd ../exp
+          git lfs pull --include *.onnx
+          mv vits-epoch-960.onnx model.onnx
 
-          mv -v $d/exp/*.onnx $dst/
-          mv -v $d/test_wavs $dst/
-          mv -v $d/data/lang_char/tokens.txt $dst/
+          cd ../../
+
+          dst=vits-icefall-zh-aishell3
+
+          mkdir -p $dst
+
+          cp -v $src/data/*.fst $dst/
+          cp -v $src/data/*.txt $dst/
+          cp -v $src/data/*.far $dst/
+
+          cp -v $src/exp/*.onnx $dst/
+
           d=$dst
 
-          # rm -rf ./.git
+          sudo apt-get install -y tree
 
-          # rm -f ./.gitattributes ./.done
-
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
           ls -lh
 
-          # cd ..
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
+          src=icefall-asr-librispeech-streaming-zipformer-small-2024-03-18
+
+          dst=sherpa-onnx-streaming-zipformer-ctc-small-2024-03-18
+          mkdir -p $dst
+
+          cp -v $src/exp-ctc-rnnt-small/*.onnx $dst/
+          cp -v $src/data/lang_bpe_500/bpe.model $dst/
+          cp -v $src/data/lang_bpe_500/words.txt $dst/
+          cp -v $src/data/lang_bpe_500/lexicon.txt $dst/
+          cp -v $src/data/lang_bpe_500/tokens.txt $dst/
+          cp -v $src/data/lang_bpe_500/HLG.fst $dst/
+          cp -v $src/README.md $dst/
+          cp -va $src/test_wavs $dst/
+
+          d=$dst
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+          ls -lh
+
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          d=sherpa-onnx-conformer-zh-stateless2-2023-05-23
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          git clone https://huggingface.co/csukuangfj/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          d=sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          git clone https://huggingface.co/csukuangfj/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: true
+        shell: bash
+        run: |
+          d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
+          # d=sherpa-onnx-zipformer-audio-tagging-2024-04-09
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
+          git clone https://huggingface.co/k2-fsa/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
 
           sudo apt-get install -y tree
 
@@ -62,4 +144,5 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
+          tag: audio-tagging-models
+          # tag: punctuation-models

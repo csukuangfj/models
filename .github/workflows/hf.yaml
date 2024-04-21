@@ -1,0 +1,50 @@
+name: hf
+
+on:
+  push:
+    branches:
+      - small-fixes2
+
+  workflow_dispatch:
+
+jobs:
+  hf:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download model
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          repo=sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12
+
+          git clone https://www.modelscope.cn/csukuangfj/$repo.git ms
+          git clone https://huggingface.co/csukuangfj/$repo hf
+
+          ls -lh ms
+          ls -lh hf
+
+          cp -a ms/* hf
+          rm hf/configuration.json
+
+          ls -lh hf
+
+          cd hf
+          git lfs track "*.onnx"
+          git status
+          git add .
+          git commit -m 'update model'
+          git status
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$repo main
