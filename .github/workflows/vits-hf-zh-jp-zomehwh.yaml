@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - download
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -53,14 +53,12 @@ jobs:
           curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/date.fst
           curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/number.fst
           curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/phone.fst
-          curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/rule.far
           curl -SL -O https://huggingface.co/csukuangfj/icefall-tts-aishell3-vits-low-2024-04-06/resolve/main/data/new_heteronym.fst
           curl -SL -O https://github.com/csukuangfj/cppjieba/releases/download/sherpa-onnx-2024-04-19/dict.tar.bz2
 
           tar xvf dict.tar.bz2
           rm dict.tar.bz2
 
-          git lfs track "*.far"
           git lfs track "*.utf8"
 
           git config --global user.email "csukuangfj@gmail.com"
