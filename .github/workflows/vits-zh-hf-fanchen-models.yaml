@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - download
-      - small-fixes
+      - small-fixes2
   workflow_dispatch:
 
 jobs:

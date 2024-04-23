@@ -122,10 +122,13 @@ jobs:
         if: false
         shell: bash
         run: |
-          d=sherpa-onnx-zipformer-small-audio-tagging-2024-04-15
+          # d=sherpa-onnx-lstm-zh-2023-02-20
+          # d=sherpa-onnx-lstm-en-2023-02-17
           # d=sherpa-onnx-zipformer-audio-tagging-2024-04-09
+          d=sherpa-onnx-streaming-conformer-zh-2023-05-23
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
-          git clone https://huggingface.co/k2-fsa/$d
+          git clone https://huggingface.co/csukuangfj/$d
+          # git clone https://huggingface.co/k2-fsa/$d
           rm -rf $d/.git
           rm -rf $d/.gitattributes
           ls -lh $d
@@ -135,9 +138,10 @@ jobs:
           tree ./$d
           ls -lh ./$d
           tar cjvf ./$d.tar.bz2 $d
+          ls -lh
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           d=vits-ljs
@@ -167,6 +171,62 @@ jobs:
           ls -lh ./$d
           tar cjvf ./$d.tar.bz2 $d
 
+      - name: Download model
+        if: true
+        shell: bash
+        run: |
+          d=icefall-asr-zipformer-streaming-wenetspeech-20230615
+          d=sherpa-onnx-streaming-zipformer-en-2023-06-26
+          d=sherpa-onnx-streaming-zipformer-en-2023-06-21
+          d=sherpa-onnx-conformer-zh-stateless2-2023-05-23
+          d=sherpa-onnx-conformer-zh-2023-05-23
+          d=sherpa-onnx-conformer-en-2023-03-18
+          d=icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+          d=icefall-asr-zipformer-wenetspeech-20230615
+          d=sherpa-onnx-zipformer-large-en-2023-06-26
+          d=sherpa-onnx-zipformer-small-en-2023-06-26
+          # d=sherpa-onnx-streaming-zipformer-en-2023-02-21
+          # d=sherpa-onnx-streaming-zipformer-fr-2023-04-14
+          d=icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04
+          d=sherpa-onnx-zipformer-en-2023-04-01
+          d=sherpa-onnx-zipformer-en-2023-03-30
+          d=sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+          d=sherpa-onnx-nemo-ctc-en-citrinet-512
+          d=sherpa-onnx-nemo-ctc-en-conformer-small
+          d=sherpa-onnx-nemo-ctc-en-conformer-medium
+          d=sherpa-onnx-nemo-ctc-en-conformer-large
+          d=sherpa-onnx-tdnn-yesno
+          git clone https://huggingface.co/csukuangfj/$d
+          # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/$d
+
+          # cd $d
+          # rm -rf data/lang_bpe_500/*.pt
+          # cd data/lang_bpe_500
+          # git lfs pull --include "bpe.model"
+          # ls -lh
+          # cd ../..
+          #
+          # rm -rf decoding-results
+          #
+          # cd exp
+          # rm -rf log tensorboard
+          # rm *.pt *.sh
+          # git lfs pull --include "*.onnx"
+          # ls -lh
+          #
+          # cd ../..
+
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+          ls -lh
+
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -175,6 +235,7 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: tts-models
+          tag: asr-models
+          # tag: tts-models
           # tag: audio-tagging-models
           # tag: punctuation-models
