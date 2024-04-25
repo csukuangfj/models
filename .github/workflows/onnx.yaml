@@ -85,10 +85,10 @@ jobs:
 
 
       - name: Download model
-        if: false
+        if: true
         shell: bash
         run: |
-          d=sherpa-onnx-conformer-zh-stateless2-2023-05-23
+          d=sherpa-onnx-vits-zh-ll
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
           git clone https://huggingface.co/csukuangfj/$d
           rm -rf $d/.git
@@ -172,7 +172,7 @@ jobs:
           tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           d=icefall-asr-zipformer-streaming-wenetspeech-20230615
@@ -235,7 +235,7 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
-          # tag: tts-models
+          # tag: asr-models
+          tag: tts-models
           # tag: audio-tagging-models
           # tag: punctuation-models
