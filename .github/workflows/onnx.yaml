@@ -197,6 +197,14 @@ jobs:
           d=sherpa-onnx-nemo-ctc-en-conformer-large
           d=sherpa-onnx-tdnn-yesno
           d=sherpa-onnx-zipformer-ctc-en-2023-10-02
+          d=sherpa-onnx-zh-wenet-aishell
+          d=sherpa-onnx-zh-wenet-aishell2
+          d=sherpa-onnx-zh-wenet-wenetspeech
+          d=sherpa-onnx-zh-wenet-multi-cn
+          d=sherpa-onnx-en-wenet-librispeech
+          d=sherpa-onnx-en-wenet-gigaspeech
+          d=sherpa-onnx-streaming-conformer-en-2023-05-09
+          export GIT_CLONE_PROTECTION_ACTIVE=false
           git clone https://huggingface.co/csukuangfj/$d
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/$d
 
