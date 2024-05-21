@@ -85,7 +85,7 @@ jobs:
 
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           d=sherpa-onnx-vits-zh-ll
@@ -172,7 +172,7 @@ jobs:
           tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: false
+        if: true
         shell: bash
         run: |
           d=icefall-asr-zipformer-streaming-wenetspeech-20230615
@@ -196,6 +196,7 @@ jobs:
           d=sherpa-onnx-nemo-ctc-en-conformer-medium
           d=sherpa-onnx-nemo-ctc-en-conformer-large
           d=sherpa-onnx-tdnn-yesno
+          d=sherpa-onnx-zipformer-ctc-en-2023-10-02
           git clone https://huggingface.co/csukuangfj/$d
           # GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/$d
 
@@ -235,7 +236,7 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          # tag: asr-models
-          tag: tts-models
+          tag: asr-models
+          # tag: tts-models
           # tag: audio-tagging-models
           # tag: punctuation-models
