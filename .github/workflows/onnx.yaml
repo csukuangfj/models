@@ -143,26 +143,13 @@ jobs:
           ls -lh
 
       - name: Download model
-        if: false
+        if: true
         shell: bash
         run: |
+          export GIT_CLONE_PROTECTION_ACTIVE=false
           d=vits-ljs
-          # d=sherpa-onnx-zipformer-audio-tagging-2024-04-09
-          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/$d
-          # git clone https://huggingface.co/csukuangfj/$d
-          # git clone https://huggingface.co/k2-fsa/$d
-          cd $d
-          git lfs pull --include "*.onnx"
-          rm -v *.int8.onnx
-          rm -v *.pth
-          rm -v CMU.in.IPA.txt
-          rm -v *.zip
-          rm *.py
-          rm *.json
-          rm *.wav
-          cd ..
-
-
+          d=vits-piper-en_GB-southern_english_male-medium
+          git clone https://huggingface.co/csukuangfj/$d
           rm -rf $d/.git
           rm -rf $d/.gitattributes
           ls -lh $d
@@ -174,7 +161,7 @@ jobs:
           tar cjvf ./$d.tar.bz2 $d
 
       - name: Download model
-        if: true
+        if: false
         shell: bash
         run: |
           d=icefall-asr-zipformer-streaming-wenetspeech-20230615
@@ -252,7 +239,7 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          tag: asr-models
-          # tag: tts-models
+          # tag: asr-models
+          tag: tts-models
           # tag: audio-tagging-models
           # tag: punctuation-models

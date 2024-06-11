@@ -32,12 +32,12 @@ jobs:
           - lang: en_GB
             name: cori
             type: high
-          - lang: de_DE
-            name: mls
-            type: medium
-          - lang: fr_FR
-            name: mls
-            type: medium
+          # - lang: de_DE
+          #   name: mls
+          #   type: medium
+          # - lang: fr_FR
+          #   name: mls
+          #   type: medium
           - lang: nl_NL
             name: mls
             type: medium
