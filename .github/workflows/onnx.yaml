@@ -3,7 +3,7 @@ name: onnx
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
 
   workflow_dispatch:
 
@@ -147,6 +147,32 @@ jobs:
         shell: bash
         run: |
           export GIT_CLONE_PROTECTION_ACTIVE=false
+          d=icefall-asr-gigaspeech2-th-zipformer-2024-06-20
+          git clone https://huggingface.co/yfyeung/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          dst=sherpa-onnx-zipformer-thai-2024-06-20
+          mkdir $dst
+          cp -v $d/exp/*.onnx $dst/
+          cp -v $d/data/lang_bpe_2000/bpe.model $dst/
+          cp -v $d/data/lang_bpe_2000/tokens.txt $dst/
+          cp -av $d/test_wavs $dst/
+
+          d=$dst
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          export GIT_CLONE_PROTECTION_ACTIVE=false
           d=vits-ljs
           d=vits-piper-en_GB-southern_english_male-medium
           git clone https://huggingface.co/csukuangfj/$d
@@ -239,7 +265,7 @@ jobs:
           overwrite: true
           repo_name: k2-fsa/sherpa-onnx
           repo_token: ${{ secrets.UPLOAD_GH_SHERPA_ONNX_TOKEN }}
-          # tag: asr-models
-          tag: tts-models
+          tag: asr-models
+          # tag: tts-models
           # tag: audio-tagging-models
           # tag: punctuation-models

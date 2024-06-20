@@ -3,7 +3,7 @@ name: vits-piper
 on:
   push:
     branches:
-      - small-fixes
+      - small-fixes2
   workflow_dispatch:
 
 jobs:
