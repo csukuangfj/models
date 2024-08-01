@@ -147,6 +147,32 @@ jobs:
         shell: bash
         run: |
           export GIT_CLONE_PROTECTION_ACTIVE=false
+          d=reazonspeech-k2-v2
+          git clone https://huggingface.co/csukuangfj/$d
+          rm -rf $d/.git
+          rm -rf $d/.gitattributes
+          ls -lh $d
+
+          sudo apt-get install -y tree
+
+          dst=sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01
+          mkdir $dst
+          cp -v $d/*.onnx $dst/
+          cp -v $d/*.txt $dst/
+          cp -v $d/*.md $dst/
+          cp -av $d/test_wavs $dst/
+
+          d=$dst
+
+          tree ./$d
+          ls -lh ./$d
+          tar cjvf ./$d.tar.bz2 $d
+
+      - name: Download model
+        if: false
+        shell: bash
+        run: |
+          export GIT_CLONE_PROTECTION_ACTIVE=false
           d=icefall-asr-gigaspeech2-th-zipformer-2024-06-20
           git clone https://huggingface.co/yfyeung/$d
           rm -rf $d/.git
