@@ -14,9 +14,24 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - lang: cy_GB
+            name: gwryw_gogleddol
+            type: medium
           - lang: es_MX
             name: claude
             type: high
+          - lang: en_US
+            name: hfc_female
+            type: medium
+          - lang: en_US
+            name: bryce
+            type: medium
+          - lang: en_US
+            name: john
+            type: medium
+          - lang: en_US
+            name: norman
+            type: medium
           - lang: en_US
             name: ljspeech
             type: high
@@ -32,12 +47,15 @@ jobs:
           - lang: en_GB
             name: cori
             type: high
-          - lang: de_DE
-            name: mls
-            type: medium
           - lang: fr_FR
-            name: mls
+            name: tom
             type: medium
+          # - lang: de_DE
+          #   name: mls
+          #   type: medium
+          # - lang: fr_FR
+          #   name: mls
+          #   type: medium
           - lang: nl_NL
             name: mls
             type: medium
@@ -83,6 +101,9 @@ jobs:
           - lang: it_IT
             name: riccardo
             type: x_low
+          - lang: it_IT
+            name: paola
+            type: medium
           - lang: ka_GE
             name: natia
             type: medium
@@ -166,6 +187,9 @@ jobs:
             type: medium
           - lang: tr_TR
             name: dfki
+            type: medium
+          - lang: tr_TR
+            name: fettah
             type: medium
           - lang: tr_TR
             name: fahrettin
