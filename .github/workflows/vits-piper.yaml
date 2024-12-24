@@ -3,7 +3,7 @@ name: vits-piper
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
   workflow_dispatch:
 
 jobs:
@@ -56,15 +56,18 @@ jobs:
           # - lang: fr_FR
           #   name: mls
           #   type: medium
-          - lang: nl_NL
-            name: mls
-            type: medium
+          # - lang: nl_NL
+          #   name: mls
+          #   type: medium
           - lang: da_DK
             name: talesyntese
             type: medium
           - lang: el_GR
             name: rapunzelina
             type: low
+          - lang: fa_en
+            name: rezahedayatfar-ibrahimwalk
+            type: medium
           - lang: fa_IR
             name: amir
             type: medium
@@ -119,6 +122,9 @@ jobs:
           - lang: lb_LU
             name: marylux
             type: medium
+          - lang: lv_LV # 1 speaker, 22050 Hz
+            name: aivars
+            type: medium
           - lang: ne_NP
             name: google
             type: medium # 18
@@ -137,12 +143,12 @@ jobs:
           - lang: nl_BE
             name: rdh
             type: x_low
-          - lang: nl_NL
-            name: mls_5809
-            type: low
-          - lang: nl_NL
-            name: mls_7432
-            type: low
+          # - lang: nl_NL
+          #   name: mls_5809
+            # type: low
+          # - lang: nl_NL
+          #   name: mls_7432
+          #   type: low
           - lang: no_NO
             name: talesyntese
             type: medium
