@@ -49,8 +49,6 @@ def main():
     if not lang:
         print("Please provide the environment variable LANG")
         return
-    lang_iso = Lang(lang.split("_")[0])
-    print(lang, lang_iso)
 
     t = os.environ.get("TYPE", None)
     if not t:
@@ -67,6 +65,13 @@ def main():
 
     config = load_config(f"{lang}-{name}-{t}.onnx")
 
+    if lang == "fa_en":
+        lang_iso_name = "Persian,English"
+    else:
+        lang_iso_name = Lang(lang.split("_")[0]).name
+
+    print(lang, lang_iso_name)
+
     print("generate tokens")
     generate_tokens(config)
 
@@ -74,7 +79,7 @@ def main():
     meta_data = {
         "model_type": "vits",
         "comment": "piper",  # must be piper for models from piper
-        "language": lang_iso.name,
+        "language": lang_iso_name,
         "voice": config["espeak"]["voice"],  # e.g., en-us
         "has_espeak": 1,
         "n_speakers": config["num_speakers"],

@@ -30,6 +30,10 @@ if [[ $name == gyro && $lang == fa_IR && $type == medium ]]; then
   wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-medium.onnx
   wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/fa_IR-gyro-medium.onnx.json
   wget -qq https://huggingface.co/gyroing/Persian-Piper-Model-gyro/resolve/main/MODEL_CARD
+elif [[ $name == "rezahedayatfar-ibrahimwalk" && $lang == fa_en ]]; then
+  wget https://huggingface.co/mah92/persian-english-piper-tts-model/resolve/main/fa_en-rezahedayatfar-ibrahimwalk-medium.onnx
+  wget https://huggingface.co/mah92/persian-english-piper-tts-model/resolve/main/fa_en-rezahedayatfar-ibrahimwalk-medium.onnx.json
+  wget https://huggingface.co/mah92/persian-english-piper-tts-model/resolve/main/MODEL_CARD
 else
   wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx
   wget -qq https://huggingface.co/rhasspy/piper-voices/resolve/main/$code/$lang/$name/$type/$lang-$name-$type.onnx.json
