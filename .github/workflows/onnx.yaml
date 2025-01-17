@@ -3,7 +3,7 @@ name: onnx
 on:
   push:
     branches:
-      - small-fixes2
+      - small-fixes
 
   workflow_dispatch:
 
@@ -147,7 +147,7 @@ jobs:
         shell: bash
         run: |
           export GIT_CLONE_PROTECTION_ACTIVE=false
-          d=reazonspeech-k2-v2
+          d=reazonspeech-k2-v2-ja-en
           git clone https://huggingface.co/csukuangfj/$d
           rm -rf $d/.git
           rm -rf $d/.gitattributes
@@ -155,7 +155,7 @@ jobs:
 
           sudo apt-get install -y tree
 
-          dst=sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01
+          dst=sherpa-onnx-zipformer-ja-en-reazonspeech-2025-01-17
           mkdir $dst
           cp -v $d/*.onnx $dst/
           cp -v $d/*.txt $dst/
